@@ -8,14 +8,14 @@ export function Loading() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
-    }, 1700); // 1.7 seconds
+    }, 1300); // 1.3 seconds
 
     return () => clearInterval(interval);
   }, [colors.length]);
 
   return (
     <Center flex={1} bg="$base700">
-      <Spinner color={colors[currentColorIndex]} />
+      <Spinner size="large" color={colors[currentColorIndex]} />
     </Center>
   );
 }
