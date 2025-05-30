@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, View } from "react-native";
+
+import { Fraunces_900Black, useFonts } from "@expo-google-fonts/fraunces";
+import {
+  Poppins_400Regular,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
+import {
+  Center,
+  GluestackUIProvider,
+  Heading,
+  Text,
+} from "@gluestack-ui/themed";
+import { config } from "./config/gluestack-ui.config";
+import { Loading } from "@/components/Loading";
+import { ClotheCategories } from "@/screens/ClotheCategories";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Fraunces_900Black,
+    Poppins_700Bold,
+    Poppins_400Regular,
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GluestackUIProvider config={config}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      {fontsLoaded ? <ClotheCategories /> : <Loading />}
+    </GluestackUIProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
