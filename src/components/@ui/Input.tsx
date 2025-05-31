@@ -39,7 +39,7 @@ export function Input({
       )}
       <GluestackInput
         isInvalid={invalid}
-        h="$14"
+        h="$12"
         px={IconComponent ? "$4" : "$2"}
         gap="$1"
         bg="$base600"
