@@ -6,10 +6,13 @@ import {
   InputField,
   Text,
 } from "@gluestack-ui/themed";
+import { Icon } from "phosphor-react-native";
 import { ComponentProps } from "react";
+import { gluestackUIConfig } from "../../../config/gluestack-ui.config";
 
 type Props = ComponentProps<typeof InputField> & {
   label?: string;
+  icon?: Icon;
   errorMessage?: string | null;
   isInvalid?: boolean;
   isReadOnly?: boolean;
@@ -17,11 +20,14 @@ type Props = ComponentProps<typeof InputField> & {
 
 export function Input({
   label,
+  icon: IconComponent,
   isReadOnly,
   errorMessage = null,
   isInvalid = false,
   ...rest
 }: Props) {
+  const theme = gluestackUIConfig.tokens.colors;
+
   const invalid = !!errorMessage || isInvalid;
 
   return (
@@ -34,8 +40,12 @@ export function Input({
       <GluestackInput
         isInvalid={invalid}
         h="$14"
+        px={IconComponent ? "$4" : "$2"}
+        gap="$1"
+        bg="$base600"
         borderWidth="$1"
-        borderRadius="$md"
+        rounded="$lg"
+        alignItems="center"
         $focus={{
           borderWidth: 1,
           borderColor: invalid ? "$red500" : "$base400",
@@ -47,12 +57,13 @@ export function Input({
         isReadOnly={isReadOnly}
         opacity={isReadOnly ? 0.5 : 1}
       >
+        {IconComponent && (
+          <IconComponent color={theme.base400} weight={"bold"} />
+        )}
         <InputField
-          bg="$base600"
-          px="$4"
-          color="$white"
+          color="$black"
           fontFamily="$body"
-          placeholderTextColor="$gray300"
+          placeholderTextColor="$base400"
           {...rest}
         />
       </GluestackInput>

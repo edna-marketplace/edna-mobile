@@ -38,7 +38,7 @@ export function Button({
           ? "$base500"
           : "transparent"
       }
-      rounded="$sm"
+      rounded="$lg"
       $active-bg={
         variantStyle === "primary"
           ? "$base100"

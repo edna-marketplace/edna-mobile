@@ -461,7 +461,7 @@ export const gluestackUIConfig = createConfig({
       "10": 40,
       "11": 44,
       "12": 48,
-      "14": 46,
+      "14": 56,
       "16": 64,
       "20": 80,
       "24": 96,
