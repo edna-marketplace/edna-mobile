@@ -1,10 +1,10 @@
-import { Category } from "@/screens/ClotheCategories";
+import { CategoryDTO } from "@/dtos/CategoryDTO";
 import { Image, Text, VStack } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 import { TouchableWithoutFeedback } from "react-native";
 
 type Props = ComponentProps<typeof TouchableWithoutFeedback> & {
-  category: Category;
+  category: CategoryDTO;
 };
 
 export function CategoryCard({ category }: Props) {

@@ -15,6 +15,8 @@ import {
 import { config } from "./config/gluestack-ui.config";
 import { Loading } from "@/components/Loading";
 import { ClotheCategories } from "@/screens/ClotheCategories";
+import { Clothes } from "@/screens/Clothes";
+import { ClothesContextProvider } from "@/contexts/ClothesContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -25,12 +27,14 @@ export default function App() {
 
   return (
     <GluestackUIProvider config={config}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      {fontsLoaded ? <ClotheCategories /> : <Loading />}
+      <ClothesContextProvider>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        {fontsLoaded ? <Clothes /> : <Loading />}
+      </ClothesContextProvider>
     </GluestackUIProvider>
   );
 }

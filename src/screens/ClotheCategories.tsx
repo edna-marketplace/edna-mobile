@@ -6,18 +6,12 @@ import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
 
 import { CategoryCard } from "@/components/CategoryCard";
 import { FlatList } from "react-native";
-import { categories } from "@/utils/categories";
-
-export type Category = {
-  displayName: string;
-  image: any;
-  bgColor: any;
-};
+import { categories } from "@/data/categories";
 
 export function ClotheCategories() {
   return (
     <VStack flex={1} bg="$base700" px="$6" py="$14" gap="$6">
-      <Input icon={MagnifyingGlass} placeholder="Buscas em Todas" />
+      <Input icon={MagnifyingGlass} placeholder='Buscas em "Todas"' />
 
       <Text fontFamily="$specialTitle" fontSize="$2xl">
         Categorias

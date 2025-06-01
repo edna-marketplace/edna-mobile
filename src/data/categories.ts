@@ -4,11 +4,14 @@ import dressImg from "@/assets/categories/dress.png";
 import pantsImg from "@/assets/categories/pants.png";
 import shortsImg from "@/assets/categories/shorts.png";
 import hoodieImg from "@/assets/categories/hoodie.png";
+
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+
+import { CategoryDTO } from "@/dtos/CategoryDTO";
 
 const theme = gluestackUIConfig.tokens.colors;
 
-export const categories = [
+export const categories: CategoryDTO[] = [
   {
     category: "T_SHIRT",
     displayName: "Camisetas",
