@@ -1,6 +1,7 @@
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { clothesData } from "@/data/clothes-data";
+import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
 
 export type ClothesContextDataProps = {
   clothes: ClotheSummaryDTO[];
@@ -22,6 +23,7 @@ export function ClothesContextProvider({
 }: ClothesContextProviderProps) {
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
 
+  const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [genderFilter, setGenderFilter] = useState("ALL");
   const [brandFilter, setBrandFilter] = useState("ALL");
   const [sizeFilter, setSizeFilter] = useState("ALL");
@@ -41,6 +43,8 @@ export function ClothesContextProvider({
   }
 
   function setFilterValue(filterType: string, value: string) {
+    filterType === "CATEGORY" && setCategoryFilter(value);
+
     filterType === "GENDER" && setGenderFilter(value);
 
     filterType === "BRAND" && setBrandFilter(value);
@@ -56,9 +60,14 @@ export function ClothesContextProvider({
 
   async function fetchClothes() {
     try {
-      const data = clothesData;
+      const { clothes } = await fetchClothesWithFilter({
+        category: categoryFilter,
+        gender: genderFilter,
+        brand: brandFilter,
+        size: sizeFilter,
+      });
 
-      setClothes(data);
+      setClothes(clothes);
     } catch (error) {
       throw error;
     }
@@ -66,7 +75,7 @@ export function ClothesContextProvider({
 
   useEffect(() => {
     fetchClothes();
-  }, [genderFilter, brandFilter, sizeFilter]);
+  }, [categoryFilter, genderFilter, brandFilter, sizeFilter]);
 
   return (
     <ClothesContext.Provider

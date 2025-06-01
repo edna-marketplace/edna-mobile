@@ -1,8 +1,13 @@
+import { filters } from "@/data/clothe-filters";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
-import { HStack, Image, Text, VStack } from "@gluestack-ui/themed";
-import { Box } from "@gluestack-ui/themed";
-import { Pressable } from "@gluestack-ui/themed";
-import Dot from "phosphor-react-native/src/icons/Dot";
+import {
+  Box,
+  HStack,
+  Image,
+  Pressable,
+  Text,
+  VStack,
+} from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
@@ -13,21 +18,30 @@ type Props = {
 export function ClotheSummary({ clothe }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
 
+  const brandDisplay = filters[1].options.find(
+    (b) => b.value === clothe.brand
+  )?.displayName;
+
+  const sizeDisplay = filters[2].options.find(
+    (b) => b.value === clothe.size
+  )?.displayName;
+
   return (
-    <Pressable w={160} gap="$2" mb="$3">
+    <Pressable w="46%" gap="$1" mb="$3">
       <LinearGradient
         colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={{
-          borderRadius: 12,
-          padding: 3,
+          borderRadius: 14,
+          paddingVertical: 3,
+          paddingHorizontal: 3,
         }}
       >
-        <Box key="content" rounded="$lg" overflow="hidden" bg="$background">
+        <Box key="content" rounded="$xl" overflow="hidden" bg="$background">
           <Image
-            w={160}
-            h={160}
+            w="100%"
+            h={153}
             source={clothe.imageURL}
             objectFit="cover"
             alt=""
@@ -35,7 +49,7 @@ export function ClotheSummary({ clothe }: Props) {
         </Box>
       </LinearGradient>
 
-      <HStack justifyContent="space-between" alignItems="center">
+      <HStack justifyContent="space-between" alignItems="center" mt="$1">
         <Text fontFamily="$title" fontSize="$md" color="$base100">
           {(clothe.priceInCents / 100).toLocaleString("pt-br", {
             style: "currency",
@@ -43,7 +57,9 @@ export function ClotheSummary({ clothe }: Props) {
           })}
         </Text>
 
-        <Image w={20} h={20} source={clothe.storeImageURL} alt="" />
+        <Box rounded="$full" overflow="hidden">
+          <Image w={20} h={20} source={clothe.storeImageURL} alt="" />
+        </Box>
       </HStack>
 
       <VStack gap="$1">
@@ -66,7 +82,7 @@ export function ClotheSummary({ clothe }: Props) {
             ellipsizeMode="tail"
             minWidth={1}
           >
-            {clothe.brand}
+            {brandDisplay}
           </Text>
 
           <Box w={5} h={5} bg="$base400" rounded="$full" flexShrink={0} />
@@ -80,7 +96,7 @@ export function ClotheSummary({ clothe }: Props) {
             ellipsizeMode="tail"
             minWidth={40}
           >
-            {clothe.size}
+            {sizeDisplay}
           </Text>
         </HStack>
       </VStack>

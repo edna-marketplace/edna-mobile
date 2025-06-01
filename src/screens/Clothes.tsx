@@ -12,15 +12,18 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { categories } from "@/data/categories";
+import { Loading } from "@/components/Loading";
+import { EmptyList } from "@/components/EmptyList";
 
 type RouteParamsProps = {
   category: string;
 };
 
 export function Clothes() {
-  const { clothes, clearFilters } = useClothes();
+  const [isLoading, setIsLoading] = useState(false);
+  const { clothes, setFilterValue, clearFilters } = useClothes();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -31,10 +34,19 @@ export function Clothes() {
     navigate("categories");
   }
 
+  function setCategoryFilter() {
+    setFilterValue("CATEGORY", category);
+    setIsLoading(false);
+  }
+
   useFocusEffect(
     useCallback(() => {
+      setIsLoading(true);
+
       clearFilters();
-    }, [])
+
+      setCategoryFilter();
+    }, [category])
   );
 
   const categoryDisplayName = categories.find(
@@ -48,23 +60,43 @@ export function Clothes() {
         onGoBack={handleGoBack}
       />
 
-      <FlatList
-        data={clothes}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ClotheSummary clothe={item} />}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => (
-          <HStack my="$6" mx={-24}>
-            <FiltersFlatList filters={filters} />
-          </HStack>
-        )}
-        contentContainerStyle={{
-          paddingBottom: 32,
-          paddingHorizontal: 24,
-        }}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          data={clothes}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ClotheSummary clothe={item} />}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={() => (
+            <HStack my="$6" mx={-24}>
+              <FiltersFlatList filters={filters} />
+            </HStack>
+          )}
+          contentContainerStyle={
+            clothes.length === 0
+              ? {
+                  height: "100%",
+                  paddingHorizontal: 24,
+                  paddingBottom: 32,
+                }
+              : {
+                  paddingBottom: 32,
+                  paddingHorizontal: 24,
+                }
+          }
+          ListEmptyComponent={() => (
+            <EmptyList
+              title="Nenhuma peça encontrada!"
+              subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
+              callToActionButtonTitle="Explorar outras categorias"
+              onCallToAction={handleGoBack}
+            />
+          )}
+        />
+      )}
     </VStack>
   );
 }

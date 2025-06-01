@@ -65,7 +65,7 @@ export function Button({
             color={variantStyle === "primary" ? "$white" : "$base100"}
             fontFamily="$heading"
             fontSize="$sm"
-            fontWeight={variantStyle === "tertiary" ? "$bold" : "$regular"}
+            fontWeight="$bold"
           >
             {title}
           </Text>

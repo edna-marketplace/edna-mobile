@@ -1,0 +1,9 @@
+import axios from "axios";
+
+export const api = axios.create({
+  baseURL: "http://192.168.1.13:8080",
+});
+
+api.defaults.headers.common[
+  "Authorization"
+] = `Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJlZG5hIiwic3ViIjoiNmZkZjJlMjgtNjAwOS00ZWIyLWI2OTMtN2ZkNjhhODMzNmVmIiwiZXhwIjoxNzQ4ODQwNTYyLCJpYXQiOjE3NDg4MDQ1NjJ9.TMuIyDywKlx6xGEzQGaulE9J4_SxMr9gdnIgpbycRTzDCuvHpaPMwlsrUS9qXVL5vyedddhHXTg1BydV6njwk2btcGBnlRk5jbZtzTgUCg9MmLUR6s9WopvsxCkqy-4Dtw45r1Gd-ukUrP3XQt3FrbDjopVDiqT--zUVeLqce5iDx51bxQQMR899ePkszgj2q1Moj6l-KRxqBqBmCFpx_p6DvCadv6LyxgBrhfrrI0YCSK56e4DheQMsmu-M06-InB00pI5hal9CpfBU7D7scnxerQSYrnFb8AoJ7bfv4PwwhoxmJULI0zadcVTgKyciCkLcX0fkrjJRRewQPMmNFg`;
