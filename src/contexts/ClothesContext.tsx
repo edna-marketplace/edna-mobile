@@ -6,6 +6,7 @@ export type ClothesContextDataProps = {
   clothes: ClotheSummaryDTO[];
   getFilterValue: (filterType: string) => string | undefined;
   setFilterValue: (filterType: string, value: string) => void;
+  clearFilters: () => void;
 };
 
 export type ClothesContextProviderProps = {
@@ -47,6 +48,12 @@ export function ClothesContextProvider({
     filterType === "SIZE" && setSizeFilter(value);
   }
 
+  function clearFilters() {
+    setGenderFilter("ALL");
+    setBrandFilter("ALL");
+    setSizeFilter("ALL");
+  }
+
   async function fetchClothes() {
     try {
       const data = clothesData;
@@ -67,6 +74,7 @@ export function ClothesContextProvider({
         clothes,
         getFilterValue,
         setFilterValue,
+        clearFilters,
       }}
     >
       {children}

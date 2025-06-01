@@ -44,6 +44,7 @@ export function Input({
         gap="$1"
         bg="$base600"
         borderWidth="$1"
+        borderColor="$base500"
         rounded="$lg"
         alignItems="center"
         $focus={{

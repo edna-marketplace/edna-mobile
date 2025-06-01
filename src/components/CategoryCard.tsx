@@ -7,11 +7,11 @@ type Props = ComponentProps<typeof TouchableWithoutFeedback> & {
   category: CategoryDTO;
 };
 
-export function CategoryCard({ category }: Props) {
+export function CategoryCard({ category, ...rest }: Props) {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback {...rest}>
       <VStack
-        w={175}
+        w="48%"
         h={165}
         mb="$3"
         bg={category.bgColor}

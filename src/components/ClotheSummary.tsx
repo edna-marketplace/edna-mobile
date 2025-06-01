@@ -14,7 +14,7 @@ export function ClotheSummary({ clothe }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
 
   return (
-    <Pressable w={160} gap="$2" mb="$6">
+    <Pressable w={160} gap="$2" mb="$3">
       <LinearGradient
         colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
         start={{ x: 0, y: 0 }}

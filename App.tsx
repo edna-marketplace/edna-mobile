@@ -17,6 +17,7 @@ import { Loading } from "@/components/Loading";
 import { ClotheCategories } from "@/screens/ClotheCategories";
 import { Clothes } from "@/screens/Clothes";
 import { ClothesContextProvider } from "@/contexts/ClothesContext";
+import { Routes } from "@/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -33,7 +34,7 @@ export default function App() {
           backgroundColor="transparent"
           translucent
         />
-        {fontsLoaded ? <Clothes /> : <Loading />}
+        {fontsLoaded ? <Routes /> : <Loading />}
       </ClothesContextProvider>
     </GluestackUIProvider>
   );
