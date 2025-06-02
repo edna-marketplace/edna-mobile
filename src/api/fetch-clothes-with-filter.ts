@@ -25,7 +25,6 @@ export async function fetchClothesWithFilter(
   filters: FetchClothesBody
 ): Promise<FetchClothesResponse> {
   try {
-    console.log(filters);
     const response = await api.post("/clothes/filter", filters);
 
     return response.data;

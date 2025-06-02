@@ -1,7 +1,6 @@
+import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { clothesData } from "@/data/clothes-data";
-import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
 
 export type ClothesContextDataProps = {
   clothes: ClotheSummaryDTO[];

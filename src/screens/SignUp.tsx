@@ -12,47 +12,51 @@ import logoImg from "@/assets/logo/logo.png";
 import { Input } from "@/components/@ui/Input";
 import { Button } from "@/components/@ui/Button";
 
-import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { StatusBar } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
+import { signUp } from "@/api/sign-up";
+import { useAuth } from "@/hooks/useAuth";
 
 const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 const phoneRegex = /^(\(\d{2}\)\s?9\s?\d{4}-\d{4}|\d{2}9\d{8})$/;
 
-const signUpSchema = z
-  .object({
-    name: z.string().min(1, "O nome é obrigatório"),
-    email: z
-      .string()
-      .min(1, "O e-mail é obrigatório")
-      .email("O e-mail deve ser válido"),
-    phone: z
-      .string()
-      .min(1, "O telefone é obrigatório")
-      .regex(phoneRegex, "O telefone deve ser válido"),
-    cpf: z
-      .string()
-      .min(1, "O CPF é obrigatório")
-      .regex(cpfRegex, "O CPF deve ser válido"),
-    password: z
-      .string()
-      .min(1, { message: "Senha é obrigatória" })
-      .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
-    password_confirm: z
-      .string()
-      .min(1, { message: "Confirmação de senha é obrigatória" }),
-  })
-  .refine((data) => data.password === data.password_confirm, {
-    message: "As senhas não coincidem",
-    path: ["password_confirm"],
-  });
+const signUpSchema = yup.object({
+  name: yup.string().required("O nome é obrigatório"),
+  email: yup
+    .string()
+    .required("O e-mail é obrigatório")
+    .email("O e-mail deve ser válido"),
+  phone: yup
+    .string()
+    .required("O telefone é obrigatório")
+    .matches(phoneRegex, "O telefone deve ser válido")
+    .transform((value: string) => value.replace(/[(\[)\-\s+]/g, "")),
+  cpf: yup
+    .string()
+    .required("O CPF é obrigatório")
+    .matches(cpfRegex, "O CPF deve ser válido")
+    .transform((value: string) => value.replace(/[.\-\s+]/g, "")),
+  password: yup
+    .string()
+    .required("A senha é obrigatória.")
+    .min(6, "A senha deve ter no mínimo 6 dígitos."),
+  password_confirmation: yup
+    .string()
+    .required("Confirme a senha.")
+    .oneOf([yup.ref("password")], "As senhas não conferem."),
+});
 
-type SignUpFormData = z.infer<typeof signUpSchema>;
+type SignUpFormData = yup.InferType<typeof signUpSchema>;
 
 export function SignUp() {
+  const { signIn } = useAuth();
+
   const theme = gluestackUIConfig.tokens.colors;
 
   const {
@@ -60,16 +64,35 @@ export function SignUp() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
+    resolver: yupResolver(signUpSchema),
   });
 
+  const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
+
   async function handleSignUp(data: SignUpFormData) {
-    console.log(data);
+    try {
+      await signUp({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        cpf: data.cpf,
+        password: data.password,
+      });
+
+      await signIn(data.email, data.password);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleSignIn() {
+    navigate("signIn");
   }
 
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <StatusBar barStyle="light-content" backgroundColor="black" />
+
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -84,7 +107,7 @@ export function SignUp() {
         >
           <Box w="$full" gap="$4">
             <HStack alignItems="center" gap="$6">
-              <Pressable mb="$1">
+              <Pressable onPress={handleSignIn} mb="$1">
                 <CaretLeft size={30} color={theme.base100} />
               </Pressable>
 
@@ -102,7 +125,7 @@ export function SignUp() {
                     onChangeText={onChange}
                     value={value}
                     label="Nome"
-                    placeholder="Ex: Edna Moda"
+                    placeholder="Ex: Edna da Silva"
                     errorMessage={errors.name?.message}
                   />
                 )}
@@ -132,6 +155,7 @@ export function SignUp() {
                     label="Telefone"
                     placeholder="Ex: (48) 9 1234-5678"
                     errorMessage={errors.phone?.message}
+                    keyboardType="phone-pad"
                   />
                 )}
               />
@@ -166,7 +190,7 @@ export function SignUp() {
               />
 
               <Controller
-                name="password_confirm"
+                name="password_confirmation"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
@@ -175,7 +199,7 @@ export function SignUp() {
                     label="Confirmar senha"
                     placeholder="Confirme sua senha"
                     secureTextEntry
-                    errorMessage={errors.password_confirm?.message}
+                    errorMessage={errors.password_confirmation?.message}
                   />
                 )}
               />
@@ -186,7 +210,11 @@ export function SignUp() {
                 title="Cadastrar e entrar"
                 mt="$4"
               />
-              <Button title="Voltar para o login" variantStyle="secondary" />
+              <Button
+                onPress={handleSignIn}
+                title="Voltar para o login"
+                variantStyle="secondary"
+              />
             </VStack>
           </Box>
         </VStack>

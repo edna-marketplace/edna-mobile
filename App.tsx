@@ -20,6 +20,7 @@ import { ClothesContextProvider } from "@/contexts/ClothesContext";
 import { Routes } from "@/routes";
 import { SignIn } from "@/screens/SignIn";
 import { SignUp } from "@/screens/SignUp";
+import { AuthContextProvider } from "@/contexts/AuthContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,14 +31,16 @@ export default function App() {
 
   return (
     <GluestackUIProvider config={config}>
-      <ClothesContextProvider>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor="transparent"
-          translucent
-        />
-        {fontsLoaded ? <SignIn /> : <Loading />}
-      </ClothesContextProvider>
+      <AuthContextProvider>
+        <ClothesContextProvider>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor="transparent"
+            translucent
+          />
+          {fontsLoaded ? <Routes /> : <Loading />}
+        </ClothesContextProvider>
+      </AuthContextProvider>
     </GluestackUIProvider>
   );
 }

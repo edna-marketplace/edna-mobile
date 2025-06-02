@@ -3,7 +3,3 @@ import axios from "axios";
 export const api = axios.create({
   baseURL: "http://10.0.2.2:8080",
 });
-
-api.defaults.headers.common[
-  "Authorization"
-] = `Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJlZG5hIiwic3ViIjoiNzBmNjFkOWEtM2E2YS00Yzk2LThkMGQtODdjODU0NDgzMjdhIiwiZXhwIjoxNzQ4OTAwNzQwLCJpYXQiOjE3NDg4NjQ3NDB9.vbanwabHSxqkAKo8SicY5k5DNQiaADcIZAV1j3TAs2QWJlDj3i6UO30fDMvx2xu4oujdM7NxacR0ylAekgt5IN63vyXcmn_KT5djyHkMjm-FmKxL9HTqRBE6DBbUVfXflwyrg2iEcJWZ4eKBdMjn1rj5D-JqWD5I8FChelfmlwpmObh7Ee6SxPEM4y46PQSAbpdcw6TwoBMnU_4WamipbmjM8UN0plx5kBr9p9icgUvu38Sk1q4TgNM8EIYPnMx4x2n1cKqpJu4Y6i9r9zN7l6SOyc8hNBNWSoTj6CJebKsYrhwzVG6bzx-yZPz7TBK_nmGJEKmnhNPHlt96IQjqvQ`;
