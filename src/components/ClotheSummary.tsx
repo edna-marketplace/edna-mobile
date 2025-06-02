@@ -10,6 +10,7 @@ import {
 } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+import UserCircle from "phosphor-react-native/src/icons/UserCircle";
 
 type Props = {
   clothe: ClotheSummaryDTO;
@@ -58,7 +59,11 @@ export function ClotheSummary({ clothe }: Props) {
         </Text>
 
         <Box rounded="$full" overflow="hidden">
-          <Image w={20} h={20} source={clothe.storeImageURL} alt="" />
+          {clothe.storeImageURL ? (
+            <Image w={20} h={20} source={clothe.storeImageURL} alt="" />
+          ) : (
+            <UserCircle weight="fill" color={theme.base300} />
+          )}
         </Box>
       </HStack>
 

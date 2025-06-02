@@ -64,7 +64,6 @@ export function Button({
           <Text
             color={variantStyle === "primary" ? "$white" : "$base100"}
             fontFamily="$heading"
-            fontSize="$sm"
             fontWeight="$bold"
           >
             {title}

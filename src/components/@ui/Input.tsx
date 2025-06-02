@@ -33,7 +33,7 @@ export function Input({
   return (
     <FormControl isInvalid={invalid} w="$full">
       {label && (
-        <Text size="md" fontWeight="$bold" marginBottom="$2" color="$base400">
+        <Text size="md" fontWeight="$bold" marginBottom="$2" color="$base200">
           {label}
         </Text>
       )}
