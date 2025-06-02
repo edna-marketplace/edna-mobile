@@ -19,6 +19,7 @@ import { Clothes } from "@/screens/Clothes";
 import { ClothesContextProvider } from "@/contexts/ClothesContext";
 import { Routes } from "@/routes";
 import { SignIn } from "@/screens/SignIn";
+import { SignUp } from "@/screens/SignUp";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
