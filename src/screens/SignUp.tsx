@@ -18,7 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
 import { signUp } from "@/api/sign-up";
 import { useAuth } from "@/hooks/useAuth";
@@ -52,12 +52,17 @@ const signUpSchema = yup.object({
     .oneOf([yup.ref("password")], "As senhas não conferem."),
 });
 
-type SignUpFormData = yup.InferType<typeof signUpSchema>;
+export type SignUpFormData = yup.InferType<typeof signUpSchema>;
+
+type RouteParamsProps = {
+  signUpInfo?: SignUpFormData;
+};
 
 export function SignUp() {
-  const { signIn } = useAuth();
-
   const theme = gluestackUIConfig.tokens.colors;
+
+  const route = useRoute();
+  const { signUpInfo } = route.params as RouteParamsProps;
 
   const {
     control,
@@ -65,24 +70,20 @@ export function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      name: signUpInfo ? signUpInfo.name : "",
+      email: signUpInfo ? signUpInfo.email : "",
+      phone: signUpInfo ? signUpInfo.phone : "",
+      cpf: signUpInfo ? signUpInfo.cpf : "",
+      password: signUpInfo ? signUpInfo.password : "",
+      password_confirmation: signUpInfo ? signUpInfo.password : "",
+    },
   });
 
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
-  async function handleSignUp(data: SignUpFormData) {
-    try {
-      await signUp({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        cpf: data.cpf,
-        password: data.password,
-      });
-
-      await signIn(data.email, data.password);
-    } catch (error) {
-      console.error(error);
-    }
+  function handleContinue(data: SignUpFormData) {
+    navigate("selectStyle", { signUpInfo: data });
   }
 
   function handleSignIn() {
@@ -206,8 +207,8 @@ export function SignUp() {
 
               <Button
                 isLoading={isSubmitting}
-                onPress={handleSubmit(handleSignUp)}
-                title="Cadastrar e entrar"
+                onPress={handleSubmit(handleContinue)}
+                title="Continuar"
                 mt="$4"
               />
               <Button

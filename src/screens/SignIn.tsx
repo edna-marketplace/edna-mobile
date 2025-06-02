@@ -51,7 +51,7 @@ export function SignIn() {
   }
 
   function handleSignUp() {
-    navigate("signUp");
+    navigate("signUp", { signUpInfo: undefined });
   }
 
   return (

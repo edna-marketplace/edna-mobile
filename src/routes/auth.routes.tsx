@@ -3,11 +3,17 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { SignIn } from "@/screens/SignIn";
-import { SignUp } from "@/screens/SignUp";
+import { SignUp, SignUpFormData } from "@/screens/SignUp";
+import { SelectStyle } from "@/screens/SelectStyle";
 
 type AuthRoutes = {
   signIn: undefined;
-  signUp: undefined;
+  signUp: {
+    signUpInfo?: SignUpFormData;
+  };
+  selectStyle: {
+    signUpInfo: SignUpFormData;
+  };
 };
 
 export type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutes>;
@@ -20,6 +26,8 @@ export function AuthRoutes() {
       <Screen name="signIn" component={SignIn} />
 
       <Screen name="signUp" component={SignUp} />
+
+      <Screen name="selectStyle" component={SelectStyle} />
     </Navigator>
   );
 }

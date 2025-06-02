@@ -9,15 +9,10 @@ export type SignUpRequest = {
   stylePreference?: string;
 };
 
-export async function signUp({
-  stylePreference = "ALL",
-  ...rest
-}: SignUpRequest) {
+export async function signUp(data: SignUpRequest) {
   try {
-    await api.post("/public/customers", {
-      ...rest,
-      stylePreference,
-    });
+    console.log(data);
+    await api.post("/public/customers", data);
   } catch (error) {
     throw error;
   }
