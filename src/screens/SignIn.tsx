@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
 import { StatusBar } from "react-native";
+import { AxiosError } from "axios";
 
 const signInSchema = yup.object({
   email: yup

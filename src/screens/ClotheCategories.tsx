@@ -1,4 +1,4 @@
-import { Box, Text, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 
 import { Input } from "@/components/@ui/Input";
 
@@ -7,8 +7,9 @@ import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
 import { CategoryCard } from "@/components/CategoryCard";
 import { FlatList } from "react-native";
 import { categories } from "@/data/categories";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import { SwitchCategoryStore } from "@/components/SwitchCategoryStore";
 
 export function ClotheCategories() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
@@ -43,17 +44,7 @@ export function ClotheCategories() {
           contentContainerStyle={{
             paddingBottom: 32,
           }}
-          ListHeaderComponent={() => (
-            <Text
-              fontFamily="$specialTitle"
-              fontSize="$2xl"
-              pb="$6"
-              pt="$5"
-              alignSelf="auto"
-            >
-              Categorias
-            </Text>
-          )}
+          ListHeaderComponent={() => <SwitchCategoryStore />}
           ListHeaderComponentStyle={{
             width: "100%",
             alignItems: "flex-start",
