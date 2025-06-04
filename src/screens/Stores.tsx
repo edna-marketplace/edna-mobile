@@ -12,6 +12,7 @@ import { FlatList } from "react-native";
 import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
 import { filters } from "@/data/store-filters";
 import { useStores } from "@/hooks/useStores";
+import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 
 type RouteParamsProps = {
   category: string;
@@ -24,8 +25,8 @@ export function Stores() {
 
   function setCategoryFilter() {}
 
-  async function toggleFavoriteStore(id: string) {
-    return;
+  async function handleToggleFavoriteStore(id: string) {
+    await toggleFavoriteStore(id);
   }
 
   useFocusEffect(
@@ -49,7 +50,7 @@ export function Stores() {
           data={stores}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <StoreSummary store={item} onFavorite={toggleFavoriteStore} />
+            <StoreSummary store={item} onFavorite={handleToggleFavoriteStore} />
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

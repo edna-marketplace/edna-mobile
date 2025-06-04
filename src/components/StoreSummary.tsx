@@ -9,7 +9,6 @@ import {
 } from "@gluestack-ui/themed";
 import { ComponentProps, useState } from "react";
 
-import storeImg from "@/assets/store-template.png";
 import { toTargetCustomerDisplay } from "@/utils/toTargetCustomerDisplay";
 import { LinearGradient } from "expo-linear-gradient";
 import Storefront from "phosphor-react-native/src/icons/Storefront";
@@ -52,8 +51,8 @@ export function StoreSummary({ store, onFavorite }: Props) {
           end={{ x: 0, y: 1 }}
           style={{
             borderRadius: 9999,
-            paddingVertical: 3,
-            paddingHorizontal: 3,
+            paddingVertical: 2,
+            paddingHorizontal: 2,
             width: 56,
             height: 56,
             alignItems: "center",
@@ -62,7 +61,13 @@ export function StoreSummary({ store, onFavorite }: Props) {
         >
           <Box key="content" rounded="$xl" overflow="hidden" bg="$background">
             {store.profileImageUrl ? (
-              <Image source={storeImg} w={50} h={50} alt="" />
+              <Image
+                source={store.profileImageUrl}
+                w={50}
+                h={50}
+                rounded="$full"
+                alt=""
+              />
             ) : (
               <Storefront size={30} weight="fill" color={theme.white} />
             )}
@@ -102,7 +107,10 @@ export function StoreSummary({ store, onFavorite }: Props) {
                     mt="$1"
                     color="$orangeDark"
                   >
-                    {store.avgRating.toLocaleString("pt-br")}
+                    {store.avgRating.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1,
+                    })}
                   </Text>
                 </>
               )}
