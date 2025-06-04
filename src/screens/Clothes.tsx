@@ -2,7 +2,7 @@ import { HStack, VStack } from "@gluestack-ui/themed";
 
 import { Header } from "@/components/@ui/Header";
 import { ClotheSummary } from "@/components/ClotheSummary";
-import { FiltersFlatList } from "@/components/FiltersFlatList";
+import { ClotheFiltersFlatList } from "@/components/ClotheFiltersFlatList";
 import { filters } from "@/data/clothe-filters";
 import { FlatList } from "react-native";
 import { useClothes } from "@/hooks/useClothes";
@@ -64,7 +64,7 @@ export function Clothes() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <HStack my="$6" mx={-24}>
-            <FiltersFlatList filters={filters} />
+            <ClotheFiltersFlatList filters={filters} />
           </HStack>
         )}
         contentContainerStyle={

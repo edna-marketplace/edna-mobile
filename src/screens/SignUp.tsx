@@ -1,27 +1,23 @@
 import {
   Box,
   HStack,
-  Image,
   Pressable,
   ScrollView,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
 
-import logoImg from "@/assets/logo/logo.png";
-import { Input } from "@/components/@ui/Input";
 import { Button } from "@/components/@ui/Button";
+import { Input } from "@/components/@ui/Input";
 
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
-import { StatusBar } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
-import { signUp } from "@/api/sign-up";
-import { useAuth } from "@/hooks/useAuth";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
+import { Controller, useForm } from "react-hook-form";
+import { StatusBar } from "react-native";
+import * as yup from "yup";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 const phoneRegex = /^(\(\d{2}\)\s?9\s?\d{4}-\d{4}|\d{2}9\d{8})$/;

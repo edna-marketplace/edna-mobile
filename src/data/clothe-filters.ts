@@ -2,6 +2,7 @@ export const filters = [
   {
     filter: "GENDER",
     displayName: "Gênero",
+    type: "drawer",
     options: [
       { displayName: "Todos", value: "ALL" },
       { displayName: "Masculino", value: "MALE" },
@@ -12,6 +13,7 @@ export const filters = [
   {
     filter: "BRAND",
     displayName: "Marca",
+    type: "drawer",
     options: [
       { displayName: "Todas", value: "ALL" },
       { displayName: "Nike", value: "NIKE" },
@@ -28,6 +30,7 @@ export const filters = [
   {
     filter: "SIZE",
     displayName: "Tamanho",
+    type: "drawer",
     options: [
       { displayName: "Todos", value: "ALL" },
       { displayName: "PP", value: "XS" },

@@ -9,41 +9,16 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
+import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
+import { filters } from "@/data/store-filters";
+import { useStores } from "@/hooks/useStores";
 
 type RouteParamsProps = {
   category: string;
 };
 
 export function Stores() {
-  const [stores, setStores] = useState<StoreSummaryDTO[]>([
-    {
-      id: "1",
-      profileImageUrl: "a",
-      name: "Brechó Esportes",
-      avgRating: 0.0,
-      targetCustomer: "ALL",
-      distanceToCustomerInMeters: "100.7 km",
-      favorite: true,
-    },
-    {
-      id: "2",
-      profileImageUrl: "a",
-      name: "Brechó Esportes",
-      avgRating: 4.9,
-      targetCustomer: "ALL",
-      distanceToCustomerInMeters: "10.7 km",
-      favorite: false,
-    },
-    {
-      id: "3",
-      profileImageUrl: null,
-      name: "Brechó Esportes",
-      avgRating: 4.9,
-      targetCustomer: "ALL",
-      distanceToCustomerInMeters: "1000.6 km",
-      favorite: false,
-    },
-  ]);
+  const { stores, clearFilters } = useStores();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -55,7 +30,7 @@ export function Stores() {
 
   useFocusEffect(
     useCallback(() => {
-      setCategoryFilter();
+      clearFilters();
     }, [])
   );
 
@@ -80,10 +55,16 @@ export function Stores() {
           contentContainerStyle={{
             paddingBottom: 32,
           }}
-          ListHeaderComponent={() => <SwitchCategoryStore />}
+          ListHeaderComponent={() => (
+            <VStack flex={1} mb="$6" alignItems="flex-start">
+              <SwitchCategoryStore />
+
+              <StoreFiltersFlatList filters={filters} />
+            </VStack>
+          )}
           ListHeaderComponentStyle={{
             width: "100%",
-            alignItems: "flex-start",
+            justifyContent: "flex-start",
           }}
         />
       </VStack>

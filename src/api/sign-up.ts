@@ -11,7 +11,6 @@ export type SignUpRequest = {
 
 export async function signUp(data: SignUpRequest) {
   try {
-    console.log(data);
     await api.post("/public/customers", data);
   } catch (error) {
     throw error;

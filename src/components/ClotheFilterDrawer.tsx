@@ -21,7 +21,11 @@ type Props = {
 
 const ANIMATION_DURATION = 300;
 
-export function FilterDrawer({ displayName, filterType, filters }: Props) {
+export function ClotheFilterDrawer({
+  displayName,
+  filterType,
+  filters,
+}: Props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const theme = gluestackUIConfig.tokens.colors;
