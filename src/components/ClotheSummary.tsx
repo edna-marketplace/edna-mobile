@@ -10,7 +10,7 @@ import {
 } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
-import UserCircle from "phosphor-react-native/src/icons/UserCircle";
+import Storefront from "phosphor-react-native/src/icons/Storefront";
 
 type Props = {
   clothe: ClotheSummaryDTO;
@@ -58,13 +58,34 @@ export function ClotheSummary({ clothe }: Props) {
           })}
         </Text>
 
-        <Box rounded="$full" overflow="hidden">
-          {clothe.storeImageURL ? (
-            <Image w={20} h={20} source={clothe.storeImageURL} alt="" />
-          ) : (
-            <UserCircle weight="fill" color={theme.base300} />
-          )}
-        </Box>
+        <LinearGradient
+          colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{
+            borderRadius: 9999,
+            paddingVertical: 2,
+            paddingHorizontal: 2,
+            width: 23,
+            height: 23,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box key="content" rounded="$xl" overflow="hidden" bg="$background">
+            {clothe.storeImageURL ? (
+              <Image
+                source={clothe.storeImageURL}
+                w={20}
+                h={20}
+                rounded="$full"
+                alt=""
+              />
+            ) : (
+              <Storefront size={15} weight="fill" color={theme.white} />
+            )}
+          </Box>
+        </LinearGradient>
       </HStack>
 
       <VStack gap="$1">
