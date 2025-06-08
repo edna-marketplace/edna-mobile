@@ -1,21 +1,20 @@
 import { HStack, VStack } from "@gluestack-ui/themed";
 
 import { Header } from "@/components/@ui/Header";
-import { ClotheSummary } from "@/components/ClotheSummary";
 import { ClotheFiltersFlatList } from "@/components/ClotheFiltersFlatList";
+import { ClotheSummary } from "@/components/ClotheSummary";
+import { EmptyList } from "@/components/EmptyList";
+import { categories } from "@/data/categories";
 import { clotheFilters } from "@/data/clothe-filters";
-import { FlatList } from "react-native";
 import { useClothes } from "@/hooks/useClothes";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { useCallback, useState } from "react";
-import { categories } from "@/data/categories";
-import { Loading } from "@/components/Loading";
-import { EmptyList } from "@/components/EmptyList";
+import { useCallback } from "react";
+import { FlatList } from "react-native";
 
 type RouteParamsProps = {
   category: string;

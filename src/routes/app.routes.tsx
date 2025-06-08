@@ -19,6 +19,7 @@ import { Clothes } from "@/screens/Clothes";
 import { Text } from "@gluestack-ui/themed";
 import { Feed } from "@/screens/Feed";
 import { Stores } from "@/screens/Stores";
+import { StoreDetails } from "@/screens/StoreDetails";
 
 type AppRoutes = {
   home: undefined;
@@ -151,6 +152,15 @@ export function AppRoutes() {
       <Screen
         name="stores"
         component={Stores}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+
+      <Screen
+        name="store"
+        component={StoreDetails}
         options={{
           tabBarButton: () => null,
           tabBarItemStyle: { display: "none" },

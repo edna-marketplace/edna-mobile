@@ -23,7 +23,9 @@ export function Stores() {
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
-  function setCategoryFilter() {}
+  function handleStoreDetails(id: string) {
+    navigate("store", { id });
+  }
 
   async function handleToggleFavoriteStore(id: string) {
     await toggleFavoriteStore(id);
@@ -50,7 +52,11 @@ export function Stores() {
           data={stores}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <StoreSummary store={item} onFavorite={handleToggleFavoriteStore} />
+            <StoreSummary
+              onPress={() => handleStoreDetails(item.id)}
+              store={item}
+              onFavorite={handleToggleFavoriteStore}
+            />
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

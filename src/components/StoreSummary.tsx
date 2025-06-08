@@ -21,7 +21,7 @@ type Props = ComponentProps<typeof Pressable> & {
   onFavorite: (id: string) => void;
 };
 
-export function StoreSummary({ store, onFavorite }: Props) {
+export function StoreSummary({ store, onFavorite, ...rest }: Props) {
   const [isFavorite, setIsFavorite] = useState(store.favorite);
 
   const theme = gluestackUIConfig.tokens.colors;
@@ -43,6 +43,7 @@ export function StoreSummary({ store, onFavorite }: Props) {
       justifyContent="space-between"
       alignItems="center"
       mb="$8"
+      {...rest}
     >
       <HStack gap="$3" alignItems="center">
         <LinearGradient
