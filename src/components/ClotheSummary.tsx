@@ -1,5 +1,6 @@
-import { filters } from "@/data/clothe-filters";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { getBrandDisplayName } from "@/utils/getBrandDisplayName";
+import { getSizeDisplayName } from "@/utils/getSizeDisplayName";
 import {
   Box,
   HStack,
@@ -9,8 +10,8 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import Storefront from "phosphor-react-native/src/icons/Storefront";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type Props = {
   clothe: ClotheSummaryDTO;
@@ -18,14 +19,6 @@ type Props = {
 
 export function ClotheSummary({ clothe }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
-
-  const brandDisplay = filters[1].options.find(
-    (b) => b.value === clothe.brand
-  )?.displayName;
-
-  const sizeDisplay = filters[2].options.find(
-    (b) => b.value === clothe.size
-  )?.displayName;
 
   return (
     <Pressable w="46%" gap="$1" mb="$3">
@@ -108,7 +101,7 @@ export function ClotheSummary({ clothe }: Props) {
             ellipsizeMode="tail"
             minWidth={1}
           >
-            {brandDisplay}
+            {getBrandDisplayName(clothe)}
           </Text>
 
           <Box w={5} h={5} bg="$base400" rounded="$full" flexShrink={0} />
@@ -122,7 +115,7 @@ export function ClotheSummary({ clothe }: Props) {
             ellipsizeMode="tail"
             minWidth={40}
           >
-            {sizeDisplay}
+            {getSizeDisplayName(clothe)}
           </Text>
         </HStack>
       </VStack>

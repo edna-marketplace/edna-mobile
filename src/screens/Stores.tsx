@@ -10,7 +10,7 @@ import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
-import { filters } from "@/data/store-filters";
+import { storeFilters } from "@/data/store-filters";
 import { useStores } from "@/hooks/useStores";
 import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 
@@ -60,7 +60,7 @@ export function Stores() {
             <VStack flex={1} mb="$6" alignItems="flex-start">
               <SwitchCategoryStore />
 
-              <StoreFiltersFlatList filters={filters} />
+              <StoreFiltersFlatList filters={storeFilters} />
             </VStack>
           )}
           ListHeaderComponentStyle={{

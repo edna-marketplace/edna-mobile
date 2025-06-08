@@ -1,4 +1,4 @@
-export const filters = [
+export const storeFilters = [
   {
     filter: "IS_FAVORITE",
     displayName: "Favoritos",
