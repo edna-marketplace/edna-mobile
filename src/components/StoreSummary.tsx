@@ -15,6 +15,7 @@ import Storefront from "phosphor-react-native/src/icons/Storefront";
 import Star from "phosphor-react-native/src/icons/Star";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import Heart from "phosphor-react-native/src/icons/Heart";
+import { StoreRating } from "./StoreRating";
 
 type Props = ComponentProps<typeof Pressable> & {
   store: StoreSummaryDTO;
@@ -54,8 +55,8 @@ export function StoreSummary({ store, onFavorite, ...rest }: Props) {
             borderRadius: 9999,
             paddingVertical: 2,
             paddingHorizontal: 2,
-            width: 56,
-            height: 56,
+            width: 54,
+            height: 54,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -80,42 +81,7 @@ export function StoreSummary({ store, onFavorite, ...rest }: Props) {
             {store.name}
           </Text>
           <HStack alignItems="center" gap="$2">
-            <HStack
-              alignItems="center"
-              gap="$1"
-              px="$2"
-              bg="$white"
-              borderWidth={1}
-              borderColor="$base500"
-              rounded="$full"
-            >
-              {store.avgRating === 0 ? (
-                <Text
-                  fontFamily="$title"
-                  fontSize="$xs"
-                  mt="$1"
-                  color="$orangeDark"
-                >
-                  NOVO!
-                </Text>
-              ) : (
-                <>
-                  <Star size={15} weight="fill" color={theme.orangeDark} />
-
-                  <Text
-                    fontFamily="$title"
-                    fontSize="$xs"
-                    mt="$1"
-                    color="$orangeDark"
-                  >
-                    {store.avgRating.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 1,
-                      maximumFractionDigits: 1,
-                    })}
-                  </Text>
-                </>
-              )}
-            </HStack>
+            <StoreRating rating={store.avgRating} size="sm" />
 
             <Box w={5} h={5} bg="$base500" rounded="$full" flexShrink={0} />
 

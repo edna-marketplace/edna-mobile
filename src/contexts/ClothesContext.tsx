@@ -22,12 +22,19 @@ export function ClothesContextProvider({
 }: ClothesContextProviderProps) {
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
 
+  const [storeIdFilter, setStoreIdFilter] = useState<string | undefined>(
+    undefined
+  );
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [genderFilter, setGenderFilter] = useState("ALL");
   const [brandFilter, setBrandFilter] = useState("ALL");
   const [sizeFilter, setSizeFilter] = useState("ALL");
 
   function getFilterValue(filterType: string) {
+    if (filterType === "STORE_ID") {
+      return storeIdFilter;
+    }
+
     if (filterType === "GENDER") {
       return genderFilter;
     }
@@ -42,6 +49,8 @@ export function ClothesContextProvider({
   }
 
   function setFilterValue(filterType: string, value: string) {
+    filterType === "STORE_ID" && setStoreIdFilter(value);
+
     filterType === "CATEGORY" && setCategoryFilter(value);
 
     filterType === "GENDER" && setGenderFilter(value);
@@ -52,6 +61,7 @@ export function ClothesContextProvider({
   }
 
   function clearFilters() {
+    setStoreIdFilter(undefined);
     setGenderFilter("ALL");
     setBrandFilter("ALL");
     setSizeFilter("ALL");
@@ -60,6 +70,7 @@ export function ClothesContextProvider({
   async function fetchClothes() {
     try {
       const { clothes } = await fetchClothesWithFilter({
+        storeId: storeIdFilter,
         category: categoryFilter,
         gender: genderFilter,
         brand: brandFilter,
@@ -74,7 +85,7 @@ export function ClothesContextProvider({
 
   useEffect(() => {
     fetchClothes();
-  }, [categoryFilter, genderFilter, brandFilter, sizeFilter]);
+  }, [storeIdFilter, categoryFilter, genderFilter, brandFilter, sizeFilter]);
 
   return (
     <ClothesContext.Provider

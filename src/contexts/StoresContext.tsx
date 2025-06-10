@@ -1,6 +1,7 @@
 import { fetchStoresWithFilter } from "@/api/fetch-stores-with-filter";
 import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import * as Location from "expo-location";
 
 export type StoresContextDataProps = {
   stores: StoreSummaryDTO[];
@@ -21,6 +22,8 @@ export function StoresContextProvider({
   children,
 }: StoresContextProviderProps) {
   const [stores, setStores] = useState<StoreSummaryDTO[]>([]);
+  const [customerLocation, setCustomerLocation] =
+    useState<Location.LocationObject>({} as Location.LocationObject);
 
   const [isFavoriteFilter, setIsFavoriteFilter] = useState(false);
   const [targetCustomerFilter, setTargetCustomerFilter] = useState("ALL");
@@ -46,11 +49,25 @@ export function StoresContextProvider({
     setTargetCustomerFilter("ALL");
   }
 
+  async function getCustomerLocation() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== "granted") {
+      throw new Error("Permissão de acesso a localização negada");
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setCustomerLocation(location);
+  }
+
   async function fetchStores() {
     try {
+      console.log("a");
       const { stores } = await fetchStoresWithFilter({
         isFavorite: isFavoriteFilter,
         targetCustomer: targetCustomerFilter,
+        // customerLat: customerLocation.coords.latitude,
+        // customerLon: customerLocation.coords.longitude,
       });
 
       setStores(stores);
@@ -61,6 +78,7 @@ export function StoresContextProvider({
 
   useEffect(() => {
     fetchStores();
+    // getCustomerLocation();
   }, [isFavoriteFilter, targetCustomerFilter]);
 
   return (

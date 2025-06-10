@@ -22,9 +22,17 @@ export function Header({ title, onGoBack }: Props) {
       <Pressable position="absolute" left={24} bottom={20} onPress={onGoBack}>
         <CaretLeft color={theme.base100} />
       </Pressable>
-      <Text fontFamily="$specialTitle" color="$base100" fontSize="$2xl">
-        {title}
-      </Text>
+      <Box w="65%">
+        <Text
+          fontFamily="$specialTitle"
+          textAlign="center"
+          color="$base100"
+          fontSize="$2xl"
+          numberOfLines={1}
+        >
+          {title}
+        </Text>
+      </Box>
     </HStack>
   );
 }

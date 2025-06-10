@@ -30,7 +30,7 @@ export function Button({
     <GluestackButton
       w="$full"
       h="$14"
-      gap="$1"
+      gap="$2"
       bg={
         variantStyle === "primary"
           ? "$base100"

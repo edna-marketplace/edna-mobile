@@ -5,6 +5,9 @@ export type FetchStoresBody = {
   name?: string;
   targetCustomer?: string;
   isFavorite?: boolean;
+  storeId?: string;
+  customerLat?: number;
+  customerLon?: number;
 };
 
 export type FetchStoresResponse = {
@@ -21,7 +24,7 @@ export async function fetchStoresWithFilter(
 ): Promise<FetchStoresResponse> {
   try {
     const response = await api.post(
-      "/stores/filter?latitude=-27.6037412&longitude=-48.5516699",
+      `/stores/filter?latitude=-27.6037412&longitude=-48.5516699`,
       filters
     );
 

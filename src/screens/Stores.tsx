@@ -1,30 +1,29 @@
 import { Box, VStack } from "@gluestack-ui/themed";
 
+import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 import { Input } from "@/components/@ui/Input";
+import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
 import { StoreSummary } from "@/components/StoreSummary";
 import { SwitchCategoryStore } from "@/components/SwitchCategoryStore";
-import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
+import { storeFilters } from "@/data/store-filters";
+import { useStores } from "@/hooks/useStores";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { FlatList } from "react-native";
-import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
-import { storeFilters } from "@/data/store-filters";
-import { useStores } from "@/hooks/useStores";
-import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 
 type RouteParamsProps = {
   category: string;
 };
 
 export function Stores() {
-  const { stores, clearFilters } = useStores();
+  const { stores, setFilterValue, clearFilters } = useStores();
 
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   function handleStoreDetails(id: string) {
-    navigate("store", { id });
+    navigation.navigate("store", { id });
   }
 
   async function handleToggleFavoriteStore(id: string) {
