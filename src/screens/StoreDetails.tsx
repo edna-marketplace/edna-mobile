@@ -2,7 +2,6 @@ import { Header } from "@/components/@ui/Header";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import {
   Box,
-  Center,
   HStack,
   Image,
   ScrollView,
@@ -15,25 +14,23 @@ import {
   useRoute,
 } from "@react-navigation/native";
 
-import MapPin from "phosphor-react-native/src/icons/MapPin";
 import Heart from "phosphor-react-native/src/icons/Heart";
+import MapPin from "phosphor-react-native/src/icons/MapPin";
 
 import bannerImg from "@/assets/banner-template.png";
 import storeImg from "@/assets/store-template.png";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
-import { shortenAddress } from "@/utils/addressFormatter";
+import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
 import { Button } from "@/components/@ui/Button";
 import { StoreRating } from "@/components/StoreRating";
+import { StoreShowcase } from "@/components/StoreShowcase";
 import { SwitchShowcaseDetails } from "@/components/SwitchShowcaseDetails";
-import { useCallback, useState } from "react";
-import { FlatList } from "react-native";
-import { EmptyList } from "@/components/EmptyList";
-import { useClothes } from "@/hooks/useClothes";
-import { ClotheSummary } from "@/components/ClotheSummary";
-import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { shortenAddress } from "@/utils/addressFormatter";
 import { LinearGradient } from "expo-linear-gradient";
+import { useCallback, useState } from "react";
+import { StoreInfo } from "@/components/StoreInfo";
 
 type RouteParams = {
   id: string;
@@ -44,8 +41,6 @@ export function StoreDetails() {
     []
   );
   const [display, setDisplay] = useState<"showcase" | "details">("showcase");
-
-  const cuttedClothes = showcaseClothes.slice(0, 4);
 
   const theme = gluestackUIConfig.tokens.colors;
 
@@ -81,6 +76,8 @@ export function StoreDetails() {
       fetchStoreClothes();
     }, [])
   );
+
+  const cuttedClothes = showcaseClothes.slice(0, 4);
 
   return (
     <VStack flex={1} pt="$14">
@@ -169,23 +166,9 @@ export function StoreDetails() {
           />
 
           {display === "showcase" ? (
-            <VStack>
-              <HStack flexWrap="wrap" justifyContent="space-between" mb="$6">
-                {cuttedClothes.map((item) => (
-                  <ClotheSummary key={item.id} clothe={item} />
-                ))}
-              </HStack>
-              {cuttedClothes.length === 0 && (
-                <Center mt="$7">
-                  <EmptyList
-                    title="Nenhuma peça encontrada!"
-                    subtitle="Esse brechó não possui nenhuma peça à venda no momento."
-                  />
-                </Center>
-              )}
-            </VStack>
+            <StoreShowcase clothes={cuttedClothes} />
           ) : (
-            <Text>Informacoes</Text>
+            <StoreInfo store={null} />
           )}
         </VStack>
       </ScrollView>

@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 
 export type StoresContextDataProps = {
   stores: StoreSummaryDTO[];
+  fetchStores: () => Promise<void>;
   getFilterValue: (filterType: string) => string | boolean | undefined;
   setFilterValue: (filterType: string, value: string | boolean) => void;
   clearFilters: () => void;
@@ -62,7 +63,6 @@ export function StoresContextProvider({
 
   async function fetchStores() {
     try {
-      console.log("a");
       const { stores } = await fetchStoresWithFilter({
         isFavorite: isFavoriteFilter,
         targetCustomer: targetCustomerFilter,
@@ -85,6 +85,7 @@ export function StoresContextProvider({
     <StoresContext.Provider
       value={{
         stores,
+        fetchStores,
         getFilterValue,
         setFilterValue,
         clearFilters,

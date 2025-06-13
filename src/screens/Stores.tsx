@@ -10,7 +10,7 @@ import { useStores } from "@/hooks/useStores";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 
 type RouteParamsProps = {
@@ -18,7 +18,7 @@ type RouteParamsProps = {
 };
 
 export function Stores() {
-  const { stores, setFilterValue, clearFilters } = useStores();
+  const { stores, fetchStores, clearFilters } = useStores();
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -30,11 +30,11 @@ export function Stores() {
     await toggleFavoriteStore(id);
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      clearFilters();
-    }, [])
-  );
+  useEffect(() => {
+    clearFilters();
+
+    fetchStores();
+  }, []);
 
   return (
     <>
