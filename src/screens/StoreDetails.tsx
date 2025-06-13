@@ -71,10 +71,8 @@ export function StoreDetails() {
     useCallback(() => {
       setShowcaseClothes([]);
 
-      console.log("store route id -> ", id);
-
       fetchStoreClothes();
-    }, [])
+    }, [id])
   );
 
   const cuttedClothes = showcaseClothes.slice(0, 4);
