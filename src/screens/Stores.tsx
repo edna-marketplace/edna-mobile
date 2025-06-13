@@ -18,12 +18,16 @@ type RouteParamsProps = {
 };
 
 export function Stores() {
-  const { stores, fetchStores, clearFilters } = useStores();
+  const { stores, fetchStores, setFilterValue, clearFilters } = useStores();
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   function handleStoreDetails(id: string) {
     navigation.navigate("store", { id });
+  }
+
+  function handleSearchByName(query: string) {
+    setFilterValue("NAME", query);
   }
 
   async function handleToggleFavoriteStore(id: string) {
@@ -40,7 +44,11 @@ export function Stores() {
     <>
       <VStack pt="$14">
         <Box px="$6">
-          <Input icon={MagnifyingGlass} placeholder='Buscas em "Brechós"' />
+          <Input
+            icon={MagnifyingGlass}
+            placeholder='Buscas em "Brechós"'
+            onChangeText={(value) => handleSearchByName(value)}
+          />
         </Box>
 
         <Box w="$full" h="$px" bg="$base500" mt="$6" />

@@ -26,6 +26,7 @@ export function StoresContextProvider({
   const [customerLocation, setCustomerLocation] =
     useState<Location.LocationObject>({} as Location.LocationObject);
 
+  const [nameFilter, setNameFilter] = useState("");
   const [isFavoriteFilter, setIsFavoriteFilter] = useState(false);
   const [targetCustomerFilter, setTargetCustomerFilter] = useState("ALL");
 
@@ -40,6 +41,8 @@ export function StoresContextProvider({
   }
 
   function setFilterValue(filterType: string, value: any) {
+    filterType === "NAME" && setNameFilter(value);
+
     filterType === "IS_FAVORITE" && setIsFavoriteFilter(value);
 
     filterType === "TARGET_CUSTOMER" && setTargetCustomerFilter(value);
@@ -64,6 +67,7 @@ export function StoresContextProvider({
   async function fetchStores() {
     try {
       const { stores } = await fetchStoresWithFilter({
+        name: nameFilter,
         isFavorite: isFavoriteFilter,
         targetCustomer: targetCustomerFilter,
         // customerLat: customerLocation.coords.latitude,
@@ -79,7 +83,7 @@ export function StoresContextProvider({
   useEffect(() => {
     fetchStores();
     // getCustomerLocation();
-  }, [isFavoriteFilter, targetCustomerFilter]);
+  }, [nameFilter, isFavoriteFilter, targetCustomerFilter]);
 
   return (
     <StoresContext.Provider
