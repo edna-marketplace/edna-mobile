@@ -24,7 +24,7 @@ import { StoreDetails } from "@/screens/StoreDetails";
 type AppRoutes = {
   home: undefined;
   categories: undefined;
-  clothes: { category: string };
+  clothes: { category?: string; storeId?: string; storeName?: string };
   clothe: { id: string };
   stores: undefined;
   store: { id: string };

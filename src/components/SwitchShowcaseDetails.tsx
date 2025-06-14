@@ -1,5 +1,5 @@
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { HStack, Pressable, Text } from "@gluestack-ui/themed";
+import { HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 
@@ -35,6 +35,7 @@ export function SwitchShowcaseDetails({ display, onSwitch }: Props) {
           Vitrine
         </Text>
       </Pressable>
+
       <Pressable onPress={handleDetails}>
         <Text
           fontFamily="$specialTitle"

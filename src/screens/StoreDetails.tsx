@@ -83,6 +83,10 @@ export function StoreDetails() {
     navigate("stores");
   }
 
+  function handleViewMoreClothes() {
+    store && navigate("clothes", { storeId: id, storeName: store.name });
+  }
+
   useFocusEffect(
     useCallback(() => {
       setDisplay("showcase");
@@ -218,7 +222,10 @@ export function StoreDetails() {
           />
 
           {display === "showcase" ? (
-            <StoreShowcase clothes={cuttedClothes} />
+            <StoreShowcase
+              clothes={cuttedClothes}
+              onViewMoreClothes={handleViewMoreClothes}
+            />
           ) : (
             <StoreInfo store={store} />
           )}

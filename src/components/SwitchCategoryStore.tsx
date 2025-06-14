@@ -1,7 +1,8 @@
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { HStack, Pressable, Text } from "@gluestack-ui/themed";
+import { HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
+import { Button } from "./@ui/Button";
 
 export function SwitchCategoryStore() {
   const route = useRoute();
@@ -27,15 +28,17 @@ export function SwitchCategoryStore() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Pressable onPress={handleCategories}>
-        <Text
-          fontFamily="$specialTitle"
-          fontSize={pathname === "categories" ? "$2xl" : "$xl"}
-          color={pathname === "categories" ? "$base100" : "$base400"}
-        >
-          Categorias
-        </Text>
-      </Pressable>
+      <VStack>
+        <Pressable onPress={handleCategories}>
+          <Text
+            fontFamily="$specialTitle"
+            fontSize={pathname === "categories" ? "$2xl" : "$xl"}
+            color={pathname === "categories" ? "$base100" : "$base400"}
+          >
+            Categorias
+          </Text>
+        </Pressable>
+      </VStack>
       <Pressable onPress={handleStores}>
         <Text
           fontFamily="$specialTitle"

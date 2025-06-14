@@ -13,6 +13,7 @@ import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
 import { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 import { Loading } from "@/components/Loading";
+import { EmptyList } from "@/components/EmptyList";
 
 type RouteParamsProps = {
   category: string;
@@ -69,37 +70,48 @@ export function Stores() {
       </VStack>
 
       <VStack flex={1} bg="$base700" px="$6">
-        {stores.length === 0 ? (
-          <Loading />
-        ) : (
-          <FlatList
-            data={stores}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <StoreSummary
-                onPress={() => handleStoreDetails(item.id)}
-                store={item}
-                isStoreFavorite={item.favorite}
-                onFavorite={handleToggleFavoriteStore}
-              />
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingBottom: 32,
-            }}
-            ListHeaderComponent={() => (
-              <VStack flex={1} mb="$6" alignItems="flex-start">
-                <SwitchCategoryStore />
+        <FlatList
+          data={stores}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <StoreSummary
+              onPress={() => handleStoreDetails(item.id)}
+              store={item}
+              isStoreFavorite={item.favorite}
+              onFavorite={handleToggleFavoriteStore}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={
+            stores.length === 0
+              ? {
+                  height: "100%",
+                  paddingBottom: 32,
+                }
+              : {
+                  paddingBottom: 32,
+                }
+          }
+          ListHeaderComponent={() => (
+            <VStack flex={1} mb="$6" alignItems="flex-start">
+              <SwitchCategoryStore />
 
-                <StoreFiltersFlatList filters={storeFilters} />
-              </VStack>
-            )}
-            ListHeaderComponentStyle={{
-              width: "100%",
-              justifyContent: "flex-start",
-            }}
-          />
-        )}
+              <StoreFiltersFlatList filters={storeFilters} />
+            </VStack>
+          )}
+          ListHeaderComponentStyle={{
+            width: "100%",
+            justifyContent: "flex-start",
+          }}
+          ListEmptyComponent={() => (
+            <EmptyList
+              title="Nenhum brechó encontrado!"
+              subtitle={"Nenhum brechó foi encontrado com os filtros atuais."}
+              callToActionButtonTitle="Limpar filtros"
+              onCallToAction={clearFilters}
+            />
+          )}
+        />
       </VStack>
     </>
   );

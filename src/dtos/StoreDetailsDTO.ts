@@ -1,6 +1,7 @@
 export type StoreDetailsDTO = {
   id: string;
   name: string;
+  phone: string;
   avgRating: number;
   description: string | null;
   cnpj: string;

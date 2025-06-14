@@ -1,6 +1,4 @@
-import { Pressable, Text } from "@gluestack-ui/themed";
 import { FlatList } from "react-native";
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { ClotheFilterDrawer } from "./ClotheFilterDrawer";
 
 type Props = {
@@ -8,8 +6,6 @@ type Props = {
 };
 
 export function ClotheFiltersFlatList({ filters }: Props) {
-  const theme = gluestackUIConfig.tokens.colors;
-
   return (
     <FlatList
       data={filters}

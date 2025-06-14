@@ -17,7 +17,9 @@ import { useCallback } from "react";
 import { FlatList } from "react-native";
 
 type RouteParamsProps = {
-  category: string;
+  category?: string;
+  storeId?: string;
+  storeName?: string;
 };
 
 export function Clothes() {
@@ -26,32 +28,47 @@ export function Clothes() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
   const route = useRoute();
-  const { category } = route.params as RouteParamsProps;
+  const { category, storeId, storeName } = route.params as RouteParamsProps;
 
   function handleGoBack() {
-    navigate("categories");
+    category && navigate("categories");
+
+    storeId && navigate("store", { id: storeId });
   }
 
-  function setCategoryFilter() {
-    setFilterValue("CATEGORY", category);
+  function handleViewMode() {
+    category && setFilterValue("CATEGORY", category);
+
+    if (storeId) {
+      setFilterValue("CATEGORY", "ALL");
+      setFilterValue("STORE_ID", storeId);
+    }
   }
 
   useFocusEffect(
     useCallback(() => {
       clearFilters();
 
-      setCategoryFilter();
-    }, [category])
+      handleViewMode();
+    }, [category, storeId])
   );
 
-  const categoryDisplayName = categories.find(
-    (c) => c.category === category
-  )?.displayName;
+  let headerDisplayName: string | undefined = "";
+
+  if (category) {
+    headerDisplayName = categories.find(
+      (c) => c.category === category
+    )?.displayName;
+  }
+
+  if (storeName) {
+    headerDisplayName = storeName;
+  }
 
   return (
     <VStack flex={1} bg="$base700" pt="$14">
       <Header
-        title={categoryDisplayName ? categoryDisplayName : "Peças"}
+        title={headerDisplayName ? headerDisplayName : "Peças"}
         onGoBack={handleGoBack}
       />
       <FlatList
@@ -82,8 +99,6 @@ export function Clothes() {
           <EmptyList
             title="Nenhuma peça encontrada!"
             subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
-            callToActionButtonTitle="Explorar outras categorias"
-            onCallToAction={handleGoBack}
           />
         )}
       />

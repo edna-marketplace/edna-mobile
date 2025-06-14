@@ -1,4 +1,11 @@
-import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
+import {
+  Box,
+  HStack,
+  Image,
+  Pressable,
+  Text,
+  VStack,
+} from "@gluestack-ui/themed";
 
 import { Input } from "@/components/@ui/Input";
 
@@ -11,6 +18,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { SwitchCategoryStore } from "@/components/SwitchCategoryStore";
 
+import logoImg from "@/assets/logo/logo.png";
+
 export function ClotheCategories() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -22,7 +31,9 @@ export function ClotheCategories() {
     <>
       <VStack pt="$14">
         <Box px="$6">
-          <Input icon={MagnifyingGlass} placeholder='Buscas em "Todas"' />
+          {/* <Input icon={MagnifyingGlass} placeholder='Buscas em "Todas"' /> */}
+
+          <Image source={logoImg} alt="" w="$20" h="$10" alignSelf="center" />
         </Box>
 
         <Box w="$full" h="$px" bg="$base500" mt="$6" />
