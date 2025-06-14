@@ -19,11 +19,11 @@ export function shortenAddress(address: Address) {
 
   let street = address.street.trim();
 
-  const match = street.match(/^(\w+)\s+(.*)/i); // Ex: "Rua Felipe Schmidt"
+  const match = street.match(/^(\w+)\s+(.*)/i);
   if (match) {
-    const type = match[1].toLowerCase(); // Ex: "rua"
-    const rest = match[2]; // Ex: "Felipe Schmidt"
-    const abbreviated = abbreviations[type] || match[1]; // Usa a abreviação ou mantém original
+    const type = match[1].toLowerCase();
+    const rest = match[2];
+    const abbreviated = abbreviations[type] || match[1];
     street = `${abbreviated} ${rest}`;
   }
 

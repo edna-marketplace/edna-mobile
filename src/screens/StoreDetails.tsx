@@ -2,6 +2,7 @@ import { Header } from "@/components/@ui/Header";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import {
   Box,
+  Center,
   HStack,
   Image,
   ScrollView,
@@ -16,31 +17,40 @@ import {
 
 import Heart from "phosphor-react-native/src/icons/Heart";
 import MapPin from "phosphor-react-native/src/icons/MapPin";
+import Storefront from "phosphor-react-native/src/icons/Storefront";
 
-import bannerImg from "@/assets/banner-template.png";
-import storeImg from "@/assets/store-template.png";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
+import { getStoreById } from "@/api/get-store-by-id";
+import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 import { Button } from "@/components/@ui/Button";
+import { Loading } from "@/components/Loading";
+import { StoreInfo } from "@/components/StoreInfo";
 import { StoreRating } from "@/components/StoreRating";
 import { StoreShowcase } from "@/components/StoreShowcase";
 import { SwitchShowcaseDetails } from "@/components/SwitchShowcaseDetails";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { StoreDetailsDTO } from "@/dtos/StoreDetailsDTO";
 import { shortenAddress } from "@/utils/addressFormatter";
+import { toTargetCustomerDisplay } from "@/utils/toTargetCustomerDisplay";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useState } from "react";
-import { StoreInfo } from "@/components/StoreInfo";
+import { useStores } from "@/hooks/useStores";
 
 type RouteParams = {
   id: string;
 };
 
 export function StoreDetails() {
+  const [store, setStore] = useState<StoreDetailsDTO | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [display, setDisplay] = useState<"showcase" | "details">("showcase");
   const [showcaseClothes, setShowcaseClothes] = useState<ClotheSummaryDTO[]>(
     []
   );
-  const [display, setDisplay] = useState<"showcase" | "details">("showcase");
+
+  const { fetchStores } = useStores();
 
   const theme = gluestackUIConfig.tokens.colors;
 
@@ -49,27 +59,36 @@ export function StoreDetails() {
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
+  async function getStoreDetails() {
+    const data = await getStoreById(id);
+
+    setStore(data);
+    setIsFavorite(data.favorite);
+  }
+
   async function fetchStoreClothes() {
     const { clothes } = await fetchClothesWithFilter({ storeId: id });
 
     setShowcaseClothes(clothes);
   }
 
+  async function handleToggleFavoriteStore() {
+    setIsFavorite(!isFavorite);
+
+    await toggleFavoriteStore(id);
+    await fetchStoreClothes();
+  }
+
   function handleGoBack() {
     navigate("stores");
   }
 
-  const address = {
-    number: "350",
-    cep: "88010000",
-    street: "Rua Felipe Schmidt",
-    neighborhood: "Centro",
-    city: "Florianópolis",
-  };
-
   useFocusEffect(
     useCallback(() => {
+      setDisplay("showcase");
       setShowcaseClothes([]);
+
+      getStoreDetails();
 
       fetchStoreClothes();
     }, [id])
@@ -77,22 +96,44 @@ export function StoreDetails() {
 
   const cuttedClothes = showcaseClothes.slice(0, 4);
 
+  if (!store) {
+    return <Loading />;
+  }
+
   return (
     <VStack flex={1} pt="$14">
-      <Header title={"Brechó da Edna"} onGoBack={handleGoBack} />
+      <Header title={store.name} onGoBack={handleGoBack} />
 
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
         <Box>
-          <Image
-            source={bannerImg}
-            alt=""
-            w="$full"
-            h="$32"
-            overflow="hidden"
-          />
+          {store.bannerImageUrl ? (
+            <Image
+              source={store.bannerImageUrl}
+              alt=""
+              w="$full"
+              h="$32"
+              overflow="hidden"
+            />
+          ) : (
+            <LinearGradient
+              colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={{
+                width: "100%",
+                height: 128,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text fontFamily="$specialTitle" color="$white" fontSize="$xl">
+                {store.name}
+              </Text>
+            </LinearGradient>
+          )}
 
           <LinearGradient
             colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
@@ -110,14 +151,26 @@ export function StoreDetails() {
               justifyContent: "center",
             }}
           >
-            <Image source={storeImg} alt="" rounded="$full" w="$24" h="$24" />
+            {store.profileImageUrl ? (
+              <Image
+                source={store.profileImageUrl}
+                alt=""
+                rounded="$full"
+                w="$24"
+                h="$24"
+              />
+            ) : (
+              <Center bg="$base700" w="$24" h="$24" rounded="$full">
+                <Storefront size={50} weight="bold" color={theme.base400} />
+              </Center>
+            )}
           </LinearGradient>
         </Box>
 
         <VStack mx="$6">
           <VStack mt="$3" mb="$6" gap="$3">
             <Text fontFamily="$title" color="$base100" fontSize="$2xl">
-              Brechó da Edna
+              {store.name}
             </Text>
 
             <HStack
@@ -127,13 +180,13 @@ export function StoreDetails() {
             >
               <HStack alignItems="center" gap="$2">
                 <Text fontFamily="$title" fontSize="$md" color="$base400">
-                  Todos os públicos
+                  {toTargetCustomerDisplay(store.targetCustomer)}
                 </Text>
 
                 <Box w={5} h={5} bg="$base500" rounded="$full" flexShrink={0} />
 
                 <Text fontFamily="$title" fontSize="$md" color="$base400">
-                  5,1km
+                  {store.distanceInKilometers}
                 </Text>
               </HStack>
 
@@ -143,14 +196,15 @@ export function StoreDetails() {
             <HStack w="$full" alignItems="center" gap="$2">
               <MapPin color={theme.base400} size={25} />
 
-              <Text color={theme.base400}>{shortenAddress(address)}</Text>
+              <Text color={theme.base400}>{shortenAddress(store.address)}</Text>
             </HStack>
 
             <Button
-              title="Favoritar"
+              title={isFavorite ? "Favorito" : "Favoritar"}
               icon={Heart}
-              variantStyle="secondary"
+              variantStyle={isFavorite ? "primary" : "secondary"}
               mt="$2"
+              onPress={handleToggleFavoriteStore}
             />
           </VStack>
 
@@ -166,7 +220,7 @@ export function StoreDetails() {
           {display === "showcase" ? (
             <StoreShowcase clothes={cuttedClothes} />
           ) : (
-            <StoreInfo store={null} />
+            <StoreInfo store={store} />
           )}
         </VStack>
       </ScrollView>

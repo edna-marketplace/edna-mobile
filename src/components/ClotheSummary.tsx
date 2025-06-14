@@ -65,19 +65,17 @@ export function ClotheSummary({ clothe }: Props) {
             justifyContent: "center",
           }}
         >
-          <Box key="content" rounded="$xl" overflow="hidden" bg="$background">
-            {clothe.storeImageURL ? (
-              <Image
-                source={clothe.storeImageURL}
-                w={20}
-                h={20}
-                rounded="$full"
-                alt=""
-              />
-            ) : (
-              <Storefront size={15} weight="fill" color={theme.white} />
-            )}
-          </Box>
+          {clothe.storeImageURL ? (
+            <Image
+              source={clothe.storeImageURL}
+              w={20}
+              h={20}
+              rounded="$full"
+              alt=""
+            />
+          ) : (
+            <Storefront size={15} weight="fill" color={theme.white} />
+          )}
         </LinearGradient>
       </HStack>
 

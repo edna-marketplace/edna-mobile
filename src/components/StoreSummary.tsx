@@ -11,19 +11,24 @@ import { ComponentProps, useState } from "react";
 
 import { toTargetCustomerDisplay } from "@/utils/toTargetCustomerDisplay";
 import { LinearGradient } from "expo-linear-gradient";
-import Storefront from "phosphor-react-native/src/icons/Storefront";
-import Star from "phosphor-react-native/src/icons/Star";
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import Heart from "phosphor-react-native/src/icons/Heart";
+import Storefront from "phosphor-react-native/src/icons/Storefront";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { StoreRating } from "./StoreRating";
 
 type Props = ComponentProps<typeof Pressable> & {
   store: StoreSummaryDTO;
+  isStoreFavorite: boolean;
   onFavorite: (id: string) => void;
 };
 
-export function StoreSummary({ store, onFavorite, ...rest }: Props) {
-  const [isFavorite, setIsFavorite] = useState(store.favorite);
+export function StoreSummary({
+  store,
+  isStoreFavorite,
+  onFavorite,
+  ...rest
+}: Props) {
+  const [isFavorite, setIsFavorite] = useState(isStoreFavorite);
 
   const theme = gluestackUIConfig.tokens.colors;
 

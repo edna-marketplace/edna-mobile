@@ -1,21 +1,19 @@
 import { HStack, Text, VStack } from "@gluestack-ui/themed";
 import MapPin from "phosphor-react-native/src/icons/MapPin";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+import { StoreDetailsDTO } from "@/dtos/StoreDetailsDTO";
+import { FlatList } from "react-native";
+import { weekDayMapper } from "@/utils/weekDayMapper";
+import { convertTimeInMinutesToString } from "@/utils/convertTimeInMinutesToString";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import { formatCNPJ } from "@/utils/formatCNPJ";
 
 type Props = {
-  store: any;
+  store: StoreDetailsDTO;
 };
 
 export function StoreInfo({ store }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
-
-  const address = {
-    number: "350",
-    cep: "88010000",
-    street: "Rua Felipe Schmidt",
-    neighborhood: "Centro",
-    city: "Florianópolis",
-  };
 
   return (
     <VStack flex={1} gap="$6" pb="$8">
@@ -24,9 +22,20 @@ export function StoreInfo({ store }: Props) {
           Descrição do brechó
         </Text>
 
-        <Text fontFamily="$default" color="$base300">
-          descricao teste
-        </Text>
+        {store.description ? (
+          <Text fontFamily="$default" color="$base300">
+            {store.description}
+          </Text>
+        ) : (
+          <Text
+            fontFamily="$default"
+            color="$base300"
+            textAlign="center"
+            my="$4"
+          >
+            Sem descrição.
+          </Text>
+        )}
       </VStack>
 
       <VStack gap="$1">
@@ -34,68 +43,23 @@ export function StoreInfo({ store }: Props) {
           Horário de atendimento
         </Text>
 
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Segunda-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            8:00 - 18:00
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Terça-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            8:00 - 18:00
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Quarta-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            8:00 - 18:00
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Quinta-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            8:00 - 18:00
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Sexta-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            8:00 - 18:00
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Sábado
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            FECHADO
-          </Text>
-        </HStack>
-
-        <HStack justifyContent="space-between">
-          <Text fontFamily="$default" color="$base300">
-            Domingo-feira
-          </Text>
-          <Text mr="$20" fontFamily="$title" color="$base300">
-            FECHADO
-          </Text>
-        </HStack>
+        {store.schedule.map((day) => (
+          <HStack key={day.id} justifyContent="space-between">
+            <Text fontFamily="$default" color="$base300">
+              {weekDayMapper[day.dayOfWeek]}
+            </Text>
+            {day.enabled ? (
+              <Text mr="$20" fontFamily="$title" color="$base300">
+                {convertTimeInMinutesToString(day.openingTimeInMinutes)} -{" "}
+                {convertTimeInMinutesToString(day.closingTimeInMinutes)}
+              </Text>
+            ) : (
+              <Text mr="$20" fontFamily="$title" color="$base300">
+                FECHADO
+              </Text>
+            )}
+          </HStack>
+        ))}
       </VStack>
 
       <VStack gap="$1">
@@ -108,17 +72,17 @@ export function StoreInfo({ store }: Props) {
 
           <VStack>
             <Text fontFamily="$default" color="$base300">
-              {address.street}, {address.number}
+              {store.address.street}, {store.address.number}
             </Text>
 
             <Text fontFamily="$default" color="$base300">
-              {address.neighborhood}, {address.city}
+              {store.address.neighborhood}, {store.address.city}
             </Text>
 
             <Text fontFamily="$title" color="$base300">
               CEP:{" "}
               <Text fontFamily="$default" color="$base300">
-                {address.cep.slice(0, 5)}-{address.cep.slice(5, 8)}
+                {store.address.cep.slice(0, 5)}-{store.address.cep.slice(5, 8)}
               </Text>
             </Text>
           </VStack>
@@ -133,14 +97,14 @@ export function StoreInfo({ store }: Props) {
         <Text fontFamily="$title" color="$base300">
           Contato:{" "}
           <Text fontFamily="$default" color="$base300">
-            (48) 9 9123-4567
+            {formatPhoneNumber(store.phone)}
           </Text>
         </Text>
 
         <Text fontFamily="$title" color="$base300">
           CNPJ:{" "}
           <Text fontFamily="$default" color="$base300">
-            12.345.678/0001-23
+            {formatCNPJ(store.cnpj)}
           </Text>
         </Text>
       </VStack>

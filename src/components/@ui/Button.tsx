@@ -58,7 +58,7 @@ export function Button({
           {IconComponent && (
             <IconComponent
               color={variantStyle === "primary" ? theme.white : theme.base100}
-              weight={variantStyle === "tertiary" ? "bold" : "regular"}
+              weight={variantStyle === "primary" ? "fill" : "regular"}
             />
           )}
           <Text
