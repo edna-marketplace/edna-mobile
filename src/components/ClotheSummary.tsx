@@ -12,6 +12,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Storefront from "phosphor-react-native/src/icons/Storefront";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 
 type Props = {
   clothe: ClotheSummaryDTO;
@@ -20,8 +22,14 @@ type Props = {
 export function ClotheSummary({ clothe }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
 
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+
+  function handleNavigateClotheDetails() {
+    navigate("clothe", { id: clothe.id });
+  }
+
   return (
-    <Pressable w="46%" gap="$1" mb="$3">
+    <Pressable w="46%" gap="$1" mb="$3" onPress={handleNavigateClotheDetails}>
       <LinearGradient
         colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
         start={{ x: 0, y: 0 }}

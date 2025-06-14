@@ -1,7 +1,10 @@
 import { clotheFilters } from "@/data/clothe-filters";
+import { ClotheDetailsDTO } from "@/dtos/ClotheDetailsDTO";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 
-export function getBrandDisplayName(clothe: ClotheSummaryDTO) {
+export function getBrandDisplayName(
+  clothe: ClotheSummaryDTO | ClotheDetailsDTO
+) {
   let brandName =
     clothe.brand === "OTHER"
       ? clothe.brandOther || "Sem Marca"

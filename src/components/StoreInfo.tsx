@@ -27,12 +27,7 @@ export function StoreInfo({ store }: Props) {
             {store.description}
           </Text>
         ) : (
-          <Text
-            fontFamily="$default"
-            color="$base300"
-            textAlign="center"
-            my="$4"
-          >
+          <Text fontFamily="$default" color="$base300" my="$4">
             Sem descrição.
           </Text>
         )}

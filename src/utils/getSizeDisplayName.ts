@@ -1,7 +1,10 @@
 import { clotheFilters } from "@/data/clothe-filters";
+import { ClotheDetailsDTO } from "@/dtos/ClotheDetailsDTO";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 
-export function getSizeDisplayName(clothe: ClotheSummaryDTO) {
+export function getSizeDisplayName(
+  clothe: ClotheSummaryDTO | ClotheDetailsDTO
+) {
   let size =
     clothe.size === "OTHER"
       ? clothe.sizeOther || "Outro"

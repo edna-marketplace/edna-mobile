@@ -23,6 +23,7 @@
     "expo": "~52.0.42",
     "expo-font": "~13.0.4",
     "expo-linear-gradient": "~14.0.2",
+    "expo-location": "~18.0.10",
     "expo-secure-store": "~14.0.1",
     "expo-status-bar": "~2.0.1",
     "phosphor-react-native": "^2.3.1",
@@ -36,7 +37,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "15.8.0",
     "yup": "^1.6.1",
-    "expo-location": "~18.0.10"
+    "react-native-pager-view": "6.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
