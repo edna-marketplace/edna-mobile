@@ -1,3 +1,5 @@
+import { StoreAddress } from "./StoreDetailsDTO";
+
 export type ClotheDetailsImage = {
   id: string;
   url: string;
@@ -19,5 +21,7 @@ export type ClotheDetailsDTO = {
   storeId: string;
   storeName: string;
   storeProfileImageUrl: string;
+  storeAddress: StoreAddress;
+  storeAvgRating: number;
   images: ClotheDetailsImage[];
 };

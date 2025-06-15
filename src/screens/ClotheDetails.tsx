@@ -52,6 +52,10 @@ export function ClotheDetails() {
     clothe && navigate("store", { id: clothe.storeId });
   }
 
+  function handlePurchase() {
+    navigate("purchase", { id });
+  }
+
   async function getClotheDetails() {
     const data = await getClotheById(id);
 
@@ -133,7 +137,7 @@ export function ClotheDetails() {
                 <ClotheBrandSize clothe={clothe} />
               </HStack>
 
-              <Button title="Comprar agora" mt="$5" />
+              <Button title="Comprar agora" mt="$5" onPress={handlePurchase} />
 
               <Button
                 title="Salvar peça"
@@ -179,11 +183,21 @@ export function ClotheDetails() {
                   </VStack>
 
                   <VStack gap="$1" mr="$20">
-                    <Text fontFamily="$title" fontSize="$xl" color="$base300">
+                    <Text
+                      fontFamily="$title"
+                      textAlign="right"
+                      fontSize="$xl"
+                      color="$base300"
+                    >
                       Gênero
                     </Text>
 
-                    <Text fontFamily="$default" fontSize="$lg" color="$base100">
+                    <Text
+                      fontFamily="$default"
+                      textAlign="right"
+                      fontSize="$lg"
+                      color="$base100"
+                    >
                       {clotheGenderMapper[clothe.gender]}
                     </Text>
                   </VStack>
@@ -206,11 +220,21 @@ export function ClotheDetails() {
                   </VStack>
 
                   <VStack gap="$1" mr="$20">
-                    <Text fontFamily="$title" fontSize="$xl" color="$base300">
+                    <Text
+                      fontFamily="$title"
+                      fontSize="$xl"
+                      color="$base300"
+                      textAlign="right"
+                    >
                       Cor
                     </Text>
 
-                    <Text fontFamily="$default" fontSize="$lg" color="$base100">
+                    <Text
+                      fontFamily="$default"
+                      fontSize="$lg"
+                      color="$base100"
+                      textAlign="right"
+                    >
                       {clothe.color}
                     </Text>
                   </VStack>

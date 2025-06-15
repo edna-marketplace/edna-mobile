@@ -21,6 +21,7 @@ import { Feed } from "@/screens/Feed";
 import { Stores } from "@/screens/Stores";
 import { StoreDetails } from "@/screens/StoreDetails";
 import { ClotheDetails } from "@/screens/ClotheDetails";
+import { Purchase } from "@/screens/Purchase";
 
 type AppRoutes = {
   home: undefined;
@@ -171,6 +172,15 @@ export function AppRoutes() {
       <Screen
         name="clothe"
         component={ClotheDetails}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+
+      <Screen
+        name="purchase"
+        component={Purchase}
         options={{
           tabBarButton: () => null,
           tabBarItemStyle: { display: "none" },

@@ -1,3 +1,12 @@
+export type StoreAddress = {
+  id: string;
+  number: string;
+  cep: string;
+  street: string;
+  neighborhood: string;
+  city: string;
+};
+
 export type StoreDetailsDTO = {
   id: string;
   name: string;
@@ -10,14 +19,7 @@ export type StoreDetailsDTO = {
   targetCustomer: "FEMALE" | "MALE" | "ALL";
   bannerImageUrl: string | null;
   profileImageUrl: string | null;
-  address: {
-    id: string;
-    number: string;
-    cep: string;
-    street: string;
-    neighborhood: string;
-    city: string;
-  };
+  address: StoreAddress;
   schedule: {
     id: string;
     dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6;
