@@ -50,8 +50,6 @@ export function StoreDetails() {
     []
   );
 
-  const { fetchStores } = useStores();
-
   const theme = gluestackUIConfig.tokens.colors;
 
   const route = useRoute();

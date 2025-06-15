@@ -2,33 +2,33 @@ import { Header } from "@/components/@ui/Header";
 import {
   Box,
   HStack,
-  Image,
   Pressable,
   ScrollView,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
 
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
-import { StoreAvatar } from "@/components/StoreAvatar";
-import { ClotheBrandSize } from "@/components/ClotheBrandSize";
 import { Button } from "@/components/@ui/Button";
+import { ClotheBrandSize } from "@/components/ClotheBrandSize";
+import { StoreAvatar } from "@/components/StoreAvatar";
 
-import BookmarkSimple from "phosphor-react-native/src/icons/BookmarkSimple";
-import { getSizeDisplayName } from "@/utils/getSizeDisplayName";
+import { getClotheById } from "@/api/get-clothe-by-id";
+import { ClotheImagesCarousel } from "@/components/ClotheImagesCarousel";
+import { Loading } from "@/components/Loading";
+import { ClotheDetailsDTO } from "@/dtos/ClotheDetailsDTO";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { clotheGenderMapper } from "@/utils/clotheGenderMapper";
 import { getBrandDisplayName } from "@/utils/getBrandDisplayName";
-import { ClotheImagesCarousel } from "@/components/ClotheImagesCarousel";
-import { useCallback, useRef, useState } from "react";
-import { ClotheDetailsDTO } from "@/dtos/ClotheDetailsDTO";
-import { getClotheById } from "@/api/get-clothe-by-id";
+import { getSizeDisplayName } from "@/utils/getSizeDisplayName";
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { Loading } from "@/components/Loading";
-import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import BookmarkSimple from "phosphor-react-native/src/icons/BookmarkSimple";
+import Check from "phosphor-react-native/src/icons/Check";
+import { useCallback, useRef, useState } from "react";
+import { toggleSaveClothe } from "@/api/toggle-save-clothe";
 
 type RouteParams = {
   id: string;
@@ -36,6 +36,7 @@ type RouteParams = {
 
 export function ClotheDetails() {
   const [clothe, setClothe] = useState<ClotheDetailsDTO | null>(null);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   const scrollViewRef = useRef<any>(null);
 
@@ -56,10 +57,17 @@ export function ClotheDetails() {
     navigate("purchase", { id });
   }
 
+  async function handleToggleSaveClothe() {
+    await toggleSaveClothe(id);
+
+    setIsSaved(!isSaved);
+  }
+
   async function getClotheDetails() {
     const data = await getClotheById(id);
 
     setClothe(data);
+    setIsSaved(data.saved);
   }
 
   useFocusEffect(
@@ -140,10 +148,11 @@ export function ClotheDetails() {
               <Button title="Comprar agora" mt="$5" onPress={handlePurchase} />
 
               <Button
-                title="Salvar peça"
-                variantStyle="secondary"
-                icon={BookmarkSimple}
+                title={isSaved ? "Peça salva" : "Salvar peça"}
+                variantStyle={"secondary"}
+                icon={isSaved ? Check : BookmarkSimple}
                 mt="$4"
+                onPress={handleToggleSaveClothe}
               />
 
               <Box w="$full" h="$px" bg="$base500" my="$6" />

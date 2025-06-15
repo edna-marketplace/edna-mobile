@@ -18,6 +18,7 @@ export type ClotheDetailsDTO = {
   brand: string;
   brandOther: string | null;
   category: string;
+  saved: boolean;
   storeId: string;
   storeName: string;
   storeProfileImageUrl: string;
