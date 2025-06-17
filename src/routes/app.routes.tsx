@@ -22,6 +22,7 @@ import { Stores } from "@/screens/Stores";
 import { StoreDetails } from "@/screens/StoreDetails";
 import { ClotheDetails } from "@/screens/ClotheDetails";
 import { Purchase } from "@/screens/Purchase";
+import { CompletedPurchase } from "@/screens/CompletedPurchase";
 
 type AppRoutes = {
   home: undefined;
@@ -181,6 +182,15 @@ export function AppRoutes() {
       <Screen
         name="purchase"
         component={Purchase}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+
+      <Screen
+        name="completedPurchase"
+        component={CompletedPurchase}
         options={{
           tabBarButton: () => null,
           tabBarItemStyle: { display: "none" },

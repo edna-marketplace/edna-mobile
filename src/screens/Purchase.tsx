@@ -16,6 +16,7 @@ import CreditCard from "phosphor-react-native/src/icons/CreditCard";
 import { useCallback, useState } from "react";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Button } from "@/components/@ui/Button";
+import { createOrder } from "@/api/create-order";
 
 type RouteParams = {
   id: string;
@@ -39,6 +40,22 @@ export function Purchase() {
     const data = await getClotheById(id);
 
     setClothe(data);
+  }
+
+  async function handleCreateOrder() {
+    /*
+      TODO:
+      fazer requisicao para compra de peça, a requisicao deve chamar a API do stripe,
+      se tudo der certo um pedido deve ser criado automaticamente com a peça solicitada
+
+      se der errado deve ser exibida uma mensagem de erro
+
+      por ora, vou fazer uma requisicao criando o pedido diretamente sem fazer o pagamento 
+    */
+
+    await createOrder(id);
+
+    navigate("completedPurchase");
   }
 
   useFocusEffect(
@@ -122,7 +139,7 @@ export function Purchase() {
               </HStack>
             </VStack>
 
-            <Button title="Fazer pedido" />
+            <Button title="Fazer pedido" onPress={handleCreateOrder} />
           </VStack>
         </>
       )}

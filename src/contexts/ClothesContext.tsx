@@ -4,6 +4,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 export type ClothesContextDataProps = {
   clothes: ClotheSummaryDTO[];
+  fetchClothes: () => void;
   getFilterValue: (filterType: string) => string | undefined;
   setFilterValue: (filterType: string, value: string) => void;
   clearFilters: () => void;
@@ -63,6 +64,7 @@ export function ClothesContextProvider({
   function clearFilters() {
     setStoreIdFilter(undefined);
     setGenderFilter("ALL");
+    setGenderFilter("ALL");
     setBrandFilter("ALL");
     setSizeFilter("ALL");
   }
@@ -91,6 +93,7 @@ export function ClothesContextProvider({
     <ClothesContext.Provider
       value={{
         clothes,
+        fetchClothes,
         getFilterValue,
         setFilterValue,
         clearFilters,

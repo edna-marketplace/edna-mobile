@@ -15,6 +15,7 @@ type Props = ComponentProps<typeof GluestackButton> & {
   isLoading?: boolean;
   children?: ReactNode;
   icon?: Icon;
+  iconWeight?: "bold" | "duotone" | "fill" | "light" | "regular" | "thin";
 };
 
 export function Button({
@@ -22,6 +23,7 @@ export function Button({
   variantStyle = "primary",
   isLoading = false,
   icon: IconComponent,
+  iconWeight = "regular",
   ...rest
 }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
@@ -58,7 +60,7 @@ export function Button({
           {IconComponent && (
             <IconComponent
               color={variantStyle === "primary" ? theme.white : theme.base100}
-              weight={variantStyle === "primary" ? "fill" : "regular"}
+              weight={iconWeight}
             />
           )}
           <Text
