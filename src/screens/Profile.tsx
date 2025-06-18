@@ -32,8 +32,12 @@ export function Profile() {
 
   const theme = gluestackUIConfig.tokens.colors;
 
-  async function handleProfileDetails() {
+  function handleProfileDetails() {
     user && navigate("profileDetails");
+  }
+
+  function handleOrders() {
+    navigate("orders");
   }
 
   async function getAuthenticatedUserData() {
@@ -77,7 +81,7 @@ export function Profile() {
               </Card>
             </Pressable>
 
-            <Pressable>
+            <Pressable onPress={handleOrders}>
               <Card alignItems="center">
                 <ClipboardText size={30} color={theme.base100} />
 

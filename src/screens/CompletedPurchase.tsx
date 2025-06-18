@@ -12,6 +12,10 @@ export function CompletedPurchase() {
     navigate("home");
   }
 
+  function handleOrders() {
+    navigate("orders");
+  }
+
   return (
     <VStack flex={1} pt="$14">
       <Header title="Compra" onGoBack={handleGoBack} />
@@ -35,7 +39,12 @@ export function CompletedPurchase() {
           </Text>
         </VStack>
 
-        <Button mt="$6" title="Pedidos" icon={ArrowRight} />
+        <Button
+          mt="$6"
+          title="Pedidos"
+          icon={ArrowRight}
+          onPress={handleOrders}
+        />
       </Center>
     </VStack>
   );
