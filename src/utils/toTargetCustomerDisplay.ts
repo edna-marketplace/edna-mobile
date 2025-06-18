@@ -1,4 +1,4 @@
-type TargetCustomer = "MALE" | "FEMALE" | "ALL";
+export type TargetCustomer = "MALE" | "FEMALE" | "ALL";
 
 const targetCustomerDisplay: Record<TargetCustomer, string> = {
   MALE: "Moda Masculina",

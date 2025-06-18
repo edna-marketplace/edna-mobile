@@ -12,7 +12,7 @@ import { AuthenticatedUserDTO } from "@/dtos/AuthenticatedUserDTO";
 import { useCallback, useState } from "react";
 import { getAuthenticatedUser } from "@/api/get-authenticated-user";
 import { Loading } from "@/components/Loading";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Card } from "@/components/@ui/Card";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
@@ -23,11 +23,18 @@ import ClipboardText from "phosphor-react-native/src/icons/ClipboardText";
 import CaretRight from "phosphor-react-native/src/icons/CaretRight";
 
 import logoImg from "@/assets/logo/logo.png";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 
 export function Profile() {
   const [user, setUser] = useState<AuthenticatedUserDTO | null>(null);
 
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+
   const theme = gluestackUIConfig.tokens.colors;
+
+  async function handleProfileDetails() {
+    user && navigate("profileDetails");
+  }
 
   async function getAuthenticatedUserData() {
     const data = await getAuthenticatedUser();
@@ -50,7 +57,7 @@ export function Profile() {
           <Header title={user.name} />
 
           <VStack flex={1} pt="$7" px="$6" gap="$6">
-            <Pressable>
+            <Pressable onPress={handleProfileDetails}>
               <Card alignItems="center">
                 <IdentificationCard size={30} color={theme.base100} />
 

@@ -3,5 +3,6 @@ export type AuthenticatedUserDTO = {
   name: string;
   email: string;
   phone: string;
+  cpf: string;
   stylePreference: "MALE" | "FEMALE" | "ALL";
 };
