@@ -25,6 +25,7 @@ import { Purchase } from "@/screens/Purchase";
 import { CompletedPurchase } from "@/screens/CompletedPurchase";
 import { ProfileDetails } from "@/screens/ProfileDetails";
 import { Orders } from "@/screens/Orders";
+import { EvaluateOrder } from "@/screens/EvaluateOrder";
 
 type AppRoutes = {
   home: undefined;
@@ -41,7 +42,7 @@ type AppRoutes = {
   savedClothes: undefined;
   favoriteStores: undefined;
   orders: undefined;
-  evaluateOrder: { orderId?: string };
+  evaluateOrder: { orderId: string };
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -211,6 +212,15 @@ export function AppRoutes() {
       <Screen
         name="orders"
         component={Orders}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+
+      <Screen
+        name="evaluateOrder"
+        component={EvaluateOrder}
         options={{
           tabBarButton: () => null,
           tabBarItemStyle: { display: "none" },

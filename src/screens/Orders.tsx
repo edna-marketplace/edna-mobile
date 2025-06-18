@@ -1,29 +1,31 @@
 import { fetchCustomerOrders } from "@/api/fetch-customer-orders";
+import { Button } from "@/components/@ui/Button";
 import { Card } from "@/components/@ui/Card";
 import { Header } from "@/components/@ui/Header";
 import { EmptyList } from "@/components/EmptyList";
-import { Loading } from "@/components/Loading";
+import { OrderAddress } from "@/components/OrderAddress";
 import { OrderStatusTag } from "@/components/OrderStatusTag";
 import { StoreAvatar } from "@/components/StoreAvatar";
+import { StoreRating } from "@/components/StoreRating";
 import { OrderDTO } from "@/dtos/OrderDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { orderStatusMapper } from "@/utils/orderStatusMapper";
 import { Box, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import MapPin from "phosphor-react-native/src/icons/MapPin";
+import Star from "phosphor-react-native/src/icons/Star";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 export function Orders() {
   const [orders, setOrders] = useState<OrderDTO[]>([]);
-
-  const theme = gluestackUIConfig.tokens.colors;
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
   function handleGoBack() {
     navigate("profile");
+  }
+
+  function handleEvaluateOrder(orderId: string) {
+    navigate("evaluateOrder", { orderId });
   }
 
   async function fetchOrders() {
@@ -83,39 +85,33 @@ export function Orders() {
                     })}
                   </Text>
 
-                  <OrderStatusTag orderStatus={item.orderStatus} />
+                  <HStack alignItems="center" gap="$2">
+                    {item.orderStatus === "COMPLETED" &&
+                      item.rating !== null && (
+                        <StoreRating rating={item.rating} size="sm" />
+                      )}
+
+                    <OrderStatusTag orderStatus={item.orderStatus} />
+                  </HStack>
                 </HStack>
 
                 {item.orderStatus === "AWAITING_WITHDRAWAL" && (
                   <>
                     <Box w="$full" h="$px" bg="$base500" />
 
-                    <VStack>
-                      <HStack gap="$4">
-                        <MapPin weight="fill" size={30} color={theme.base300} />
-
-                        <VStack>
-                          <Text fontFamily="$default" color="$base300">
-                            {item.storeAddress.street},{" "}
-                            {item.storeAddress.number}
-                          </Text>
-
-                          <Text fontFamily="$default" color="$base300">
-                            {item.storeAddress.neighborhood},{" "}
-                            {item.storeAddress.city}
-                          </Text>
-
-                          <Text fontFamily="$title" color="$base300">
-                            CEP:{" "}
-                            <Text fontFamily="$default" color="$base300">
-                              {item.storeAddress.cep.slice(0, 5)}-
-                              {item.storeAddress.cep.slice(5, 8)}
-                            </Text>
-                          </Text>
-                        </VStack>
-                      </HStack>
-                    </VStack>
+                    <OrderAddress address={item.storeAddress} />
                   </>
+                )}
+
+                {item.orderStatus === "COMPLETED" && item.rating === null && (
+                  <Button
+                    mt="$2"
+                    icon={Star}
+                    iconWeight="bold"
+                    title="Avaliar pedido"
+                    variantStyle="secondary"
+                    onPress={() => handleEvaluateOrder(item.orderId)}
+                  />
                 )}
               </VStack>
             </Card>

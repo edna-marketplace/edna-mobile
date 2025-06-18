@@ -38,7 +38,7 @@ export function OrderStatusTag({ orderStatus }: Props) {
       bg={colors.bg}
       borderWidth={1}
       borderColor="$base500"
-      rounded="$sm"
+      rounded="$full"
     >
       <Text fontFamily="$title" fontSize="$xs" color={colors.text}>
         {orderStatusDisplay.toUpperCase()}
