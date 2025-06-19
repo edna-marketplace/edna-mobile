@@ -204,6 +204,7 @@ export function StoreDetails() {
             <Button
               title={isFavorite ? "Favorito" : "Favoritar"}
               icon={Heart}
+              iconWeight={isFavorite ? "fill" : "regular"}
               variantStyle={isFavorite ? "primary" : "secondary"}
               mt="$2"
               onPress={handleToggleFavoriteStore}

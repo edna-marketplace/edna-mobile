@@ -23,7 +23,7 @@ type RouteParamsProps = {
 };
 
 export function Clothes() {
-  const { clothes, fetchClothes, setFilterValue, clearFilters } = useClothes();
+  const { clothes, setFilterValue, clearFilters } = useClothes();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -50,8 +50,6 @@ export function Clothes() {
       clearFilters();
 
       handleViewMode();
-
-      fetchClothes();
     }, [category, storeId])
   );
 

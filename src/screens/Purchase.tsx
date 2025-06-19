@@ -17,6 +17,7 @@ import { useCallback, useState } from "react";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Button } from "@/components/@ui/Button";
 import { createOrder } from "@/api/create-order";
+import { useClothes } from "@/hooks/useClothes";
 
 type RouteParams = {
   id: string;
@@ -24,6 +25,8 @@ type RouteParams = {
 
 export function Purchase() {
   const [clothe, setClothe] = useState<ClotheDetailsDTO | null>(null);
+
+  const { removeClothe } = useClothes();
 
   const theme = gluestackUIConfig.tokens.colors;
 
@@ -54,6 +57,8 @@ export function Purchase() {
     */
 
     await createOrder(id);
+
+    removeClothe(id);
 
     navigate("completedPurchase");
   }
