@@ -44,6 +44,10 @@ export function Profile() {
     navigate("savedClothes");
   }
 
+  function handleFavoriteStores() {
+    navigate("favoriteStores");
+  }
+
   async function getAuthenticatedUserData() {
     const data = await getAuthenticatedUser();
 
@@ -125,7 +129,7 @@ export function Profile() {
               </Card>
             </Pressable>
 
-            <Pressable>
+            <Pressable onPress={handleFavoriteStores}>
               <Card alignItems="center">
                 <Heart size={30} color={theme.base100} />
 

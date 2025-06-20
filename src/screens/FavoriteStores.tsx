@@ -1,19 +1,19 @@
-import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
-import { toggleSaveClothe } from "@/api/toggle-save-clothe";
+import { fetchStoresWithFilter } from "@/api/fetch-stores-with-filter";
+import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 import { Header } from "@/components/@ui/Header";
 import { EmptyList } from "@/components/EmptyList";
 import { Loading } from "@/components/Loading";
-import { SavedClothe } from "@/components/SavedClothe";
-import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { StoreSummary } from "@/components/StoreSummary";
+import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { VStack } from "@gluestack-ui/themed";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
-export function SavedClothes() {
+export function FavoriteStores() {
   const [isLoading, setIsLoading] = useState(false);
-  const [savedClothes, setSavedClothes] = useState<ClotheSummaryDTO[]>([]);
+  const [favoriteStores, setFavoriteStores] = useState<StoreSummaryDTO[]>([]);
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -21,52 +21,53 @@ export function SavedClothes() {
     navigate("profile");
   }
 
-  function handleClotheDetails(id: string) {
-    navigate("clothe", { id });
+  function handleStoreDetails(id: string) {
+    navigate("store", { id });
   }
 
-  async function fetchSavedClothes() {
+  async function fetchFavoriteStores() {
     setIsLoading(true);
-    const data = await fetchClothesWithFilter({ isSaved: true });
+    const data = await fetchStoresWithFilter({ isFavorite: true });
 
-    setSavedClothes(data.clothes);
+    setFavoriteStores(data.stores);
     setIsLoading(false);
   }
 
-  async function removeSavedClothe(id: string) {
-    setSavedClothes((prevClothes) =>
-      prevClothes.filter((clothe) => clothe.id !== id)
+  async function removeFavoriteStore(id: string) {
+    setFavoriteStores((prevStores) =>
+      prevStores.filter((store) => store.id !== id)
     );
 
-    await toggleSaveClothe(id);
+    await toggleFavoriteStore(id);
   }
 
   useFocusEffect(
     useCallback(() => {
-      fetchSavedClothes();
+      fetchFavoriteStores();
     }, [])
   );
 
   return (
-    <VStack flex={1} pt="$14">
-      <Header title="Peças salvas" onGoBack={handleGoBack} />
+    <VStack flex={1} mt="$14">
+      <Header title="Brechós favoritos" onGoBack={handleGoBack} />
 
       <VStack flex={1} px="$6">
         {isLoading ? (
           <Loading />
         ) : (
           <FlatList
-            data={savedClothes}
+            data={favoriteStores}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <SavedClothe
-                clothe={item}
-                onPress={() => handleClotheDetails(item.id)}
-                onRemoveSavedStatus={removeSavedClothe}
+              <StoreSummary
+                onPress={() => handleStoreDetails(item.id)}
+                store={item}
+                isStoreFavorite={item.favorite}
+                onFavorite={() => removeFavoriteStore(item.id)}
               />
             )}
             contentContainerStyle={
-              savedClothes.length === 0
+              favoriteStores.length === 0
                 ? {
                     height: "100%",
                     marginTop: 24,
@@ -80,8 +81,8 @@ export function SavedClothes() {
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <EmptyList
-                title="Nenhuma peça salva!"
-                subtitle="Suas peças salvas aparecerão aqui."
+                title="Nenhum brechó favorito!"
+                subtitle="Seus brechós favoritos aparecerão aqui."
               />
             )}
           />
