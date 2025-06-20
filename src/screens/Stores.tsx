@@ -2,6 +2,7 @@ import { Box, VStack } from "@gluestack-ui/themed";
 
 import { toggleFavoriteStore } from "@/api/toggle-favorite-store";
 import { Input } from "@/components/@ui/Input";
+import { EmptyList } from "@/components/EmptyList";
 import { StoreFiltersFlatList } from "@/components/StoreFiltersFlatList";
 import { StoreSummary } from "@/components/StoreSummary";
 import { SwitchCategoryStore } from "@/components/SwitchCategoryStore";
@@ -10,10 +11,8 @@ import { useStores } from "@/hooks/useStores";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { FlatList } from "react-native";
-import { Loading } from "@/components/Loading";
-import { EmptyList } from "@/components/EmptyList";
 
 type RouteParamsProps = {
   category: string;

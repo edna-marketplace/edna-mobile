@@ -40,6 +40,10 @@ export function Profile() {
     navigate("orders");
   }
 
+  function handleSavedClothes() {
+    navigate("savedClothes");
+  }
+
   async function getAuthenticatedUserData() {
     const data = await getAuthenticatedUser();
 
@@ -101,7 +105,7 @@ export function Profile() {
               </Card>
             </Pressable>
 
-            <Pressable>
+            <Pressable onPress={handleSavedClothes}>
               <Card alignItems="center">
                 <BookmarkSimple size={30} color={theme.base100} />
 

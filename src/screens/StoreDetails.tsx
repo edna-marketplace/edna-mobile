@@ -36,7 +36,6 @@ import { shortenAddress } from "@/utils/addressFormatter";
 import { toTargetCustomerDisplay } from "@/utils/toTargetCustomerDisplay";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useState } from "react";
-import { useStores } from "@/hooks/useStores";
 
 type RouteParams = {
   id: string;

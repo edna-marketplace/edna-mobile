@@ -8,6 +8,7 @@ export type FetchClothesBody = {
   brand?: string;
   size?: string;
   storeId?: string;
+  isSaved?: boolean;
   page?: number;
   limit?: number;
 };
