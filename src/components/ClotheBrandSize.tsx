@@ -7,15 +7,20 @@ import { Box, HStack, Text } from "@gluestack-ui/themed";
 type Props = {
   clothe: ClotheSummaryDTO | ClotheDetailsDTO;
   size?: "sm" | "md";
+  textColor?: string;
 };
 
-export function ClotheBrandSize({ clothe, size = "md" }: Props) {
+export function ClotheBrandSize({
+  clothe,
+  size = "md",
+  textColor = "$base400",
+}: Props) {
   return (
     <HStack alignItems="center" gap="$2">
       <Text
         fontFamily="$title"
         fontSize={size === "md" ? "$md" : "$sm"}
-        color="$base400"
+        color={textColor}
         flexShrink={1}
         numberOfLines={1}
         ellipsizeMode="tail"
@@ -25,16 +30,16 @@ export function ClotheBrandSize({ clothe, size = "md" }: Props) {
         {getBrandDisplayName(clothe)}
       </Text>
 
-      <Box w={5} h={5} bg="$base400" rounded="$full" flexShrink={0} />
+      <Box w={5} h={5} bg={textColor} rounded="$full" flexShrink={0} />
 
       <Text
         fontFamily="$title"
         fontSize={size === "md" ? "$md" : "$sm"}
-        color="$base400"
+        color={textColor}
         flexShrink={1}
         numberOfLines={1}
         ellipsizeMode="tail"
-        minWidth={40}
+        minWidth={1}
       >
         {getSizeDisplayName(clothe)}
       </Text>

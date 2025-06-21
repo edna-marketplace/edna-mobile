@@ -8,6 +8,7 @@ export type ClotheSummaryDTO = {
   sizeOther?: string | null;
   saved: boolean;
   imageURL: string;
+  storeId: string;
   storeName: string;
   storeImageURL: string;
 };
