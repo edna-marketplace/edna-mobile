@@ -1,22 +1,11 @@
-import {
-  Box,
-  HStack,
-  Image,
-  Pressable,
-  Text,
-  VStack,
-} from "@gluestack-ui/themed";
-
-import { Input } from "@/components/@ui/Input";
-
-import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
+import { Box, Image, VStack } from "@gluestack-ui/themed";
 
 import { CategoryCard } from "@/components/CategoryCard";
-import { FlatList } from "react-native";
-import { categories } from "@/data/categories";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { SwitchCategoryStore } from "@/components/SwitchCategoryStore";
+import { categories } from "@/data/categories";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import { useNavigation } from "@react-navigation/native";
+import { FlatList } from "react-native";
 
 import logoImg from "@/assets/logo/logo.png";
 
@@ -31,8 +20,6 @@ export function ClotheCategories() {
     <>
       <VStack pt="$14">
         <Box px="$6">
-          {/* <Input icon={MagnifyingGlass} placeholder='Buscas em "Todas"' /> */}
-
           <Image source={logoImg} alt="" w="$20" h="$10" alignSelf="center" />
         </Box>
 

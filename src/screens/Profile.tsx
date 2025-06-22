@@ -24,9 +24,12 @@ import CaretRight from "phosphor-react-native/src/icons/CaretRight";
 
 import logoImg from "@/assets/logo/logo.png";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Profile() {
   const [user, setUser] = useState<AuthenticatedUserDTO | null>(null);
+
+  const { signOut } = useAuth();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -66,7 +69,7 @@ export function Profile() {
         <Loading />
       ) : (
         <>
-          <Header title={user.name} />
+          <Header title={user.name} onSignOut={signOut} />
 
           <VStack flex={1} pt="$7" px="$6" gap="$6">
             <Pressable onPress={handleProfileDetails}>

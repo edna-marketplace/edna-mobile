@@ -6,7 +6,7 @@ import Storefront from "phosphor-react-native/src/icons/Storefront";
 
 type Props = {
   imageURL?: string | null;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 };
 
 export function StoreAvatar({ imageURL, size = "md" }: Props) {
@@ -21,8 +21,10 @@ export function StoreAvatar({ imageURL, size = "md" }: Props) {
         borderRadius: 9999,
         paddingVertical: 2,
         paddingHorizontal: 2,
-        width: size === "sm" ? 33 : size === "md" ? 44 : 54,
-        height: size === "sm" ? 33 : size === "md" ? 44 : 54,
+        width:
+          size === "xs" ? 23 : size === "sm" ? 33 : size === "md" ? 44 : 54,
+        height:
+          size === "xs" ? 23 : size === "sm" ? 33 : size === "md" ? 44 : 54,
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -31,14 +33,18 @@ export function StoreAvatar({ imageURL, size = "md" }: Props) {
         {imageURL ? (
           <Image
             source={imageURL}
-            w={size === "sm" ? 30 : size === "md" ? 40 : 50}
-            h={size === "sm" ? 30 : size === "md" ? 40 : 50}
+            w={
+              size === "xs" ? 20 : size === "sm" ? 30 : size === "md" ? 40 : 50
+            }
+            h={
+              size === "xs" ? 20 : size === "sm" ? 30 : size === "md" ? 40 : 50
+            }
             rounded="$full"
             alt=""
           />
         ) : (
           <Storefront
-            size={size === "sm" ? 23 : 30}
+            size={size === "xs" ? 16 : size === "sm" ? 23 : 30}
             weight="fill"
             color={theme.white}
           />

@@ -1,22 +1,22 @@
 import { CategoryDTO } from "@/dtos/CategoryDTO";
-import { Image, Text, VStack } from "@gluestack-ui/themed";
+import { Image, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
-import { TouchableWithoutFeedback } from "react-native";
 
-type Props = ComponentProps<typeof TouchableWithoutFeedback> & {
+type Props = ComponentProps<typeof Pressable> & {
   category: CategoryDTO;
+  size?: "sm" | "md";
 };
 
-export function CategoryCard({ category, ...rest }: Props) {
+export function CategoryCard({ category, size = "md", ...rest }: Props) {
   return (
-    <TouchableWithoutFeedback {...rest}>
+    <Pressable {...rest}>
       <VStack
-        w="48%"
-        h={165}
+        w={size === "sm" ? 145 : 175}
+        h={size === "sm" ? 135 : 165}
         mb="$3"
         bg={category.bgColor}
         p="$4"
-        rounded="$2xl"
+        rounded={size === "sm" ? "$xl" : "$2xl"}
         position="relative"
         overflow="hidden"
       >
@@ -29,10 +29,10 @@ export function CategoryCard({ category, ...rest }: Props) {
           position="absolute"
           right={0}
           bottom={0}
-          w="$32"
-          h="$32"
+          w={size === "sm" ? 90 : 128}
+          h={size === "sm" ? 90 : 128}
         />
       </VStack>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 }

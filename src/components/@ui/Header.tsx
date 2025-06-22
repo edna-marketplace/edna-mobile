@@ -1,13 +1,15 @@
 import { Box, Button, HStack, Pressable, Text } from "@gluestack-ui/themed";
 import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
 import { gluestackUIConfig } from "../../../config/gluestack-ui.config";
+import SignOut from "phosphor-react-native/src/icons/SignOut";
 
 type Props = {
   title: string;
   onGoBack?: () => void;
+  onSignOut?: () => void;
 };
 
-export function Header({ title, onGoBack }: Props) {
+export function Header({ title, onGoBack, onSignOut }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
 
   return (
@@ -35,6 +37,17 @@ export function Header({ title, onGoBack }: Props) {
           {title}
         </Text>
       </Box>
+
+      {onSignOut && (
+        <Pressable
+          position="absolute"
+          right={24}
+          bottom={20}
+          onPress={onSignOut}
+        >
+          <SignOut size={28} color={theme.base100} />
+        </Pressable>
+      )}
     </HStack>
   );
 }
