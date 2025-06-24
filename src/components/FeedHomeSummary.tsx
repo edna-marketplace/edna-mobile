@@ -65,73 +65,75 @@ export function FeedHomeSummary() {
         data={clothes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <LinearGradient
-            colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            style={{
-              borderRadius: 8,
-              paddingVertical: 3,
-              paddingHorizontal: 3,
-              marginRight: 14,
-            }}
-          >
-            <Box
-              key="content"
-              rounded="$md"
-              overflow="hidden"
-              bg="$background"
-              position="relative"
+          <Pressable onPress={() => handleClotheDetails(item.id)}>
+            <LinearGradient
+              colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={{
+                borderRadius: 8,
+                paddingVertical: 3,
+                paddingHorizontal: 3,
+                marginRight: 14,
+              }}
             >
-              <Image
-                w={150}
-                h={250}
-                source={item.imageURL}
-                objectFit="cover"
-                alt=""
-              />
+              <Box
+                key="content"
+                rounded="$md"
+                overflow="hidden"
+                bg="$background"
+                position="relative"
+              >
+                <Image
+                  w={150}
+                  h={250}
+                  source={item.imageURL}
+                  objectFit="cover"
+                  alt=""
+                />
 
-              <LinearGradient
-                colors={["transparent", "#000000a9"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  width: "100%",
-                  height: "50%",
-                }}
-              />
+                <LinearGradient
+                  colors={["transparent", "#000000a9"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    width: "100%",
+                    height: "50%",
+                  }}
+                />
 
-              <Box position="absolute" bottom={0} p="$2">
-                <HStack
-                  w="$full"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Text fontFamily="$title" color="$white" mb="-$1">
-                    {(item.priceInCents / 100).toLocaleString("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
+                <Box position="absolute" bottom={0} p="$2">
+                  <HStack
+                    w="$full"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Text fontFamily="$title" color="$white" mb="-$1">
+                      {(item.priceInCents / 100).toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </Text>
+
+                    <StoreAvatar imageURL={item.storeImageURL} size="xs" />
+                  </HStack>
+
+                  <Text
+                    fontFamily="$default"
+                    fontSize="$sm"
+                    color="$white"
+                    mb="-$1"
+                    numberOfLines={1}
+                    w={120}
+                  >
+                    {item.name}
                   </Text>
-
-                  <StoreAvatar imageURL={item.storeImageURL} size="xs" />
-                </HStack>
-
-                <Text
-                  fontFamily="$default"
-                  fontSize="$sm"
-                  color="$white"
-                  mb="-$1"
-                  numberOfLines={1}
-                  w={120}
-                >
-                  {item.name}
-                </Text>
+                </Box>
               </Box>
-            </Box>
-          </LinearGradient>
+            </LinearGradient>
+          </Pressable>
         )}
         horizontal
         showsHorizontalScrollIndicator={false}

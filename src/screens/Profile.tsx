@@ -65,102 +65,99 @@ export function Profile() {
 
   return (
     <VStack flex={1} pt="$14">
+      <Header title={user ? user.name : "..."} onSignOut={signOut} />
       {!user ? (
         <Loading />
       ) : (
-        <>
-          <Header title={user.name} onSignOut={signOut} />
+        <VStack flex={1} pt="$7" px="$6" gap="$6">
+          <Pressable onPress={handleProfileDetails}>
+            <Card alignItems="center">
+              <IdentificationCard size={30} color={theme.base100} />
 
-          <VStack flex={1} pt="$7" px="$6" gap="$6">
-            <Pressable onPress={handleProfileDetails}>
-              <Card alignItems="center">
-                <IdentificationCard size={30} color={theme.base100} />
+              <VStack>
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Dados da conta
+                </Text>
 
-                <VStack>
-                  <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                    Dados da conta
-                  </Text>
+                <Text fontFamily="$default" fontSize="$sm" color="$base300">
+                  Minhas informações da conta
+                </Text>
+              </VStack>
 
-                  <Text fontFamily="$default" fontSize="$sm" color="$base300">
-                    Minhas informações da conta
-                  </Text>
-                </VStack>
+              <Box ml="auto">
+                <CaretRight />
+              </Box>
+            </Card>
+          </Pressable>
 
-                <Box ml="auto">
-                  <CaretRight />
-                </Box>
-              </Card>
-            </Pressable>
+          <Pressable onPress={handleOrders}>
+            <Card alignItems="center">
+              <ClipboardText size={30} color={theme.base100} />
 
-            <Pressable onPress={handleOrders}>
-              <Card alignItems="center">
-                <ClipboardText size={30} color={theme.base100} />
+              <VStack>
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Pedidos
+                </Text>
 
-                <VStack>
-                  <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                    Pedidos
-                  </Text>
+                <Text fontFamily="$default" fontSize="$sm" color="$base300">
+                  Meus pedidos
+                </Text>
+              </VStack>
 
-                  <Text fontFamily="$default" fontSize="$sm" color="$base300">
-                    Meus pedidos
-                  </Text>
-                </VStack>
+              <Box ml="auto">
+                <CaretRight />
+              </Box>
+            </Card>
+          </Pressable>
 
-                <Box ml="auto">
-                  <CaretRight />
-                </Box>
-              </Card>
-            </Pressable>
+          <Pressable onPress={handleSavedClothes}>
+            <Card alignItems="center">
+              <BookmarkSimple size={30} color={theme.base100} />
 
-            <Pressable onPress={handleSavedClothes}>
-              <Card alignItems="center">
-                <BookmarkSimple size={30} color={theme.base100} />
+              <VStack>
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Peças salvas
+                </Text>
 
-                <VStack>
-                  <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                    Peças salvas
-                  </Text>
+                <Text fontFamily="$default" fontSize="$sm" color="$base300">
+                  Minhas peças salvas
+                </Text>
+              </VStack>
 
-                  <Text fontFamily="$default" fontSize="$sm" color="$base300">
-                    Minhas peças salvas
-                  </Text>
-                </VStack>
+              <Box ml="auto">
+                <CaretRight />
+              </Box>
+            </Card>
+          </Pressable>
 
-                <Box ml="auto">
-                  <CaretRight />
-                </Box>
-              </Card>
-            </Pressable>
+          <Pressable onPress={handleFavoriteStores}>
+            <Card alignItems="center">
+              <Heart size={30} color={theme.base100} />
 
-            <Pressable onPress={handleFavoriteStores}>
-              <Card alignItems="center">
-                <Heart size={30} color={theme.base100} />
+              <VStack>
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Brechós favoritos
+                </Text>
 
-                <VStack>
-                  <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                    Brechós favoritos
-                  </Text>
+                <Text fontFamily="$default" fontSize="$sm" color="$base300">
+                  Meus brechós favoritos
+                </Text>
+              </VStack>
 
-                  <Text fontFamily="$default" fontSize="$sm" color="$base300">
-                    Meus brechós favoritos
-                  </Text>
-                </VStack>
+              <Box ml="auto">
+                <CaretRight />
+              </Box>
+            </Card>
+          </Pressable>
 
-                <Box ml="auto">
-                  <CaretRight />
-                </Box>
-              </Card>
-            </Pressable>
+          <Center mt="$8" gap="$5">
+            <Image source={logoImg} alt="" w={175} h={75} />
 
-            <Center mt="$8" gap="$5">
-              <Image source={logoImg} alt="" w={175} h={75} />
-
-              <Text fontFamily="$title" fontSize="$xs" color="$base300">
-                edna © {new Date().getFullYear()} - Todos direitos reservados
-              </Text>
-            </Center>
-          </VStack>
-        </>
+            <Text fontFamily="$title" fontSize="$xs" color="$base300">
+              edna © {new Date().getFullYear()} - Todos direitos reservados
+            </Text>
+          </Center>
+        </VStack>
       )}
     </VStack>
   );

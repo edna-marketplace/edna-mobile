@@ -171,7 +171,6 @@ export function ClotheDetails() {
                     <Text
                       fontFamily="$default"
                       color="$base100"
-                      textAlign="center"
                       fontSize="$lg"
                       my="$4"
                     >

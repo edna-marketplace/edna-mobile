@@ -18,12 +18,15 @@ import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Button } from "@/components/@ui/Button";
 import { createOrder } from "@/api/create-order";
 import { useClothes } from "@/hooks/useClothes";
+import { useStripe } from "@stripe/stripe-react-native";
+import { createPaymentIntent } from "@/api/create-payment-intent";
 
 type RouteParams = {
   id: string;
 };
 
 export function Purchase() {
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [clothe, setClothe] = useState<ClotheDetailsDTO | null>(null);
 
   const { removeClothe } = useClothes();
@@ -46,21 +49,48 @@ export function Purchase() {
   }
 
   async function handleCreateOrder() {
-    /*
-      TODO:
-      fazer requisicao para compra de peça, a requisicao deve chamar a API do stripe,
-      se tudo der certo um pedido deve ser criado automaticamente com a peça solicitada
+    try {
+      const response = await createPaymentIntent(id);
+      const { clientSecret, paymentIntentId, amountInCents } = response;
 
-      se der errado deve ser exibida uma mensagem de erro
+      const { error } = await initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+        merchantDisplayName: "Edna Marketplace",
+        appearance: {
+          colors: {
+            background: theme.base700,
+            componentBorder: theme.base500,
+            componentDivider: theme.base500,
+            componentText: theme.black,
+          },
+          primaryButton: {
+            colors: {
+              background: theme.base100,
+              text: theme.white,
+            },
+          },
+        },
+        applePay: {
+          merchantCountryCode: "BR",
+        },
+        googlePay: {
+          merchantCountryCode: "BR",
+          currencyCode: "BRL",
+        },
+      });
 
-      por ora, vou fazer uma requisicao criando o pedido diretamente sem fazer o pagamento 
-    */
+      if (error) return;
 
-    await createOrder(id);
+      const { error: paymentError } = await presentPaymentSheet();
 
-    removeClothe(id);
-
-    navigate("completedPurchase");
+      if (!paymentError) {
+        await createOrder(id);
+        removeClothe(id);
+        navigate("completedPurchase");
+      }
+    } catch (error) {
+      console.error("payment error ", error);
+    }
   }
 
   useFocusEffect(
