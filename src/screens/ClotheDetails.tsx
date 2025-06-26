@@ -105,19 +105,6 @@ export function ClotheDetails() {
                     currency: "BRL",
                   })}
                 </Text>
-                <Text
-                  fontFamily="$default"
-                  fontSize="$md"
-                  color="$base300"
-                  mt="-$2"
-                >
-                  Em até 12x{" "}
-                  {(clothe.priceInCents / 100 / 12).toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}{" "}
-                  sem juros
-                </Text>
               </VStack>
 
               <HStack alignItems="center" justifyContent="space-between">
