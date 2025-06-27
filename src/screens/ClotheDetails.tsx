@@ -40,13 +40,14 @@ export function ClotheDetails() {
 
   const scrollViewRef = useRef<any>(null);
 
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+  const { navigate, goBack } = useNavigation<AppNavigatorRoutesProps>();
 
   const route = useRoute();
   const { id } = route.params as RouteParams;
 
   function handleGoBack() {
-    clothe && navigate("store", { id: clothe.storeId });
+    clothe && navigate("clothes", { category: clothe.category });
+    // goBack();
   }
 
   function handleNavigateStore() {
