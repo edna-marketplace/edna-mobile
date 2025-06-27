@@ -11,8 +11,8 @@ export function CategoryCard({ category, size = "md", ...rest }: Props) {
   return (
     <Pressable {...rest}>
       <VStack
-        w={size === "sm" ? 145 : 175}
-        h={size === "sm" ? 135 : 165}
+        w={size === "sm" ? 145 : 165}
+        h={size === "sm" ? 135 : 155}
         mb="$3"
         bg={category.bgColor}
         p="$4"

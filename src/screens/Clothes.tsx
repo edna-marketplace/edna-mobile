@@ -13,8 +13,10 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
+import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { Loading } from "@/components/Loading";
 
 type RouteParamsProps = {
   category?: string;
@@ -23,7 +25,14 @@ type RouteParamsProps = {
 };
 
 export function Clothes() {
-  const { clothes, setFilterValue, clearFilters } = useClothes();
+  const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
+  const {
+    fetchClothes,
+    isLoading,
+    filtersChanged,
+    setFilterValue,
+    clearFilters,
+  } = useClothes();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -36,21 +45,21 @@ export function Clothes() {
     storeId && navigate("store", { id: storeId });
   }
 
-  function handleViewMode() {
-    category && setFilterValue("CATEGORY", category);
-
+  async function handleFetchClothes() {
     if (storeId) {
       setFilterValue("CATEGORY", "ALL");
       setFilterValue("STORE_ID", storeId);
     }
+
+    const data = await fetchClothes(category);
+
+    setClothes(data);
   }
 
   useFocusEffect(
     useCallback(() => {
-      clearFilters();
-
-      handleViewMode();
-    }, [category, storeId])
+      handleFetchClothes();
+    }, [category, storeId, filtersChanged])
   );
 
   let headerDisplayName: string | undefined = "";
@@ -71,37 +80,45 @@ export function Clothes() {
         title={headerDisplayName ? headerDisplayName : "Peças"}
         onGoBack={handleGoBack}
       />
-      <FlatList
-        data={clothes}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ClotheSummary clothe={item} />}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => (
-          <HStack my="$6" mx={-24}>
-            <ClotheFiltersFlatList filters={clotheFilters} />
-          </HStack>
-        )}
-        contentContainerStyle={
-          clothes.length === 0
-            ? {
-                height: "100%",
-                paddingHorizontal: 24,
-                paddingBottom: 32,
-              }
-            : {
-                paddingBottom: 32,
-                paddingHorizontal: 24,
-              }
-        }
-        ListEmptyComponent={() => (
-          <EmptyList
-            title="Nenhuma peça encontrada!"
-            subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
-          />
-        )}
-      />
+
+      {/* <HStack my="$6" mx={-24}>
+        <ClotheFiltersFlatList filters={clotheFilters} />
+      </HStack> */}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          data={clothes}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ClotheSummary clothe={item} />}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={() => (
+            <HStack my="$6" mx={-24}>
+              <ClotheFiltersFlatList filters={clotheFilters} />
+            </HStack>
+          )}
+          contentContainerStyle={
+            clothes.length === 0
+              ? {
+                  height: "100%",
+                  paddingHorizontal: 24,
+                  paddingBottom: 32,
+                }
+              : {
+                  paddingBottom: 32,
+                  paddingHorizontal: 24,
+                }
+          }
+          ListEmptyComponent={() => (
+            <EmptyList
+              title="Nenhuma peça encontrada!"
+              subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
+            />
+          )}
+        />
+      )}
     </VStack>
   );
 }

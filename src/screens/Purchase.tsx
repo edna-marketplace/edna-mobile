@@ -6,7 +6,7 @@ import { PurchaseClotheInfo } from "@/components/PurchaseClotheInfo";
 import { PurchaseStoreInfo } from "@/components/PurchaseStoreInfo";
 import { ClotheDetailsDTO } from "@/dtos/ClotheDetailsDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { HStack, Text, VStack } from "@gluestack-ui/themed";
+import { HStack, ScrollView, Text, VStack } from "@gluestack-ui/themed";
 import {
   useFocusEffect,
   useNavigation,
@@ -107,75 +107,80 @@ export function Purchase() {
         <>
           <Header title="Compra" onGoBack={handleGoBack} />
 
-          <VStack p="$6" gap="$8">
-            <PurchaseStoreInfo clothe={clothe} />
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <VStack p="$6" gap="$8">
+              <PurchaseStoreInfo clothe={clothe} />
 
-            <VStack gap="$1">
-              <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                Peça
-              </Text>
+              <VStack gap="$1">
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Peça
+                </Text>
 
-              <PurchaseClotheInfo clothe={clothe} />
+                <PurchaseClotheInfo clothe={clothe} />
+              </VStack>
+
+              <VStack gap="$1">
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Método de pagamento
+                </Text>
+
+                <Card>
+                  <CreditCard color={theme.base100} />
+
+                  <Text fontFamily="$title" fontSize="$sm" color="$base100">
+                    Cartão de crédito
+                  </Text>
+                </Card>
+              </VStack>
+
+              <VStack gap="$1">
+                <Text fontFamily="$title" fontSize="$lg" color="$base100">
+                  Valores
+                </Text>
+
+                <HStack alignItems="center" justifyContent="space-between">
+                  <Text fontFamily="$default" color="$base200">
+                    Valor da peça
+                  </Text>
+
+                  <Text fontFamily="$default" color="$base200">
+                    {(clothe.priceInCents / 100).toLocaleString("pt-br", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Text>
+                </HStack>
+
+                <HStack alignItems="center" justifyContent="space-between">
+                  <Text fontFamily="$default" color="$base200">
+                    Desconto
+                  </Text>
+
+                  <Text fontFamily="$default" color="$base200">
+                    R$ 0,00
+                  </Text>
+                </HStack>
+
+                <HStack alignItems="center" justifyContent="space-between">
+                  <Text fontFamily="$title" fontSize="$xl" color="$base100">
+                    Total
+                  </Text>
+
+                  <Text fontFamily="$title" fontSize="$xl" color="$base100">
+                    {(clothe.priceInCents / 100).toLocaleString("pt-br", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Text>
+                </HStack>
+              </VStack>
+
+              <Button title="Fazer pedido" onPress={handleCreateOrder} />
             </VStack>
-
-            <VStack gap="$1">
-              <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                Método de pagamento
-              </Text>
-
-              <Card>
-                <CreditCard color={theme.base100} />
-
-                <Text fontFamily="$title" fontSize="$sm" color="$base100">
-                  Cartão de crédito
-                </Text>
-              </Card>
-            </VStack>
-
-            <VStack gap="$1">
-              <Text fontFamily="$title" fontSize="$lg" color="$base100">
-                Valores
-              </Text>
-
-              <HStack alignItems="center" justifyContent="space-between">
-                <Text fontFamily="$default" color="$base200">
-                  Valor da peça
-                </Text>
-
-                <Text fontFamily="$default" color="$base200">
-                  {(clothe.priceInCents / 100).toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </Text>
-              </HStack>
-
-              <HStack alignItems="center" justifyContent="space-between">
-                <Text fontFamily="$default" color="$base200">
-                  Desconto
-                </Text>
-
-                <Text fontFamily="$default" color="$base200">
-                  R$ 0,00
-                </Text>
-              </HStack>
-
-              <HStack alignItems="center" justifyContent="space-between">
-                <Text fontFamily="$title" fontSize="$xl" color="$base100">
-                  Total
-                </Text>
-
-                <Text fontFamily="$title" fontSize="$xl" color="$base100">
-                  {(clothe.priceInCents / 100).toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </Text>
-              </HStack>
-            </VStack>
-
-            <Button title="Fazer pedido" onPress={handleCreateOrder} />
-          </VStack>
+          </ScrollView>
         </>
       )}
     </VStack>

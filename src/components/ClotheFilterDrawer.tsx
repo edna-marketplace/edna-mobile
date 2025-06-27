@@ -1,5 +1,5 @@
 import { Box, Pressable, Text, VStack } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Drawer } from "./@ui/Drawer";
 
@@ -30,14 +30,15 @@ export function ClotheFilterDrawer({
 
   const theme = gluestackUIConfig.tokens.colors;
 
-  const { getFilterValue, setFilterValue } = useClothes();
-
-  const currentValue = getFilterValue(filterType);
+  const { getFilterValue, setFilterValue, filtersChanged } = useClothes();
 
   function handleSetValue(value: string) {
     closeDrawer();
-    setTimeout(() => setFilterValue(filterType, value), ANIMATION_DURATION);
+    setFilterValue(filterType, value);
+    // setTimeout(() => setFilterValue(filterType, value), ANIMATION_DURATION);
   }
+
+  const currentValue = getFilterValue(filterType) || "ALL";
 
   function toggleDrawer() {
     setIsDrawerOpen(!isDrawerOpen);
@@ -52,6 +53,8 @@ export function ClotheFilterDrawer({
   const triggerDisplayValue = isCurrentValueAll
     ? displayName
     : filters.find((f) => f.value === currentValue)?.displayName ?? "";
+
+  console.log("type: ", filterType, getFilterValue(filterType));
 
   return (
     <Box bg="transparent">
