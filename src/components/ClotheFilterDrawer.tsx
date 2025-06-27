@@ -54,8 +54,6 @@ export function ClotheFilterDrawer({
     ? displayName
     : filters.find((f) => f.value === currentValue)?.displayName ?? "";
 
-  console.log("type: ", filterType, getFilterValue(filterType));
-
   return (
     <Box bg="transparent">
       <Pressable
