@@ -84,7 +84,7 @@ export function Purchase() {
       const { error: paymentError } = await presentPaymentSheet();
 
       if (!paymentError) {
-        await createOrder(id);
+        await createOrder(id, paymentIntentId);
         removeClothe(id);
         navigate("completedPurchase");
       }

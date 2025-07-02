@@ -11,7 +11,7 @@ import { signIn as signInApi } from "@/api/sign-in";
 
 export type AuthContextDataProps = {
   user: UserDTO;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string, otp: string) => Promise<void>;
   signOut: () => Promise<void>;
   updateUser: (updatedUser: UserDTO) => Promise<void>;
   isLoadingUserStorageData: boolean;
@@ -61,9 +61,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function signIn(email: string, password: string) {
+  async function signIn(email: string, password: string, otp: string) {
     try {
-      const token = await signInApi(email, password);
+      const token = await signInApi(email, password, otp);
 
       if (token) {
         await storageUserAndTokenSave(token);

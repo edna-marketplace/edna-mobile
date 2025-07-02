@@ -5,9 +5,11 @@ import {
 import { SignIn } from "@/screens/SignIn";
 import { SignUp, SignUpFormData } from "@/screens/SignUp";
 import { SelectStyle } from "@/screens/SelectStyle";
+import { TwoFactorOTP } from "@/screens/TwoFactorOTP";
 
 type AuthRoutes = {
   signIn: undefined;
+  twoFactorOtp: { email: string; password: string };
   signUp: {
     signUpInfo?: SignUpFormData;
   };
@@ -24,6 +26,8 @@ export function AuthRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="signIn" component={SignIn} />
+
+      <Screen name="twoFactorOtp" component={TwoFactorOTP} />
 
       <Screen name="signUp" component={SignUp} />
 

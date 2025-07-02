@@ -4,6 +4,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from "@gluestack-ui/themed";
 
@@ -18,6 +19,9 @@ import { Controller, useForm } from "react-hook-form";
 import { StatusBar } from "react-native";
 import * as yup from "yup";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+import { verifyDuplicateCustomer } from "@/api/verify-duplicate-customer";
+import { AppError } from "@/utils/AppError";
+import { ToastMessage } from "@/components/ToastMessage";
 
 const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 const phoneRegex = /^(\(\d{2}\)\s?9\s?\d{4}-\d{4}|\d{2}9\d{8})$/;
@@ -76,10 +80,35 @@ export function SignUp() {
     },
   });
 
+  const toast = useToast();
+
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
-  function handleContinue(data: SignUpFormData) {
-    navigate("selectStyle", { signUpInfo: data });
+  async function handleContinue(data: SignUpFormData) {
+    try {
+      await verifyDuplicateCustomer({
+        name: data.name,
+        email: data.email,
+        cpf: data.cpf,
+        phone: data.phone,
+        password: data.password,
+      });
+
+      navigate("selectStyle", { signUpInfo: data });
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível criar a conta. Tente novamente mais tarde.";
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage id={id} title={title} action="error" />
+        ),
+      });
+    }
   }
 
   function handleSignIn() {
@@ -88,8 +117,6 @@ export function SignUp() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
-
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -98,7 +125,7 @@ export function SignUp() {
           flex={1}
           bg="$base700"
           alignItems="center"
-          pt="$14"
+          pt="$16"
           pb="$6"
           px="$6"
         >
@@ -181,6 +208,7 @@ export function SignUp() {
                     label="Senha"
                     placeholder="Sua senha"
                     secureTextEntry
+                    maxLength={15}
                     errorMessage={errors.password?.message}
                   />
                 )}
@@ -196,6 +224,7 @@ export function SignUp() {
                     label="Confirmar senha"
                     placeholder="Confirme sua senha"
                     secureTextEntry
+                    maxLength={15}
                     errorMessage={errors.password_confirmation?.message}
                   />
                 )}

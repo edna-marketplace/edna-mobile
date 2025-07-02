@@ -4,6 +4,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from "@gluestack-ui/themed";
 
@@ -19,6 +20,10 @@ import * as yup from "yup";
 import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
 import { StatusBar } from "react-native";
 import { AxiosError } from "axios";
+import { PasswordInput } from "@/components/@ui/PasswordInput";
+import { AppError } from "@/utils/AppError";
+import { ToastMessage } from "@/components/ToastMessage";
+import { sendOTPEmail } from "@/api/send-otp-email";
 
 const signInSchema = yup.object({
   email: yup
@@ -41,13 +46,28 @@ export function SignIn() {
     resolver: yupResolver(signInSchema),
   });
 
+  const toast = useToast();
+
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
   async function handleSignIn(data: SignInFormData) {
     try {
-      await signIn(data.email, data.password);
+      await sendOTPEmail(data.email, data.password);
+
+      navigate("twoFactorOtp", data);
     } catch (error) {
-      console.error(error);
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível realizar login. Tente novamente mais tarde.";
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage id={id} title={title} action="error" />
+        ),
+      });
     }
   }
 
@@ -57,8 +77,6 @@ export function SignIn() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
-
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -97,12 +115,12 @@ export function SignIn() {
                 name="password"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Input
+                  <PasswordInput
                     onChangeText={onChange}
                     value={value}
                     label="Senha"
-                    placeholder="Sua senha"
                     secureTextEntry
+                    placeholder="Sua senha"
                     errorMessage={errors.password?.message}
                   />
                 )}

@@ -18,9 +18,13 @@ import Dress from "phosphor-react-native/src/icons/Dress";
 import ShirtFolded from "phosphor-react-native/src/icons/ShirtFolded";
 import TShirt from "phosphor-react-native/src/icons/TShirt";
 
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SignUpFormData } from "./SignUp";
 import { signUp } from "@/api/sign-up";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,7 +36,7 @@ type RouteParamsProps = {
 };
 
 export function SelectStyle() {
-  const [style, setStyle] = useState<Style>();
+  const [style, setStyle] = useState<Style>(undefined);
 
   const { signIn } = useAuth();
 
@@ -58,7 +62,7 @@ export function SelectStyle() {
         stylePreference: style,
       });
 
-      await signIn(signUpInfo.email, signUpInfo.password);
+      navigate("signIn");
     } catch (error) {
       console.error(error);
     }
@@ -72,10 +76,14 @@ export function SelectStyle() {
     navigate("signIn");
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      console.log(style);
+    }, [style])
+  );
+
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
-
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -84,7 +92,7 @@ export function SelectStyle() {
           flex={1}
           bg="$base700"
           alignItems="center"
-          pt="$14"
+          pt="$16"
           pb="$6"
           px="$6"
         >
@@ -128,7 +136,7 @@ export function SelectStyle() {
               />
 
               <Button
-                title={!style ? "Selecione um estilo" : "Cadastrar-se e entrar"}
+                title={!style ? "Selecione um estilo" : "Cadastrar-se"}
                 isDisabled={!style}
                 mt="$4"
                 onPress={handleSignUp}

@@ -13,6 +13,7 @@ type Props = ComponentProps<typeof GluestackButton> & {
   title: string;
   variantStyle?: "primary" | "secondary" | "tertiary";
   isLoading?: boolean;
+  isDisabled?: boolean;
   children?: ReactNode;
   icon?: Icon;
   iconWeight?: "bold" | "duotone" | "fill" | "light" | "regular" | "thin";
@@ -22,8 +23,10 @@ export function Button({
   title,
   variantStyle = "primary",
   isLoading = false,
+  isDisabled = false,
   icon: IconComponent,
   iconWeight = "regular",
+  disabled,
   ...rest
 }: Props) {
   const theme = gluestackUIConfig.tokens.colors;
@@ -48,7 +51,8 @@ export function Button({
           ? "$base500"
           : "transparent"
       }
-      disabled={isLoading}
+      disabled={isLoading || isDisabled}
+      opacity={isDisabled || isLoading ? 0.6 : 1}
       {...rest}
     >
       {isLoading ? (
