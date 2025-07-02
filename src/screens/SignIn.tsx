@@ -127,7 +127,7 @@ export function SignIn() {
               />
 
               <Box w="$full" alignItems="flex-end">
-                <Pressable>
+                <Pressable onPress={() => navigate("forgotPassword")}>
                   <Text fontFamily="$title" fontSize="$sm">
                     Esqueceu a senha?
                   </Text>

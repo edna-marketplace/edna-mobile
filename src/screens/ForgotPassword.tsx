@@ -19,48 +19,52 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import { sendNewPasswordEmail } from "@/api/send-new-password-email";
 
-const twoFactorOTPSchema = yup.object({
-  otp: yup
+const forgotPasswordSchema = yup.object({
+  email: yup
     .string()
-    .min(6, "Preencha o código de verificação OTP")
-    .required("Preencha o código de verificação OTP"),
+    .email("E-mail inválido")
+    .required("O e-mail é obrigatório"),
 });
 
-type TwoFactorOTPFormData = yup.InferType<typeof twoFactorOTPSchema>;
+type ForgotPasswordFormData = yup.InferType<typeof forgotPasswordSchema>;
 
-type RouteParams = {
-  email: string;
-  password: string;
-};
-
-export function TwoFactorOTP() {
-  const { signIn } = useAuth();
-
+export function ForgotPassword() {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<TwoFactorOTPFormData>({
-    resolver: yupResolver(twoFactorOTPSchema),
+  } = useForm<ForgotPasswordFormData>({
+    resolver: yupResolver(forgotPasswordSchema),
   });
 
   const toast = useToast();
 
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
-  const route = useRoute();
-  const { email, password } = route.params as RouteParams;
-
-  async function handleTwoFactorOTP(data: TwoFactorOTPFormData) {
+  async function handleForgotPassword(data: ForgotPasswordFormData) {
     try {
-      await signIn(email, password, data.otp);
+      await sendNewPasswordEmail(data.email);
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage
+            id={id}
+            title="Um e-mail foi enviado com sua nova senha"
+            action="success"
+          />
+        ),
+      });
+
+      navigate("signIn");
     } catch (error) {
       const isAppError = error instanceof AppError;
 
       const title = isAppError
         ? error.message
-        : "Não foi possível realizar login. Tente novamente mais tarde.";
+        : "Não foi possível enviar e-mail de recupereção de senha. Tente novamente mais tarde.";
 
       toast.show({
         placement: "top",
@@ -88,26 +92,26 @@ export function TwoFactorOTP() {
           <Box w="$full" gap="$6">
             <VStack>
               <Text fontFamily="$title" fontSize="$3xl">
-                Verificação de Dois Fatores
+                Recuperação de senha
               </Text>
 
               <Text fontFamily="$default" fontSize="$md" color="$base300">
-                Foi enviado um e-mail para você com um código OTP, por favor
-                insira esse código no campo abaixo.
+                Após você inserir seu e-mail e clicar no botão "Enviar senha",
+                enviaremos um e-mail contendo sua nova senha.
               </Text>
             </VStack>
 
             <VStack gap="$10">
               <Controller
-                name="otp"
+                name="email"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     onChangeText={onChange}
                     value={value}
-                    label="Código OTP"
-                    placeholder="OTP"
-                    errorMessage={errors.otp?.message}
+                    label="Seu e-mail"
+                    placeholder="E-mail"
+                    errorMessage={errors.email?.message}
                   />
                 )}
               />
@@ -115,8 +119,8 @@ export function TwoFactorOTP() {
               <VStack gap="$4">
                 <Button
                   isLoading={isSubmitting}
-                  onPress={handleSubmit(handleTwoFactorOTP)}
-                  title="Entrar"
+                  onPress={handleSubmit(handleForgotPassword)}
+                  title="Enviar senha"
                 />
 
                 <Button

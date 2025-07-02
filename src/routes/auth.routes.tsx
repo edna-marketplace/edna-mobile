@@ -6,10 +6,12 @@ import { SignIn } from "@/screens/SignIn";
 import { SignUp, SignUpFormData } from "@/screens/SignUp";
 import { SelectStyle } from "@/screens/SelectStyle";
 import { TwoFactorOTP } from "@/screens/TwoFactorOTP";
+import { ForgotPassword } from "@/screens/ForgotPassword";
 
 type AuthRoutes = {
   signIn: undefined;
   twoFactorOtp: { email: string; password: string };
+  forgotPassword: undefined;
   signUp: {
     signUpInfo?: SignUpFormData;
   };
@@ -32,6 +34,8 @@ export function AuthRoutes() {
       <Screen name="signUp" component={SignUp} />
 
       <Screen name="selectStyle" component={SelectStyle} />
+
+      <Screen name="forgotPassword" component={ForgotPassword} />
     </Navigator>
   );
 }
