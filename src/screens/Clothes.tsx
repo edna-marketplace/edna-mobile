@@ -26,13 +26,8 @@ type RouteParamsProps = {
 
 export function Clothes() {
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
-  const {
-    fetchClothes,
-    isLoading,
-    filtersChanged,
-    setFilterValue,
-    clearFilters,
-  } = useClothes();
+  const { fetchClothes, isLoading, filtersChanged, setFilterValue } =
+    useClothes();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -49,6 +44,8 @@ export function Clothes() {
     if (storeId) {
       setFilterValue("CATEGORY", "ALL");
       setFilterValue("STORE_ID", storeId);
+    } else {
+      setFilterValue("STORE_ID", undefined);
     }
 
     const data = await fetchClothes(category);
@@ -59,8 +56,14 @@ export function Clothes() {
   useFocusEffect(
     useCallback(() => {
       handleFetchClothes();
-    }, [category, storeId, filtersChanged])
+    }, [category, storeId])
   );
+
+  useEffect(() => {
+    if (filtersChanged) {
+      handleFetchClothes();
+    }
+  }, [filtersChanged]);
 
   let headerDisplayName: string | undefined = "";
 
@@ -81,9 +84,6 @@ export function Clothes() {
         onGoBack={handleGoBack}
       />
 
-      {/* <HStack my="$6" mx={-24}>
-        <ClotheFiltersFlatList filters={clotheFilters} />
-      </HStack> */}
       {isLoading ? (
         <Loading />
       ) : (

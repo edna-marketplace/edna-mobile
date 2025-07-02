@@ -4,6 +4,7 @@ import logoImg from "@/assets/logo/logo.png";
 import { CategoriesHomeSummary } from "@/components/CategoriesHomeSummary";
 import { FeedHomeSummary } from "@/components/FeedHomeSummary";
 import { HomeRanking } from "@/components/HomeRanking";
+import { StoreHomeSummary } from "@/components/StoreHomeSummary";
 
 export function Home() {
   return (
@@ -26,6 +27,8 @@ export function Home() {
           <CategoriesHomeSummary />
 
           <HomeRanking />
+
+          <StoreHomeSummary />
         </VStack>
       </ScrollView>
     </>

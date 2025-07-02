@@ -4,11 +4,12 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 export type StoresContextDataProps = {
-  stores: StoreSummaryDTO[];
-  fetchStores: () => Promise<void>;
+  fetchStores: () => Promise<StoreSummaryDTO[]>;
   getFilterValue: (filterType: string) => string | boolean | undefined;
   setFilterValue: (filterType: string, value: string | boolean) => void;
   clearFilters: () => void;
+  isLoading: boolean;
+  filtersChanged: boolean;
 };
 
 export type StoresContextProviderProps = {
@@ -22,7 +23,10 @@ export const StoresContext = createContext<StoresContextDataProps>(
 export function StoresContextProvider({
   children,
 }: StoresContextProviderProps) {
-  const [stores, setStores] = useState<StoreSummaryDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [filtersChanged, setFiltersChanged] = useState(false);
+
   const [customerLocation, setCustomerLocation] =
     useState<Location.LocationObject>({} as Location.LocationObject);
 
@@ -46,6 +50,8 @@ export function StoresContextProvider({
     filterType === "IS_FAVORITE" && setIsFavoriteFilter(value);
 
     filterType === "TARGET_CUSTOMER" && setTargetCustomerFilter(value);
+
+    setFiltersChanged(!filtersChanged);
   }
 
   function clearFilters() {
@@ -66,6 +72,7 @@ export function StoresContextProvider({
 
   async function fetchStores() {
     try {
+      setIsLoading(true);
       const { stores } = await fetchStoresWithFilter({
         name: nameFilter,
         isFavorite: isFavoriteFilter,
@@ -74,25 +81,23 @@ export function StoresContextProvider({
         // customerLon: customerLocation.coords.longitude,
       });
 
-      setStores(stores);
+      return stores;
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   }
-
-  useEffect(() => {
-    fetchStores();
-    // getCustomerLocation();
-  }, [nameFilter, isFavoriteFilter, targetCustomerFilter]);
 
   return (
     <StoresContext.Provider
       value={{
-        stores,
         fetchStores,
         getFilterValue,
         setFilterValue,
         clearFilters,
+        isLoading,
+        filtersChanged,
       }}
     >
       {children}

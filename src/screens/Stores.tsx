@@ -11,15 +11,15 @@ import { useStores } from "@/hooks/useStores";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
-
-type RouteParamsProps = {
-  category: string;
-};
+import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
+import { Loading } from "@/components/Loading";
 
 export function Stores() {
-  const { stores, fetchStores, setFilterValue, clearFilters } = useStores();
+  const [stores, setStores] = useState<StoreSummaryDTO[]>([]);
+  const { fetchStores, isLoading, filtersChanged, setFilterValue } =
+    useStores();
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -31,7 +31,7 @@ export function Stores() {
     debounce((query: string) => {
       setFilterValue("NAME", query);
     }, 300),
-    []
+    [setFilterValue]
   );
 
   function debounce(func: Function, delay: number) {
@@ -46,12 +46,16 @@ export function Stores() {
     await toggleFavoriteStore(id);
   }
 
+  async function handleFetchStores() {
+    const data = await fetchStores();
+
+    setStores(data);
+  }
+
   useFocusEffect(
     useCallback(() => {
-      clearFilters();
-
-      fetchStores();
-    }, [])
+      handleFetchStores();
+    }, [filtersChanged])
   );
 
   return (
@@ -69,48 +73,50 @@ export function Stores() {
       </VStack>
 
       <VStack flex={1} bg="$base700" px="$6">
-        <FlatList
-          data={stores}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <StoreSummary
-              onPress={() => handleStoreDetails(item.id)}
-              store={item}
-              isStoreFavorite={item.favorite}
-              onFavorite={handleToggleFavoriteStore}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={
-            stores.length === 0
-              ? {
-                  height: "100%",
-                  paddingBottom: 32,
-                }
-              : {
-                  paddingBottom: 32,
-                }
-          }
-          ListHeaderComponent={() => (
-            <VStack flex={1} mb="$6" alignItems="flex-start">
-              <SwitchCategoryStore />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={stores}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <StoreSummary
+                onPress={() => handleStoreDetails(item.id)}
+                store={item}
+                isStoreFavorite={item.favorite}
+                onFavorite={handleToggleFavoriteStore}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={
+              stores.length === 0
+                ? {
+                    height: "100%",
+                    paddingBottom: 32,
+                  }
+                : {
+                    paddingBottom: 32,
+                  }
+            }
+            ListHeaderComponent={() => (
+              <VStack mb="$6" alignItems="flex-start">
+                <SwitchCategoryStore />
 
-              <StoreFiltersFlatList filters={storeFilters} />
-            </VStack>
-          )}
-          ListHeaderComponentStyle={{
-            width: "100%",
-            justifyContent: "flex-start",
-          }}
-          ListEmptyComponent={() => (
-            <EmptyList
-              title="Nenhum brechó encontrado!"
-              subtitle={"Nenhum brechó foi encontrado com os filtros atuais."}
-              callToActionButtonTitle="Limpar filtros"
-              onCallToAction={clearFilters}
-            />
-          )}
-        />
+                <StoreFiltersFlatList filters={storeFilters} />
+              </VStack>
+            )}
+            ListHeaderComponentStyle={{
+              width: "100%",
+              justifyContent: "flex-start",
+            }}
+            ListEmptyComponent={() => (
+              <EmptyList
+                title="Nenhum brechó encontrado!"
+                subtitle={"Nenhum brechó foi encontrado com os filtros atuais."}
+              />
+            )}
+          />
+        )}
       </VStack>
     </>
   );

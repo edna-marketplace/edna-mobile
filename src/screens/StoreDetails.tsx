@@ -42,6 +42,7 @@ type RouteParams = {
 };
 
 export function StoreDetails() {
+  const [isLoading, setIsLoading] = useState(false);
   const [store, setStore] = useState<StoreDetailsDTO | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [display, setDisplay] = useState<"showcase" | "details">("showcase");
@@ -86,12 +87,14 @@ export function StoreDetails() {
 
   useFocusEffect(
     useCallback(() => {
+      setIsLoading(true);
       setDisplay("showcase");
       setShowcaseClothes([]);
 
       getStoreDetails();
 
       fetchStoreClothes();
+      setIsLoading(false);
     }, [id])
   );
 
@@ -103,132 +106,144 @@ export function StoreDetails() {
 
   return (
     <VStack flex={1} pt="$14">
-      <Header title={store.name} onGoBack={handleGoBack} />
+      <Header title={store.name ? store.name : "..."} onGoBack={handleGoBack} />
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Box>
-          {store.bannerImageUrl ? (
-            <Image
-              source={store.bannerImageUrl}
-              alt=""
-              w="$full"
-              h="$32"
-              overflow="hidden"
-            />
-          ) : (
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <Box>
+            {store.bannerImageUrl ? (
+              <Image
+                source={store.bannerImageUrl}
+                alt=""
+                w="$full"
+                h="$32"
+                overflow="hidden"
+              />
+            ) : (
+              <LinearGradient
+                colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={{
+                  width: "100%",
+                  height: 128,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text fontFamily="$specialTitle" color="$white" fontSize="$xl">
+                  {store.name}
+                </Text>
+              </LinearGradient>
+            )}
+
             <LinearGradient
               colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
               style={{
-                width: "100%",
-                height: 128,
+                borderRadius: 9999,
+                paddingVertical: 2,
+                paddingHorizontal: 2,
+                marginTop: -50,
+                marginLeft: 24,
+                width: 103,
+                height: 103,
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Text fontFamily="$specialTitle" color="$white" fontSize="$xl">
+              {store.profileImageUrl ? (
+                <Image
+                  source={store.profileImageUrl}
+                  alt=""
+                  rounded="$full"
+                  w="$24"
+                  h="$24"
+                />
+              ) : (
+                <Center bg="$base700" w="$24" h="$24" rounded="$full">
+                  <Storefront size={50} weight="bold" color={theme.base400} />
+                </Center>
+              )}
+            </LinearGradient>
+          </Box>
+
+          <VStack mx="$6">
+            <VStack mt="$3" mb="$6" gap="$3">
+              <Text fontFamily="$title" color="$base100" fontSize="$2xl">
                 {store.name}
               </Text>
-            </LinearGradient>
-          )}
 
-          <LinearGradient
-            colors={[theme.blueDark, theme.orangeDark, theme.redDark]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            style={{
-              borderRadius: 9999,
-              paddingVertical: 2,
-              paddingHorizontal: 2,
-              marginTop: -50,
-              marginLeft: 24,
-              width: 103,
-              height: 103,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {store.profileImageUrl ? (
-              <Image
-                source={store.profileImageUrl}
-                alt=""
-                rounded="$full"
-                w="$24"
-                h="$24"
-              />
-            ) : (
-              <Center bg="$base700" w="$24" h="$24" rounded="$full">
-                <Storefront size={50} weight="bold" color={theme.base400} />
-              </Center>
-            )}
-          </LinearGradient>
-        </Box>
+              <HStack
+                w="$full"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <HStack alignItems="center" gap="$2">
+                  <Text fontFamily="$title" fontSize="$md" color="$base400">
+                    {toTargetCustomerDisplay(store.targetCustomer)}
+                  </Text>
 
-        <VStack mx="$6">
-          <VStack mt="$3" mb="$6" gap="$3">
-            <Text fontFamily="$title" color="$base100" fontSize="$2xl">
-              {store.name}
-            </Text>
+                  <Box
+                    w={5}
+                    h={5}
+                    bg="$base500"
+                    rounded="$full"
+                    flexShrink={0}
+                  />
 
-            <HStack
-              w="$full"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <HStack alignItems="center" gap="$2">
-                <Text fontFamily="$title" fontSize="$md" color="$base400">
-                  {toTargetCustomerDisplay(store.targetCustomer)}
-                </Text>
+                  <Text fontFamily="$title" fontSize="$md" color="$base400">
+                    {store.distanceInKilometers}
+                  </Text>
+                </HStack>
 
-                <Box w={5} h={5} bg="$base500" rounded="$full" flexShrink={0} />
+                <StoreRating rating={store.avgRating} />
+              </HStack>
 
-                <Text fontFamily="$title" fontSize="$md" color="$base400">
-                  {store.distanceInKilometers}
+              <HStack w="$full" alignItems="center" gap="$2">
+                <MapPin color={theme.base400} size={25} />
+
+                <Text color={theme.base400}>
+                  {shortenAddress(store.address)}
                 </Text>
               </HStack>
 
-              <StoreRating rating={4.9} />
-            </HStack>
+              <Button
+                title={isFavorite ? "Favorito" : "Favoritar"}
+                icon={Heart}
+                iconWeight={isFavorite ? "fill" : "regular"}
+                variantStyle={isFavorite ? "primary" : "secondary"}
+                mt="$2"
+                onPress={handleToggleFavoriteStore}
+              />
+            </VStack>
 
-            <HStack w="$full" alignItems="center" gap="$2">
-              <MapPin color={theme.base400} size={25} />
+            <Box w="$full" h="$px" bg="$base500" mb="$6" />
 
-              <Text color={theme.base400}>{shortenAddress(store.address)}</Text>
-            </HStack>
-
-            <Button
-              title={isFavorite ? "Favorito" : "Favoritar"}
-              icon={Heart}
-              iconWeight={isFavorite ? "fill" : "regular"}
-              variantStyle={isFavorite ? "primary" : "secondary"}
-              mt="$2"
-              onPress={handleToggleFavoriteStore}
+            <SwitchShowcaseDetails
+              display={display}
+              onSwitch={() =>
+                setDisplay(display === "showcase" ? "details" : "showcase")
+              }
             />
+
+            {display === "showcase" ? (
+              <StoreShowcase
+                clothes={cuttedClothes}
+                onViewMoreClothes={handleViewMoreClothes}
+              />
+            ) : (
+              <StoreInfo store={store} />
+            )}
           </VStack>
-
-          <Box w="$full" h="$px" bg="$base500" mb="$6" />
-
-          <SwitchShowcaseDetails
-            display={display}
-            onSwitch={() =>
-              setDisplay(display === "showcase" ? "details" : "showcase")
-            }
-          />
-
-          {display === "showcase" ? (
-            <StoreShowcase
-              clothes={cuttedClothes}
-              onViewMoreClothes={handleViewMoreClothes}
-            />
-          ) : (
-            <StoreInfo store={store} />
-          )}
-        </VStack>
-      </ScrollView>
+        </ScrollView>
+      )}
     </VStack>
   );
 }

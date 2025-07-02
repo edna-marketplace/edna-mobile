@@ -4,9 +4,8 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 export type ClothesContextDataProps = {
   fetchClothes: (category?: string) => Promise<ClotheSummaryDTO[]>;
-  removeClothe: (clotheId: string) => void;
   getFilterValue: (filterType: string) => string | undefined;
-  setFilterValue: (filterType: string, value: string) => void;
+  setFilterValue: (filterType: string, value: string | undefined) => void;
   clearFilters: () => void;
   isLoading: boolean;
   filtersChanged: boolean;
@@ -52,19 +51,13 @@ export function ClothesContextProvider({
     }
   }
 
-  function setFilterValue(filterType: string, value: string) {
+  function setFilterValue(filterType: string, value: string | undefined) {
     filterType === "STORE_ID" && setStoreIdFilter(value);
-    filterType === "GENDER" && setGenderFilter(value);
-    filterType === "BRAND" && setBrandFilter(value);
-    filterType === "SIZE" && setSizeFilter(value);
+    filterType === "GENDER" && setGenderFilter(value as string);
+    filterType === "BRAND" && setBrandFilter(value as string);
+    filterType === "SIZE" && setSizeFilter(value as string);
 
     setFiltersChanged(!filtersChanged);
-  }
-
-  function removeClothe(clotheId: string) {
-    // setClothes((prevClothes) =>
-    //   prevClothes.filter((clothe) => clothe.id !== clotheId)
-    // );
   }
 
   function clearFilters() {
@@ -97,15 +90,10 @@ export function ClothesContextProvider({
     }
   }
 
-  // useEffect(() => {
-  //   fetchClothes();
-  // }, [storeIdFilter, categoryFilter, genderFilter, brandFilter, sizeFilter]);
-
   return (
     <ClothesContext.Provider
       value={{
         fetchClothes,
-        removeClothe,
         getFilterValue,
         setFilterValue,
         clearFilters,
