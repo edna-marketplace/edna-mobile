@@ -96,7 +96,7 @@ export function StoreSummary({
 
             <Box w={5} h={5} bg="$base500" rounded="$full" flexShrink={0} />
 
-            {/* {store.distanceToCustomerInMeters.length >= 8 ? (
+            {store.distanceToCustomerInMeters.length >= 8 ? (
               <Text fontFamily="$title" fontSize="$xs" color="$base400">
                 +100km
               </Text>
@@ -104,7 +104,7 @@ export function StoreSummary({
               <Text fontFamily="$title" fontSize="$xs" color="$base400">
                 {store.distanceToCustomerInMeters}
               </Text>
-            )} */}
+            )}
           </HStack>
         </VStack>
       </HStack>

@@ -7,7 +7,7 @@ import {
   Text,
   VStack,
 } from "@gluestack-ui/themed";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Dimensions, FlatList, StatusBar } from "react-native";
 
 import { fetchFeedClothes } from "@/api/fetch-feed-clothes";
@@ -28,6 +28,8 @@ export function Feed() {
   const tabBarHeight = useBottomTabBarHeight();
 
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
+
+  const flatListRef = useRef<FlatList>(null);
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -53,6 +55,8 @@ export function Feed() {
     useCallback(() => {
       StatusBar.setBarStyle("light-content");
 
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+
       fetchClothes();
 
       return () => {
@@ -63,6 +67,7 @@ export function Feed() {
 
   return (
     <FlatList
+      ref={flatListRef}
       data={clothes}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
