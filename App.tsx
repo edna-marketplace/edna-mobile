@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { LogBox, StatusBar } from "react-native";
 
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./config/gluestack-ui.config";
@@ -14,11 +14,15 @@ import { Routes } from "@/routes";
 import { Loading } from "@/components/Loading";
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ClothesContextProvider } from "@/contexts/ClothesContext";
-import { StoresContext, StoresContextProvider } from "@/contexts/StoresContext";
+import { StoresContextProvider } from "@/contexts/StoresContext";
 
 import { StripeProvider } from "@stripe/stripe-react-native";
 
 export default function App() {
+  LogBox.ignoreLogs([
+    "VirtualizedLists should never be nested inside plain ScrollViews",
+  ]);
+
   const [fontsLoaded] = useFonts({
     Fraunces_900Black,
     Poppins_700Bold,
