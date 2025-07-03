@@ -4,6 +4,7 @@ import { api } from "@/lib/axios";
 export type FetchClothesBody = {
   name?: string;
   category?: string;
+  categoryOther?: string;
   gender?: string;
   brand?: string;
   size?: string;

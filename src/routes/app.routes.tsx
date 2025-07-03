@@ -28,10 +28,12 @@ import { Orders } from "@/screens/Orders";
 import { EvaluateOrder } from "@/screens/EvaluateOrder";
 import { SavedClothes } from "@/screens/SavedClothes";
 import { FavoriteStores } from "@/screens/FavoriteStores";
+import { CategoryOther } from "@/screens/CategoryOther";
 
 type AppRoutes = {
   home: undefined;
   categories: undefined;
+  categoryOther: undefined;
   clothes: { category?: string; storeId?: string; storeName?: string };
   clothe: { id: string };
   stores: undefined;
@@ -241,6 +243,15 @@ export function AppRoutes() {
       <Screen
         name="favoriteStores"
         component={FavoriteStores}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+
+      <Screen
+        name="categoryOther"
+        component={CategoryOther}
         options={{
           tabBarButton: () => null,
           tabBarItemStyle: { display: "none" },

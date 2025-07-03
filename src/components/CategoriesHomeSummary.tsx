@@ -1,16 +1,18 @@
+import { categories } from "@/data/categories";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { Box, Center, Pressable, Text, VStack } from "@gluestack-ui/themed";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { FlatList } from "react-native";
 import { CategoryCard } from "./CategoryCard";
-import { categories } from "@/data/categories";
-import { useNavigation } from "@react-navigation/native";
-import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 
 import ArrowRight from "phosphor-react-native/src/icons/ArrowRight";
+import { useCallback, useRef } from "react";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
-import { useState } from "react";
 
 export function CategoriesHomeSummary() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+
+  const flatListRef = useRef<FlatList>(null);
 
   const theme = gluestackUIConfig.tokens.colors;
 
@@ -21,6 +23,12 @@ export function CategoriesHomeSummary() {
   function handleSelectCategory(category: string) {
     navigate("clothes", { category });
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+    }, [])
+  );
 
   return (
     <VStack>
@@ -37,6 +45,7 @@ export function CategoriesHomeSummary() {
       </Pressable>
 
       <FlatList
+        ref={flatListRef}
         data={categories}
         keyExtractor={(item) => item.category}
         renderItem={({ item }) => (

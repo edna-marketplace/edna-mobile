@@ -90,4 +90,10 @@ export const categories: CategoryDTO[] = [
     image: hoodieImg,
     bgColor: theme.blueDark,
   },
+  {
+    category: "OTHER",
+    displayName: "Outras",
+    image: hoodieImg,
+    bgColor: theme.blueDark,
+  },
 ];
