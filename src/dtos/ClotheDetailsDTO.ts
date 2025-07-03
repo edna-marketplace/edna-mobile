@@ -8,6 +8,8 @@ export type ClotheDetailsImage = {
 export type ClotheDetailsDTO = {
   id: string;
   name: string;
+  height: number;
+  width: number;
   priceInCents: number;
   description: string;
   size: string;

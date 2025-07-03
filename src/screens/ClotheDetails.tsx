@@ -235,6 +235,43 @@ export function ClotheDetails() {
                     </Text>
                   </VStack>
                 </HStack>
+
+                <HStack alignItems="center" justifyContent="space-between">
+                  <VStack gap="$1">
+                    <Text fontFamily="$title" fontSize="$xl" color="$base300">
+                      Comprimento
+                    </Text>
+
+                    <Text
+                      numberOfLines={1}
+                      fontFamily="$default"
+                      fontSize="$lg"
+                      color="$base100"
+                    >
+                      {clothe.height ? clothe.height : "n/a"}
+                    </Text>
+                  </VStack>
+
+                  <VStack gap="$1" mr="$20">
+                    <Text
+                      fontFamily="$title"
+                      fontSize="$xl"
+                      color="$base300"
+                      textAlign="right"
+                    >
+                      Largura
+                    </Text>
+
+                    <Text
+                      fontFamily="$default"
+                      fontSize="$lg"
+                      color="$base100"
+                      textAlign="right"
+                    >
+                      {clothe.width ? clothe.width : "n/a"}
+                    </Text>
+                  </VStack>
+                </HStack>
               </VStack>
 
               <Box w="$full" h="$px" bg="$base500" my="$6" />
