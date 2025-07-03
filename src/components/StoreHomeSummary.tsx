@@ -10,10 +10,11 @@ import { EmptyList } from "./EmptyList";
 import { Button } from "./@ui/Button";
 import Storefront from "phosphor-react-native/src/icons/Storefront";
 import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
+import { Loading } from "./Loading";
 
 export function StoreHomeSummary() {
   const [stores, setStores] = useState<StoreSummaryDTO[]>([]);
-  const { fetchStores } = useStores();
+  const { fetchStores, isLoading } = useStores();
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -50,43 +51,47 @@ export function StoreHomeSummary() {
       </Text>
 
       <VStack flex={1} bg="$base700" px="$6">
-        <FlatList
-          data={stores}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <StoreSummary
-              onPress={() => handleStoreDetails(item.id)}
-              store={item}
-              isStoreFavorite={item.favorite}
-              onFavorite={handleToggleFavoriteStore}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={
-            stores.length === 0
-              ? {
-                  height: "100%",
-                  paddingBottom: 32,
-                }
-              : {
-                  paddingBottom: 32,
-                }
-          }
-          ListFooterComponent={() => (
-            <Button
-              title="Mais brechós"
-              variantStyle="secondary"
-              icon={Storefront}
-              onPress={() => navigation.navigate("stores")}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <EmptyList
-              title="Nenhum brechó encontrado!"
-              subtitle={"Nenhum brechó foi encontrado."}
-            />
-          )}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={stores}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <StoreSummary
+                onPress={() => handleStoreDetails(item.id)}
+                store={item}
+                isStoreFavorite={item.favorite}
+                onFavorite={handleToggleFavoriteStore}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={
+              stores.length === 0
+                ? {
+                    height: "100%",
+                    paddingBottom: 32,
+                  }
+                : {
+                    paddingBottom: 32,
+                  }
+            }
+            ListFooterComponent={() => (
+              <Button
+                title="Mais brechós"
+                variantStyle="secondary"
+                icon={Storefront}
+                onPress={() => navigation.navigate("stores")}
+              />
+            )}
+            ListEmptyComponent={() => (
+              <EmptyList
+                title="Nenhum brechó encontrado!"
+                subtitle={"Nenhum brechó foi encontrado."}
+              />
+            )}
+          />
+        )}
       </VStack>
     </>
   );

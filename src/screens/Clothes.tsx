@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { Loading } from "@/components/Loading";
+import { Pagination } from "@/components/Pagination";
 
 type RouteParamsProps = {
   category?: string;
@@ -26,6 +27,9 @@ type RouteParamsProps = {
 
 export function Clothes() {
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>();
+
   const { fetchClothes, isLoading, filtersChanged, setFilterValue } =
     useClothes();
 
@@ -40,6 +44,10 @@ export function Clothes() {
     storeId && navigate("store", { id: storeId });
   }
 
+  function handlePaginate(pageIndex: number) {
+    setCurrentPage(pageIndex);
+  }
+
   async function handleFetchClothes() {
     if (storeId) {
       setFilterValue("CATEGORY", "ALL");
@@ -48,15 +56,16 @@ export function Clothes() {
       setFilterValue("STORE_ID", undefined);
     }
 
-    const data = await fetchClothes(category);
+    const data = await fetchClothes(currentPage, category);
 
-    setClothes(data);
+    setClothes(data.clothes);
+    setTotalCount(data.meta.totalCount);
   }
 
   useFocusEffect(
     useCallback(() => {
       handleFetchClothes();
-    }, [category, storeId])
+    }, [category, storeId, currentPage])
   );
 
   useEffect(() => {
@@ -115,6 +124,14 @@ export function Clothes() {
             <EmptyList
               title="Nenhuma peça encontrada!"
               subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
+            />
+          )}
+          ListFooterComponent={() => (
+            <Pagination
+              onPageChange={handlePaginate}
+              pageIndex={currentPage}
+              perPage={10}
+              totalCount={totalCount ? totalCount : 1}
             />
           )}
         />

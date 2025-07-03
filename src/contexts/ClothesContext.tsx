@@ -1,9 +1,15 @@
-import { fetchClothesWithFilter } from "@/api/fetch-clothes-with-filter";
+import {
+  FetchClothesResponse,
+  fetchClothesWithFilter,
+} from "@/api/fetch-clothes-with-filter";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 export type ClothesContextDataProps = {
-  fetchClothes: (category?: string) => Promise<ClotheSummaryDTO[]>;
+  fetchClothes: (
+    page: number,
+    category?: string
+  ) => Promise<FetchClothesResponse>;
   getFilterValue: (filterType: string) => string | undefined;
   setFilterValue: (filterType: string, value: string | undefined) => void;
   clearFilters: () => void;
@@ -69,12 +75,11 @@ export function ClothesContextProvider({
     // setFiltersChanged(!filtersChanged);
   }
 
-  async function fetchClothes(
-    categoryFilter?: string
-  ): Promise<ClotheSummaryDTO[]> {
+  async function fetchClothes(page: number, categoryFilter?: string) {
     try {
       setIsLoading(true);
-      const { clothes } = await fetchClothesWithFilter({
+      const data = await fetchClothesWithFilter({
+        page,
         storeId: storeIdFilter,
         category: categoryFilter,
         gender: genderFilter,
@@ -82,7 +87,7 @@ export function ClothesContextProvider({
         size: sizeFilter,
       });
 
-      return clothes;
+      return data;
     } catch (error) {
       throw error;
     } finally {
