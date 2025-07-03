@@ -1,10 +1,13 @@
-import { fetchStoresWithFilter } from "@/api/fetch-stores-with-filter";
+import {
+  FetchStoresResponse,
+  fetchStoresWithFilter,
+} from "@/api/fetch-stores-with-filter";
 import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 export type StoresContextDataProps = {
-  fetchStores: () => Promise<StoreSummaryDTO[]>;
+  fetchStores: (page: number) => Promise<FetchStoresResponse>;
   getFilterValue: (filterType: string) => string | boolean | undefined;
   setFilterValue: (filterType: string, value: string | boolean) => void;
   clearFilters: () => void;
@@ -70,10 +73,11 @@ export function StoresContextProvider({
     setCustomerLocation(location);
   }
 
-  async function fetchStores() {
+  async function fetchStores(page: number) {
     try {
       setIsLoading(true);
-      const { stores } = await fetchStoresWithFilter({
+      const data = await fetchStoresWithFilter({
+        page,
         name: nameFilter,
         isFavorite: isFavoriteFilter,
         targetCustomer: targetCustomerFilter,
@@ -81,7 +85,7 @@ export function StoresContextProvider({
         // customerLon: customerLocation.coords.longitude,
       });
 
-      return stores;
+      return data;
     } catch (error) {
       throw error;
     } finally {

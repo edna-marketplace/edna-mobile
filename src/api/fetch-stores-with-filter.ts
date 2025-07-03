@@ -2,6 +2,7 @@ import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
 import { api } from "@/lib/axios";
 
 export type FetchStoresBody = {
+  page: number;
   name?: string;
   targetCustomer?: string;
   isFavorite?: boolean;

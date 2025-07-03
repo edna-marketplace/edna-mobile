@@ -26,9 +26,9 @@ export function StoreHomeSummary() {
   }
 
   async function handleFetchStores() {
-    const data = await fetchStores();
+    const data = await fetchStores(1);
 
-    setStores(data);
+    setStores(data.stores);
   }
 
   useFocusEffect(
@@ -77,6 +77,7 @@ export function StoreHomeSummary() {
               title="Mais brechós"
               variantStyle="secondary"
               icon={Storefront}
+              onPress={() => navigation.navigate("stores")}
             />
           )}
           ListEmptyComponent={() => (

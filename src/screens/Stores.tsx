@@ -15,9 +15,13 @@ import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 import { StoreSummaryDTO } from "@/dtos/StoreSummaryDTO";
 import { Loading } from "@/components/Loading";
+import { Pagination } from "@/components/Pagination";
 
 export function Stores() {
   const [stores, setStores] = useState<StoreSummaryDTO[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>();
+
   const { fetchStores, isLoading, filtersChanged, setFilterValue } =
     useStores();
 
@@ -25,6 +29,10 @@ export function Stores() {
 
   function handleStoreDetails(id: string) {
     navigation.navigate("store", { id });
+  }
+
+  function handlePaginate(pageIndex: number) {
+    setCurrentPage(pageIndex);
   }
 
   const handleSearchByName = useCallback(
@@ -47,15 +55,16 @@ export function Stores() {
   }
 
   async function handleFetchStores() {
-    const data = await fetchStores();
+    const data = await fetchStores(currentPage);
 
-    setStores(data);
+    setStores(data.stores);
+    setTotalCount(data.meta.totalCount);
   }
 
   useFocusEffect(
     useCallback(() => {
       handleFetchStores();
-    }, [filtersChanged])
+    }, [filtersChanged, currentPage])
   );
 
   return (
@@ -109,6 +118,14 @@ export function Stores() {
               width: "100%",
               justifyContent: "flex-start",
             }}
+            ListFooterComponent={() => (
+              <Pagination
+                onPageChange={handlePaginate}
+                pageIndex={currentPage}
+                perPage={10}
+                totalCount={totalCount ? totalCount : 1}
+              />
+            )}
             ListEmptyComponent={() => (
               <EmptyList
                 title="Nenhum brechó encontrado!"
