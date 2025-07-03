@@ -109,7 +109,7 @@ export function HomeRanking() {
                     />
 
                     <VStack>
-                      <HStack w="70%" justifyContent="space-between">
+                      <HStack w="68%" justifyContent="space-between">
                         <Text fontFamily="$title" fontSize="$lg">
                           {(item.priceInCents / 100).toLocaleString("pt-br", {
                             style: "currency",

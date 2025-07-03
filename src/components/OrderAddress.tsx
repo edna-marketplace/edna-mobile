@@ -13,7 +13,7 @@ export function OrderAddress({ address }: Props) {
 
   return (
     <VStack>
-      <HStack gap="$4">
+      <HStack gap="$2">
         <MapPin weight="fill" size={30} color={theme.base300} />
 
         <VStack>

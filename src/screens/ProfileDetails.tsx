@@ -5,6 +5,7 @@ import { Header } from "@/components/@ui/Header";
 import { Input } from "@/components/@ui/Input";
 import { CustomerStyleDrawer } from "@/components/CustomerStyleDrawer";
 import { Loading } from "@/components/Loading";
+import { UpdatePassword } from "@/components/UpdatePassword";
 import { AuthenticatedUserDTO } from "@/dtos/AuthenticatedUserDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { formatCPF } from "@/utils/formatCPF";
@@ -192,6 +193,8 @@ export function ProfileDetails() {
                 onPress={handleSubmit(handleUpdate)}
                 isLoading={isSubmitting}
               />
+
+              <UpdatePassword />
             </VStack>
           </ScrollView>
         </>

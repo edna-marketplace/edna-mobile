@@ -29,8 +29,6 @@ export function Purchase() {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [clothe, setClothe] = useState<ClotheDetailsDTO | null>(null);
 
-  const { removeClothe } = useClothes();
-
   const theme = gluestackUIConfig.tokens.colors;
 
   const router = useRoute();
@@ -44,6 +42,8 @@ export function Purchase() {
 
   async function getClotheDetails() {
     const data = await getClotheById(id);
+
+    console.log(data);
 
     setClothe(data);
   }
@@ -85,7 +85,6 @@ export function Purchase() {
 
       if (!paymentError) {
         await createOrder(id, paymentIntentId);
-        removeClothe(id);
         navigate("completedPurchase");
       }
     } catch (error) {
@@ -147,10 +146,12 @@ export function Purchase() {
                   </Text>
 
                   <Text fontFamily="$default" color="$base200">
-                    {(clothe.priceInCents / 100).toLocaleString("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
+                    {clothe.priceInCents
+                      ? (clothe.priceInCents / 100).toLocaleString("pt-br", {
+                          style: "currency",
+                          currency: "BRL",
+                        })
+                      : "R$ 0,00"}
                   </Text>
                 </HStack>
 
@@ -170,10 +171,12 @@ export function Purchase() {
                   </Text>
 
                   <Text fontFamily="$title" fontSize="$xl" color="$base100">
-                    {(clothe.priceInCents / 100).toLocaleString("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
+                    {clothe.priceInCents
+                      ? (clothe.priceInCents / 100).toLocaleString("pt-br", {
+                          style: "currency",
+                          currency: "BRL",
+                        })
+                      : "R$ 0,00"}
                   </Text>
                 </HStack>
               </VStack>

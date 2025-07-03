@@ -59,7 +59,7 @@ export function Orders() {
                 <Box w="$full" h="$px" bg="$base500" />
               </VStack>
 
-              <VStack px="$8" py="$6" gap="$4">
+              <VStack p="$6" gap="$4">
                 <HStack alignItems="center" justifyContent="space-between">
                   <HStack alignItems="center" gap="$3">
                     <StoreAvatar

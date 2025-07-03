@@ -20,7 +20,7 @@ export function StoreRating({ rating, size = "md" }: Props) {
       borderColor="$base500"
       rounded="$full"
     >
-      {rating === 0 ? (
+      {!rating || rating === 0 ? (
         <Text
           fontFamily="$title"
           fontSize={size === "md" ? "$sm" : "$xs"}

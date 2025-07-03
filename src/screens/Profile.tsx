@@ -150,7 +150,7 @@ export function Profile() {
             </Card>
           </Pressable>
 
-          <Center mt="$8" gap="$5">
+          <Center gap="$5">
             <Image source={logoImg} alt="" w={175} h={75} />
 
             <Text fontFamily="$title" fontSize="$xs" color="$base300">
