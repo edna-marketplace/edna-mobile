@@ -118,14 +118,16 @@ export function Stores() {
               width: "100%",
               justifyContent: "flex-start",
             }}
-            ListFooterComponent={() => (
-              <Pagination
-                onPageChange={handlePaginate}
-                pageIndex={currentPage}
-                perPage={10}
-                totalCount={totalCount ? totalCount : 1}
-              />
-            )}
+            ListFooterComponent={() =>
+              stores.length > 0 && (
+                <Pagination
+                  onPageChange={handlePaginate}
+                  pageIndex={currentPage}
+                  perPage={10}
+                  totalCount={totalCount ? totalCount : 0}
+                />
+              )
+            }
             ListEmptyComponent={() => (
               <EmptyList
                 title="Nenhum brechó encontrado!"

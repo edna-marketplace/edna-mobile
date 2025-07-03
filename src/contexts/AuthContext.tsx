@@ -45,14 +45,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function userAndTokenUpdate(token: string) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // setUser(userData);
   }
 
   async function storageUserAndTokenSave(token: string) {
     try {
       setIsLoadingUserStorageData(true);
 
-      // await storageUserSave(userData);
       await storageAuthTokenSave({ token });
     } catch (error) {
       throw error;

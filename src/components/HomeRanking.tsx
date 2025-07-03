@@ -140,8 +140,8 @@ export function HomeRanking() {
               </Pressable>
             )}
             ListEmptyComponent={() => (
-              <Text alignSelf="center" color="$base300">
-                Nenhuma peça salva ainda.
+              <Text alignSelf="center" textAlign="center" color="$base300">
+                Nenhuma peça foi salva no mês atual ainda.
               </Text>
             )}
           />

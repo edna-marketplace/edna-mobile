@@ -128,14 +128,16 @@ export function CategoryOther() {
               subtitle={"Nenhuma peça foi encontrada com os filtros atuais."}
             />
           )}
-          ListFooterComponent={() => (
-            <Pagination
-              onPageChange={handlePaginate}
-              pageIndex={currentPage}
-              perPage={10}
-              totalCount={totalCount ? totalCount : 1}
-            />
-          )}
+          ListFooterComponent={() =>
+            clothes.length > 0 && (
+              <Pagination
+                onPageChange={handlePaginate}
+                pageIndex={currentPage}
+                perPage={10}
+                totalCount={totalCount ? totalCount : 0}
+              />
+            )
+          }
         />
       )}
     </>

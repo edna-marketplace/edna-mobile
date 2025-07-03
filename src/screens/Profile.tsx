@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   Text,
+  useToast,
   VStack,
 } from "@gluestack-ui/themed";
 import { AuthenticatedUserDTO } from "@/dtos/AuthenticatedUserDTO";
@@ -21,10 +22,15 @@ import BookmarkSimple from "phosphor-react-native/src/icons/BookmarkSimple";
 import Heart from "phosphor-react-native/src/icons/Heart";
 import ClipboardText from "phosphor-react-native/src/icons/ClipboardText";
 import CaretRight from "phosphor-react-native/src/icons/CaretRight";
+import Skull from "phosphor-react-native/src/icons/Skull";
 
 import logoImg from "@/assets/logo/logo.png";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
 import { useAuth } from "@/hooks/useAuth";
+import { Alert } from "react-native";
+import { AppError } from "@/utils/AppError";
+import { ToastMessage } from "@/components/ToastMessage";
+import { deleteCustomer } from "@/api/deactivate-customer";
 
 export function Profile() {
   const [user, setUser] = useState<AuthenticatedUserDTO | null>(null);
@@ -32,6 +38,8 @@ export function Profile() {
   const { signOut } = useAuth();
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+
+  const toast = useToast();
 
   const theme = gluestackUIConfig.tokens.colors;
 
@@ -49,6 +57,44 @@ export function Profile() {
 
   function handleFavoriteStores() {
     navigate("favoriteStores");
+  }
+
+  async function handleDeactivateAccount() {
+    try {
+      Alert.alert(
+        "Desativar a conta",
+        "A conta não poderá ser recuperada, você realmente deseja desativar sua conta?",
+        [
+          {
+            text: "Sim",
+            onPress: async () => {
+              await deleteCustomer();
+
+              await signOut();
+            },
+            style: "destructive",
+          },
+          {
+            text: "Não",
+            onPress: () => {},
+            style: "cancel",
+          },
+        ]
+      );
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível criar a conta. Tente novamente mais tarde.";
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage id={id} title={title} action="error" />
+        ),
+      });
+    }
   }
 
   async function getAuthenticatedUserData() {
@@ -150,13 +196,19 @@ export function Profile() {
             </Card>
           </Pressable>
 
-          <Center gap="$5">
-            <Image source={logoImg} alt="" w={175} h={75} />
+          <Pressable mt="auto" mb="$6" onPress={handleDeactivateAccount}>
+            <Card bg="$redLight" borderColor="$redDark" alignItems="center">
+              <Skull size={25} color={theme.red500} />
 
-            <Text fontFamily="$title" fontSize="$xs" color="$base300">
-              edna © {new Date().getFullYear()} - Todos direitos reservados
-            </Text>
-          </Center>
+              <Text fontFamily="$title" fontSize="$md" mb="-$1" color="$red500">
+                Desativar conta
+              </Text>
+
+              <Box ml="auto">
+                <CaretRight color={theme.red500} weight="bold" />
+              </Box>
+            </Card>
+          </Pressable>
         </VStack>
       )}
     </VStack>
