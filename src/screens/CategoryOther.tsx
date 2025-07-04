@@ -1,27 +1,20 @@
 import { Box, HStack, Pressable, VStack } from "@gluestack-ui/themed";
 
-import { Header } from "@/components/@ui/Header";
+import { Input } from "@/components/@ui/Input";
 import { ClotheFiltersFlatList } from "@/components/ClotheFiltersFlatList";
 import { ClotheSummary } from "@/components/ClotheSummary";
 import { EmptyList } from "@/components/EmptyList";
-import { categories } from "@/data/categories";
-import { clotheFilters } from "@/data/clothe-filters";
-import { useClothes } from "@/hooks/useClothes";
-import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
-import { FlatList } from "react-native";
-import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { Loading } from "@/components/Loading";
 import { Pagination } from "@/components/Pagination";
-import { Input } from "@/components/@ui/Input";
-import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
-import { Button } from "@/components/@ui/Button";
+import { clotheFilters } from "@/data/clothe-filters";
+import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
+import { useClothes } from "@/hooks/useClothes";
+import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
+import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
+import { useCallback, useEffect, useState } from "react";
+import { FlatList } from "react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 export function CategoryOther() {

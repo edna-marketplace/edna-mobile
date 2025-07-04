@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, Pressable, VStack } from "@gluestack-ui/themed";
 
 import { Header } from "@/components/@ui/Header";
 import { ClotheFiltersFlatList } from "@/components/ClotheFiltersFlatList";
@@ -18,6 +18,10 @@ import { FlatList } from "react-native";
 import { ClotheSummaryDTO } from "@/dtos/ClotheSummaryDTO";
 import { Loading } from "@/components/Loading";
 import { Pagination } from "@/components/Pagination";
+import CaretLeft from "phosphor-react-native/src/icons/CaretLeft";
+import { Input } from "@/components/@ui/Input";
+import MagnifyingGlass from "phosphor-react-native/src/icons/MagnifyingGlass";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type RouteParamsProps = {
   category?: string;
@@ -29,6 +33,8 @@ export function Clothes() {
   const [clothes, setClothes] = useState<ClotheSummaryDTO[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalCount, setTotalCount] = useState<number>();
+
+  const theme = gluestackUIConfig.tokens.colors;
 
   const { fetchClothes, isLoading, filtersChanged, setFilterValue } =
     useClothes();
@@ -46,6 +52,21 @@ export function Clothes() {
 
   function handlePaginate(pageIndex: number) {
     setCurrentPage(pageIndex);
+  }
+
+  const handleSearchByName = useCallback(
+    debounce((query: string) => {
+      setFilterValue("NAME", query);
+    }, 300),
+    [setFilterValue]
+  );
+
+  function debounce(func: Function, delay: number) {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(null, args), delay);
+    };
   }
 
   async function handleFetchClothes() {
@@ -87,11 +108,21 @@ export function Clothes() {
   }
 
   return (
-    <VStack flex={1} bg="$base700" pt="$14">
-      <Header
-        title={headerDisplayName ? headerDisplayName : "Peças"}
-        onGoBack={handleGoBack}
-      />
+    <>
+      <VStack pt="$14">
+        <HStack alignItems="center" gap="$4" px="$6" w="89%">
+          <Pressable onPress={handleGoBack}>
+            <CaretLeft color={theme.base200} />
+          </Pressable>
+          <Input
+            icon={MagnifyingGlass}
+            placeholder={`Buscar em "${headerDisplayName}"`}
+            onChangeText={(value) => handleSearchByName(value)}
+          />
+        </HStack>
+
+        <Box w="$full" h="$px" bg="$base500" mt="$6" />
+      </VStack>
 
       {isLoading ? (
         <Loading />
@@ -138,6 +169,6 @@ export function Clothes() {
           }
         />
       )}
-    </VStack>
+    </>
   );
 }

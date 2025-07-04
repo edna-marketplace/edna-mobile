@@ -5,13 +5,15 @@ import { Header } from "@/components/@ui/Header";
 import { Input } from "@/components/@ui/Input";
 import { CustomerStyleDrawer } from "@/components/CustomerStyleDrawer";
 import { Loading } from "@/components/Loading";
+import { ToastMessage } from "@/components/ToastMessage";
 import { UpdatePassword } from "@/components/UpdatePassword";
 import { AuthenticatedUserDTO } from "@/dtos/AuthenticatedUserDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
+import { AppError } from "@/utils/AppError";
 import { formatCPF } from "@/utils/formatCPF";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { TargetCustomer } from "@/utils/toTargetCustomerDisplay";
-import { ScrollView, Text, VStack } from "@gluestack-ui/themed";
+import { ScrollView, Text, useToast, VStack } from "@gluestack-ui/themed";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ArrowsClockwise from "phosphor-react-native/src/icons/ArrowsClockwise";
@@ -78,6 +80,8 @@ export function ProfileDetails() {
     setValue("phone", formatPhoneNumber(data.phone));
   }
 
+  const toast = useToast();
+
   async function handleUpdate(data: SignUpFormData) {
     try {
       await updateCustomer({
@@ -87,8 +91,30 @@ export function ProfileDetails() {
         cpf: data.cpf,
         stylePreference: currentStyle,
       });
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage
+            id={id}
+            title="Informações atualizadas com sucesso!"
+            action="success"
+          />
+        ),
+      });
     } catch (error) {
-      console.error(error);
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível atualizar os dados. Tente novamente mais tarde.";
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage id={id} title={title} action="error" />
+        ),
+      });
     }
   }
 
@@ -110,7 +136,7 @@ export function ProfileDetails() {
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
           >
-            <VStack flex={1} px="$6" py="$8" gap="$6">
+            <VStack flex={1} px="$6" py="$8" gap="$4">
               <Controller
                 name="name"
                 control={control}

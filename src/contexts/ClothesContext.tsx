@@ -35,6 +35,7 @@ export function ClothesContextProvider({
   const [storeIdFilter, setStoreIdFilter] = useState<string | undefined>(
     undefined
   );
+  const [nameFilter, setNameFilter] = useState("");
   const [genderFilter, setGenderFilter] = useState("ALL");
   const [brandFilter, setBrandFilter] = useState("ALL");
   const [sizeFilter, setSizeFilter] = useState("ALL");
@@ -62,6 +63,7 @@ export function ClothesContextProvider({
 
   function setFilterValue(filterType: string, value: string | undefined) {
     filterType === "STORE_ID" && setStoreIdFilter(value);
+    filterType === "NAME" && setNameFilter(value as string);
     filterType === "GENDER" && setGenderFilter(value as string);
     filterType === "BRAND" && setBrandFilter(value as string);
     filterType === "SIZE" && setSizeFilter(value as string);
@@ -85,6 +87,7 @@ export function ClothesContextProvider({
       const data = await fetchClothesWithFilter({
         page,
         storeId: storeIdFilter,
+        name: nameFilter,
         category: categoryFilter,
         categoryOther: categoryOther,
         gender: genderFilter,
