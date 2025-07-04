@@ -43,8 +43,6 @@ export function Purchase() {
   async function getClotheDetails() {
     const data = await getClotheById(id);
 
-    console.log(data);
-
     setClothe(data);
   }
 

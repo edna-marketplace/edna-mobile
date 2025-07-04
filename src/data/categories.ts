@@ -4,6 +4,14 @@ import dressImg from "@/assets/categories/dress.png";
 import pantsImg from "@/assets/categories/pants.png";
 import shortsImg from "@/assets/categories/shorts.png";
 import hoodieImg from "@/assets/categories/hoodie.png";
+import sleepwearImg from "@/assets/categories/sleepwear.png";
+import underwearImg from "@/assets/categories/underwear.png";
+import accessoriesImg from "@/assets/categories/accessories.png";
+import swimwearImg from "@/assets/categories/swimwear.png";
+import footwearImg from "@/assets/categories/footwear.png";
+import activewearImg from "@/assets/categories/activewear.png";
+import suitImg from "@/assets/categories/suit.png";
+import otherImg from "@/assets/categories/otherc.png";
 
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
@@ -51,49 +59,49 @@ export const categories: CategoryDTO[] = [
   {
     category: "SUIT",
     displayName: "Ternos",
-    image: hoodieImg,
+    image: suitImg,
     bgColor: theme.blueDark,
   },
   {
     category: "ACTIVEWEAR",
     displayName: "Roupas esportivas",
-    image: hoodieImg,
+    image: activewearImg,
     bgColor: theme.orangeDark,
   },
   {
     category: "UNDERWEAR",
     displayName: "Roupas íntimas",
-    image: hoodieImg,
+    image: underwearImg,
     bgColor: theme.redDark,
   },
   {
     category: "FOOTWEAR",
     displayName: "Calçados",
-    image: hoodieImg,
+    image: footwearImg,
     bgColor: theme.blueDark,
   },
   {
     category: "ACCESSORIES",
     displayName: "Acessórios",
-    image: hoodieImg,
+    image: accessoriesImg,
     bgColor: theme.orangeDark,
   },
   {
     category: "SLEEPWEAR",
     displayName: "Pijamas",
-    image: hoodieImg,
+    image: sleepwearImg,
     bgColor: theme.redDark,
   },
   {
     category: "SWIMWEAR",
     displayName: "Roupas de banho",
-    image: hoodieImg,
+    image: swimwearImg,
     bgColor: theme.blueDark,
   },
   {
     category: "OTHER",
     displayName: "Outras",
-    image: hoodieImg,
-    bgColor: theme.blueDark,
+    image: otherImg,
+    bgColor: theme.orangeDark,
   },
 ];

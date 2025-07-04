@@ -20,7 +20,15 @@ export function CategoryCard({ category, size = "md", ...rest }: Props) {
         position="relative"
         overflow="hidden"
       >
-        <Text fontWeight="$bold" fontSize="$xl" color="$white">
+        <Text
+          fontWeight="$bold"
+          position="absolute"
+          zIndex={1}
+          top={15}
+          left={15}
+          fontSize="$xl"
+          color="$white"
+        >
           {category.displayName}
         </Text>
         <Image
