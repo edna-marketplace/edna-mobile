@@ -37,9 +37,9 @@ export function ClotheBrandSize({
         fontSize={size === "md" ? "$md" : "$sm"}
         color={textColor}
         flexShrink={1}
-        numberOfLines={1}
+        numberOfLines={2}
         ellipsizeMode="tail"
-        minWidth={1}
+        maxWidth={100}
       >
         {getSizeDisplayName(clothe)}
       </Text>
