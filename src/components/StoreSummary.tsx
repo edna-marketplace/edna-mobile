@@ -60,8 +60,8 @@ export function StoreSummary({
             borderRadius: 9999,
             paddingVertical: 2,
             paddingHorizontal: 2,
-            width: 54,
-            height: 54,
+            width: 52,
+            height: 52,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -70,8 +70,8 @@ export function StoreSummary({
             {store.profileImageUrl ? (
               <Image
                 source={store.profileImageUrl}
-                w={50}
-                h={50}
+                w={48}
+                h={48}
                 rounded="$full"
                 alt=""
               />
@@ -82,7 +82,12 @@ export function StoreSummary({
         </LinearGradient>
 
         <VStack>
-          <Text fontFamily="$title" numberOfLines={1}>
+          <Text
+            fontFamily="$title"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            maxWidth={230}
+          >
             {store.name}
           </Text>
           <HStack alignItems="center" gap="$2">

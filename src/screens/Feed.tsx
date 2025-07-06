@@ -109,13 +109,25 @@ export function Feed() {
                   <HStack alignItems="center" gap="$4">
                     <StoreAvatar imageURL={item.storeImageURL} />
 
-                    <Text fontFamily="$title" fontSize="$md" color="$white">
+                    <Text
+                      fontFamily="$title"
+                      fontSize="$md"
+                      color="$white"
+                      maxWidth={160}
+                      numberOfLines={1}
+                    >
                       {item.storeName}
                     </Text>
                   </HStack>
                 </Pressable>
 
-                <Text fontFamily="$default" fontSize="$lg" color="$white">
+                <Text
+                  fontFamily="$default"
+                  fontSize="$lg"
+                  color="$white"
+                  maxWidth={220}
+                  numberOfLines={1}
+                >
                   {item.name}
                 </Text>
               </VStack>

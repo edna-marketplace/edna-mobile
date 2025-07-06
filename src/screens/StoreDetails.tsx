@@ -209,7 +209,7 @@ export function StoreDetails() {
               <HStack w="$full" alignItems="center" gap="$2">
                 <MapPin color={theme.base400} size={25} />
 
-                <Text color={theme.base400}>
+                <Text color={theme.base400} maxWidth={330} numberOfLines={2}>
                   {shortenAddress(store.address)}
                 </Text>
               </HStack>

@@ -122,7 +122,13 @@ export function FeedHomeSummary() {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Text fontFamily="$title" color="$white" mb="-$1">
+                      <Text
+                        fontFamily="$title"
+                        color="$white"
+                        mb="-$1"
+                        numberOfLines={1}
+                        w={100}
+                      >
                         {(item.priceInCents / 100).toLocaleString("pt-br", {
                           style: "currency",
                           currency: "BRL",

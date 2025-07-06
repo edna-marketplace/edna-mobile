@@ -52,7 +52,15 @@ export function ClotheSummary({ clothe }: Props) {
       </LinearGradient>
 
       <HStack justifyContent="space-between" alignItems="center" mt="$1">
-        <Text fontFamily="$title" fontSize="$md" color="$base100">
+        <Text
+          fontFamily="$title"
+          fontSize="$md"
+          color="$base100"
+          flexShrink={1}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          maxWidth={130}
+        >
           {(clothe.priceInCents / 100).toLocaleString("pt-br", {
             style: "currency",
             currency: "BRL",

@@ -22,7 +22,12 @@ export function PurchaseClotheInfo({ clothe }: Props) {
       </Box>
 
       <VStack>
-        <Text fontFamily="$title" color="$base100" fontSize="$sm">
+        <Text
+          fontFamily="$title"
+          color="$base100"
+          fontSize="$sm"
+          maxWidth={220}
+        >
           {clothe.name}
         </Text>
 

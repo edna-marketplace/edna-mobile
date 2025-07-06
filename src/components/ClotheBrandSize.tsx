@@ -25,7 +25,7 @@ export function ClotheBrandSize({
         numberOfLines={1}
         ellipsizeMode="tail"
         minWidth={1}
-        maxWidth="$20"
+        maxWidth={70}
       >
         {getBrandDisplayName(clothe)}
       </Text>
@@ -39,7 +39,7 @@ export function ClotheBrandSize({
         flexShrink={1}
         numberOfLines={2}
         ellipsizeMode="tail"
-        maxWidth={100}
+        maxWidth={50}
       >
         {getSizeDisplayName(clothe)}
       </Text>

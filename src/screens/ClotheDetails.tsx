@@ -178,7 +178,7 @@ export function ClotheDetails() {
                     </Text>
                   </VStack>
 
-                  <VStack gap="$1" mr="$20">
+                  <VStack gap="$1" mr="$12">
                     <Text
                       fontFamily="$title"
                       textAlign="right"
@@ -206,7 +206,8 @@ export function ClotheDetails() {
                     </Text>
 
                     <Text
-                      numberOfLines={1}
+                      numberOfLines={3}
+                      maxWidth={150}
                       fontFamily="$default"
                       fontSize="$lg"
                       color="$base100"
@@ -215,7 +216,7 @@ export function ClotheDetails() {
                     </Text>
                   </VStack>
 
-                  <VStack gap="$1" mr="$20">
+                  <VStack gap="$1" mr="$12">
                     <Text
                       fontFamily="$title"
                       fontSize="$xl"
@@ -226,6 +227,8 @@ export function ClotheDetails() {
                     </Text>
 
                     <Text
+                      numberOfLines={3}
+                      maxWidth={120}
                       fontFamily="$default"
                       fontSize="$lg"
                       color="$base100"
@@ -248,11 +251,11 @@ export function ClotheDetails() {
                       fontSize="$lg"
                       color="$base100"
                     >
-                      {clothe.height ? clothe.height : "n/a"}
+                      {clothe.height ? `${clothe.height} cm` : "n/a"}
                     </Text>
                   </VStack>
 
-                  <VStack gap="$1" mr="$20">
+                  <VStack gap="$1" mr="$12">
                     <Text
                       fontFamily="$title"
                       fontSize="$xl"
@@ -268,7 +271,7 @@ export function ClotheDetails() {
                       color="$base100"
                       textAlign="right"
                     >
-                      {clothe.width ? clothe.width : "n/a"}
+                      {clothe.width ? `${clothe.width} cm` : "n/a"}
                     </Text>
                   </VStack>
                 </HStack>

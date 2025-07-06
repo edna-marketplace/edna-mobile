@@ -66,11 +66,11 @@ export function StoreInfo({ store }: Props) {
           <MapPin weight="fill" size={40} color={theme.base300} />
 
           <VStack>
-            <Text fontFamily="$default" color="$base300">
+            <Text fontFamily="$default" color="$base300" maxWidth={310}>
               {store.address.street}, {store.address.number}
             </Text>
 
-            <Text fontFamily="$default" color="$base300">
+            <Text fontFamily="$default" color="$base300" maxWidth={320}>
               {store.address.neighborhood}, {store.address.city}
             </Text>
 
