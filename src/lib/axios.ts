@@ -2,8 +2,7 @@ import { AppError } from "@/utils/AppError";
 import axios from "axios";
 
 export const api = axios.create({
-  // baseURL: "https://edna-marketplace.shop",
-  baseURL: "http://10.0.2.2:8080",
+  baseURL: "https://edna-marketplace.shop",
 });
 
 api.interceptors.response.use(
