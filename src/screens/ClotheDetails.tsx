@@ -68,7 +68,7 @@ export function ClotheDetails() {
     const data = await getClotheById(id);
 
     setClothe(data);
-    setIsSaved(data.saved);
+    setIsSaved(data.isSaved);
   }
 
   useFocusEffect(

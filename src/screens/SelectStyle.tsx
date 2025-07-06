@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from "@gluestack-ui/themed";
 
@@ -28,6 +29,8 @@ import { useCallback, useState } from "react";
 import { SignUpFormData } from "./SignUp";
 import { signUp } from "@/api/sign-up";
 import { useAuth } from "@/hooks/useAuth";
+import { AppError } from "@/utils/AppError";
+import { ToastMessage } from "@/components/ToastMessage";
 
 type Style = "MALE" | "FEMALE" | "ALL" | undefined;
 
@@ -38,12 +41,12 @@ type RouteParamsProps = {
 export function SelectStyle() {
   const [style, setStyle] = useState<Style>(undefined);
 
-  const { signIn } = useAuth();
-
   const theme = gluestackUIConfig.tokens.colors;
 
   const route = useRoute();
   const { signUpInfo } = route.params as RouteParamsProps;
+
+  const toast = useToast();
 
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -64,7 +67,18 @@ export function SelectStyle() {
 
       navigate("signIn");
     } catch (error) {
-      console.error(error);
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível criar a conta. Tente novamente mais tarde.";
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage id={id} title={title} action="error" />
+        ),
+      });
     }
   }
 
