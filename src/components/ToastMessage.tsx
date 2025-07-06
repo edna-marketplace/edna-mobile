@@ -36,12 +36,12 @@ export function ToastMessage({
           </Pressable>
         )}
 
-        <ToastTitle color="$white" fontFamily="$bold" fontSize="$sm">
+        <ToastTitle color="$white" fontFamily="$title" fontSize="$sm">
           {title}
         </ToastTitle>
 
         {description && (
-          <ToastDescription color="$white" fontFamily="$body">
+          <ToastDescription color="$white" fontFamily="$default">
             {description}
           </ToastDescription>
         )}

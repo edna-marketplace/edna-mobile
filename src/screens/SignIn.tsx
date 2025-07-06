@@ -12,18 +12,16 @@ import logoImg from "@/assets/logo/logo.png";
 import { Button } from "@/components/@ui/Button";
 import { Input } from "@/components/@ui/Input";
 
-import { useAuth } from "@/hooks/useAuth";
+import { sendOTPEmail } from "@/api/send-otp-email";
+import { PasswordInput } from "@/components/@ui/PasswordInput";
+import { ToastMessage } from "@/components/ToastMessage";
+import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
+import { AppError } from "@/utils/AppError";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
-import { StatusBar } from "react-native";
-import { AxiosError } from "axios";
-import { PasswordInput } from "@/components/@ui/PasswordInput";
-import { AppError } from "@/utils/AppError";
-import { ToastMessage } from "@/components/ToastMessage";
-import { sendOTPEmail } from "@/api/send-otp-email";
+import { verifyUserType } from "@/api/verify-user-type";
 
 const signInSchema = yup.object({
   email: yup
@@ -36,8 +34,6 @@ const signInSchema = yup.object({
 type SignInFormData = yup.InferType<typeof signInSchema>;
 
 export function SignIn() {
-  const { signIn } = useAuth();
-
   const {
     control,
     handleSubmit,
@@ -52,6 +48,24 @@ export function SignIn() {
 
   async function handleSignIn(data: SignInFormData) {
     try {
+      const { type } = await verifyUserType(data.email);
+
+      if (type === "STORE") {
+        toast.show({
+          placement: "top",
+          duration: 10 * 1000, // 10 segundos
+          render: ({ id }) => (
+            <ToastMessage
+              id={id}
+              title="Esse login é exclusivo para clientes!"
+              description="Utilize o site [edna-web.vercel.app] para realizar login como brechó, ou crie uma conta de cliente."
+              action="error"
+            />
+          ),
+        });
+        return;
+      }
+
       await sendOTPEmail(data.email, data.password);
 
       navigate("twoFactorOtp", data);
