@@ -26,11 +26,15 @@ const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 const phoneRegex = /^(\(\d{2}\)\s?9\s?\d{4}-\d{4}|\d{2}9\d{8})$/;
 
 const signUpSchema = yup.object({
-  name: yup.string().required("O nome é obrigatório"),
+  name: yup
+    .string()
+    .required("O nome é obrigatório")
+    .max(200, "O nome deve ter no máximo 200 digitos."),
   email: yup
     .string()
     .required("O e-mail é obrigatório")
-    .email("O e-mail deve ser válido"),
+    .email("O e-mail deve ser válido")
+    .max(250, "O e-mail deve ter no máximo 250 digitos."),
   cpf: yup
     .string()
     .required("O CPF é obrigatório")
@@ -146,6 +150,7 @@ export function ProfileDetails() {
                     value={value}
                     label="Nome"
                     placeholder="Seu nome"
+                    maxLength={200}
                     errorMessage={errors.name?.message}
                   />
                 )}
@@ -160,6 +165,7 @@ export function ProfileDetails() {
                     value={value}
                     label="E-mail"
                     placeholder="Seu e-email"
+                    maxLength={250}
                     errorMessage={errors.email?.message}
                   />
                 )}

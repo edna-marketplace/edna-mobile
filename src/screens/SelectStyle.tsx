@@ -66,6 +66,17 @@ export function SelectStyle() {
       });
 
       navigate("signIn");
+
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <ToastMessage
+            id={id}
+            title="Conta criada com sucesso!"
+            action="success"
+          />
+        ),
+      });
     } catch (error) {
       const isAppError = error instanceof AppError;
 
@@ -89,12 +100,6 @@ export function SelectStyle() {
   function handleSignIn() {
     navigate("signIn");
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      console.log(style);
-    }, [style])
-  );
 
   return (
     <>

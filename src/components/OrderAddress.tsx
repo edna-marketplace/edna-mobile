@@ -17,11 +17,11 @@ export function OrderAddress({ address }: Props) {
         <MapPin weight="fill" size={30} color={theme.base300} />
 
         <VStack>
-          <Text fontFamily="$default" color="$base300">
+          <Text fontFamily="$default" color="$base300" width={280}>
             {address.street}, {address.number}
           </Text>
 
-          <Text fontFamily="$default" color="$base300">
+          <Text fontFamily="$default" color="$base300" width={280}>
             {address.neighborhood}, {address.city}
           </Text>
 

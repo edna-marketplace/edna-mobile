@@ -109,9 +109,18 @@ export function Profile() {
     }, [])
   );
 
+  const formattedUsername = user
+    ? user.name.length > 19
+      ? user.name.substring(0, 19) + "..."
+      : user.name
+    : null;
+
   return (
     <VStack flex={1} pt="$14">
-      <Header title={user ? user.name : "..."} onSignOut={signOut} />
+      <Header
+        title={formattedUsername ? formattedUsername : "..."}
+        onSignOut={signOut}
+      />
       {!user ? (
         <Loading />
       ) : (

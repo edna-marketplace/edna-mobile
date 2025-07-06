@@ -154,16 +154,6 @@ export function Purchase() {
                 </HStack>
 
                 <HStack alignItems="center" justifyContent="space-between">
-                  <Text fontFamily="$default" color="$base200">
-                    Desconto
-                  </Text>
-
-                  <Text fontFamily="$default" color="$base200">
-                    R$ 0,00
-                  </Text>
-                </HStack>
-
-                <HStack alignItems="center" justifyContent="space-between">
                   <Text fontFamily="$title" fontSize="$xl" color="$base100">
                     Total
                   </Text>

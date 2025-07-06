@@ -75,8 +75,10 @@ export function Orders() {
                   <Text
                     mt="$3"
                     mb="$2"
+                    px="$4"
                     textAlign="center"
                     fontFamily="$default"
+                    numberOfLines={3}
                   >
                     {item.clotheName}
                   </Text>
@@ -92,7 +94,13 @@ export function Orders() {
                         size="sm"
                       />
 
-                      <Text fontFamily="$title" fontSize="$sm" color="$base100">
+                      <Text
+                        fontFamily="$title"
+                        fontSize="$sm"
+                        color="$base100"
+                        numberOfLines={1}
+                        width={150}
+                      >
                         {item.storeName}
                       </Text>
                     </HStack>
@@ -103,7 +111,13 @@ export function Orders() {
                   </HStack>
 
                   <HStack alignItems="center" justifyContent="space-between">
-                    <Text fontFamily="$title" fontSize="$xl" color="$base100">
+                    <Text
+                      fontFamily="$title"
+                      fontSize="$xl"
+                      color="$base100"
+                      width={120}
+                      numberOfLines={3}
+                    >
                       {(item.priceInCents / 100).toLocaleString("pt-br", {
                         style: "currency",
                         currency: "BRL",
