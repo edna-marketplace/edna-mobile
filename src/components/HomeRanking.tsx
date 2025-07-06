@@ -69,9 +69,9 @@ export function HomeRanking() {
               >
                 <HStack
                   gap="$6"
-                  pb={index !== 2 ? "$6" : "$0"}
-                  mb={index !== 2 ? "$6" : "$0"}
-                  borderBottomWidth={index !== 2 ? 1 : 0}
+                  pb={index !== ranking.length - 1 ? "$6" : "$0"}
+                  mb={index !== ranking.length - 1 ? "$6" : "$0"}
+                  borderBottomWidth={index !== ranking.length - 1 ? 1 : 0}
                   borderColor="$base500"
                 >
                   <VStack justifyContent="center" alignItems="center" gap="$1">
@@ -94,9 +94,22 @@ export function HomeRanking() {
                         {index + 1}
                       </Text>
                     </Box>
-                    <Text fontFamily="$title" fontSize="$sm" color="$base100">
-                      {item.savedCount}
-                    </Text>
+
+                    <HStack alignItems="center" gap="$2">
+                      <Text
+                        fontFamily="$title"
+                        fontSize="$sm"
+                        color="$base300"
+                        mb="-$1"
+                      >
+                        {item.savedCount}
+                      </Text>
+                      <BookmarkSimple
+                        weight="bold"
+                        color={theme.base300}
+                        size={14}
+                      />
+                    </HStack>
                   </VStack>
 
                   <HStack gap="$3">
@@ -108,15 +121,23 @@ export function HomeRanking() {
                       rounded="$md"
                     />
 
-                    <VStack>
-                      <HStack w="68%" justifyContent="space-between">
-                        <Text fontFamily="$title" fontSize="$lg">
-                          {(item.priceInCents / 100).toLocaleString("pt-br", {
-                            style: "currency",
-                            currency: "BRL",
-                          })}
-                        </Text>
+                    <VStack justifyContent="center">
+                      <Text
+                        fontFamily="$title"
+                        fontSize="$lg"
+                        maxWidth={130}
+                        numberOfLines={1}
+                      >
+                        {(item.priceInCents / 100).toLocaleString("pt-br", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </Text>
 
+                      <HStack w={112} justifyContent="space-between">
+                        <Text numberOfLines={1} w={100}>
+                          {item.name}
+                        </Text>
                         <BookmarkSimple
                           weight={
                             item.savedByCurrentUser === true
@@ -130,10 +151,6 @@ export function HomeRanking() {
                           }
                         />
                       </HStack>
-
-                      <Text numberOfLines={1} maxWidth="64%">
-                        {item.name}
-                      </Text>
                     </VStack>
                   </HStack>
                 </HStack>

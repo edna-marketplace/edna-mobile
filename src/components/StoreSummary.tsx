@@ -99,22 +99,42 @@ export function StoreSummary({
               {targetCustomerDisplayName}
             </Text>
 
-            <Box w={5} h={5} bg="$base500" rounded="$full" flexShrink={0} />
-
-            {store.distanceToCustomerInMeters.length >= 8 ? (
-              <Text fontFamily="$title" fontSize="$xs" color="$base400">
-                +100km
-              </Text>
+            {store.distanceToCustomerInMeters ? (
+              store.distanceToCustomerInMeters.length >= 8 ? (
+                <>
+                  <Box
+                    w={5}
+                    h={5}
+                    bg="$base500"
+                    rounded="$full"
+                    flexShrink={0}
+                  />
+                  <Text fontFamily="$title" fontSize="$xs" color="$base400">
+                    +100km
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Box
+                    w={5}
+                    h={5}
+                    bg="$base500"
+                    rounded="$full"
+                    flexShrink={0}
+                  />
+                  <Text fontFamily="$title" fontSize="$xs" color="$base400">
+                    {store.distanceToCustomerInMeters}
+                  </Text>
+                </>
+              )
             ) : (
-              <Text fontFamily="$title" fontSize="$xs" color="$base400">
-                {store.distanceToCustomerInMeters}
-              </Text>
+              <Box />
             )}
           </HStack>
         </VStack>
       </HStack>
 
-      <Pressable onPress={toggleFavoriteStore}>
+      <Pressable onPress={toggleFavoriteStore} mt="-$4">
         <Heart
           color={isFavorite ? theme.redDark : theme.base100}
           weight={isFavorite ? "fill" : "regular"}
