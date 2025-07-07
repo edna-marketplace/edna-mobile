@@ -2,6 +2,7 @@ import { Header } from "@/components/@ui/Header";
 import {
   Box,
   HStack,
+  Image,
   Pressable,
   ScrollView,
   Text,
@@ -29,6 +30,7 @@ import BookmarkSimple from "phosphor-react-native/src/icons/BookmarkSimple";
 import Check from "phosphor-react-native/src/icons/Check";
 import { useCallback, useRef, useState } from "react";
 import { toggleSaveClothe } from "@/api/toggle-save-clothe";
+import logoImg from "@/assets/logo/logo.png";
 
 type RouteParams = {
   id: string;
@@ -47,7 +49,6 @@ export function ClotheDetails() {
 
   function handleGoBack() {
     clothe && navigate("clothes", { category: clothe.category });
-    // goBack();
   }
 
   function handleNavigateStore() {
@@ -80,12 +81,24 @@ export function ClotheDetails() {
   );
 
   return (
-    <VStack flex={1} pt="$14">
+    <VStack flex={1}>
       {!clothe ? (
         <Loading />
       ) : (
         <>
-          <Header title={clothe.name} onGoBack={handleGoBack} />
+          <VStack pt="$14">
+            <Box px="$6">
+              <Image
+                source={logoImg}
+                alt=""
+                w="$20"
+                h="$10"
+                alignSelf="center"
+              />
+            </Box>
+
+            <Box w="$full" h="$px" bg="$base500" mt="$4" />
+          </VStack>
 
           <ScrollView
             ref={scrollViewRef}

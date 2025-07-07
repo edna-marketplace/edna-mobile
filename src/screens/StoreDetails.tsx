@@ -36,6 +36,7 @@ import { shortenAddress } from "@/utils/addressFormatter";
 import { toTargetCustomerDisplay } from "@/utils/toTargetCustomerDisplay";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useState } from "react";
+import logoImg from "@/assets/logo/logo.png";
 
 type RouteParams = {
   id: string;
@@ -105,8 +106,14 @@ export function StoreDetails() {
   }
 
   return (
-    <VStack flex={1} pt="$14">
-      <Header title={store.name ? store.name : "..."} onGoBack={handleGoBack} />
+    <VStack flex={1}>
+      <VStack pt="$14">
+        <Box px="$6">
+          <Image source={logoImg} alt="" w="$20" h="$10" alignSelf="center" />
+        </Box>
+
+        <Box w="$full" h="$px" bg="$base500" mt="$4" />
+      </VStack>
 
       {isLoading ? (
         <Loading />
